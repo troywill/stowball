@@ -1,0 +1,21 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use DBI;
+
+my $package = shift;
+my $date = '2009-12-28';
+
+my $LOCAL_DATABASE = '/var/lib/stowball/local-repository.db';
+my $dbh_local = DBI->connect("dbi:SQLite:$LOCAL_DATABASE", "", "", {RaiseError => 1, AutoCommit => 1});
+my $STOWBALL_DATABASE = '/var/lib/stowball/local-repository.db';
+my $dbh_stowball = DBI->connect("dbi:SQLite:$STOWBALL_DATABASE", "", "", {RaiseError => 1, AutoCommit => 1});
+
+
+my $installed_packages = $dbh_local->selectall_arrayref("SELECT * FROM installed_packages ORDER BY package_id");
+foreach my $row (@$installed_packages) {
+    my ($id, $installed_package, $date_checked ) = @$row;
+    print "\t$installed_package\t$date_checked\n";
+}
+
+exit;

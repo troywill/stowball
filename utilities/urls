@@ -1,0 +1,4 @@
+#!/bin/bash
+DATABASE='/var/lib/stowball/gng-repository.db'
+sqlite3 ${DATABASE} 'SELECT url FROM latest_tarball order by id'
+

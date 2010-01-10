@@ -1,0 +1,9 @@
+#!/usr/bin/env perl
+use warnings;
+use strict;
+
+sub time_configuration {
+    
+}
+
+&time_configuration;

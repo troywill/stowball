@@ -1,0 +1,62 @@
+#!/usr/bin/env perl
+use warnings;
+use strict;
+use File::Find;
+
+# http://www.ibm.com/developerworks/linux/library/l-linux-filesystem/
+
+
+my $file = $ARGV[0] || die "Please supply a file";
+
+my ( 
+    $device, $inode, $mode,  $nlink, $uid,     $gid, $rdev,
+    $size,   $atime, $mtime, $ctime, $blksize, $blocks
+) = stat($file);
+
+my ( @file_attributes ) = stat($file);
+
+&pretty_print2( @file_attributes );
+
+sub pretty_print {
+    my ($device, $inode, $mode, $nlink, $uid, $gid, $rdev, $size, $atime, $mtime, $ctime, $blksize, $blocks) = @_;
+    print "$device, $inode, $mode, $nlink, $uid, $gid, $rdev, $size, $atime, $mtime, $ctime, $blksize, $blocks\n";
+    print "file:\t$file\n";
+    print "device:\t$device\n";
+    print "inode:\t$inode\n";
+    print "mode:\t$mode\n";
+    print "nlink:\t$nlink\n";
+    print "uid:\t$uid\n";
+    print "gid:\t$gid\n";
+    print "rdev:\t$rdev\n";
+    print "size:\t$size\n";
+    print "atime:\t$atime\n";
+    print "mtime:\t$mtime\n";
+    print "ctime:\t$ctime\n";
+    print "blksize:\t$blksize\n";
+    print "blocks:\t$blocks\n";
+}
+
+sub pretty_print2 {
+    my ($device, $inode, $mode, $nlink, $uid, $gid, $rdev, $size, $atime, $mtime, $ctime, $blksize, $blocks) = @_;
+    print "==> file: $file <==\n";
+    print "$device\t0 dev      device number of filesystem\n";
+    print "$inode\t1 ino      inode number\n";
+    print "$mode\t2 mode     file mode  (type and permissions\n";
+    print "$nlink\t3 nlink    number of (hard) links to the file\n";
+    print "$uid\t4 uid      numeric user ID of file's owner\n";
+    print "$gid\t5 gid      numeric group ID of file's owner\n";
+    print "$rdev\t6 rdev     the device identifier (special files only)\n";
+    print "$size\t7 size     total size of file, in bytes\n";
+    print "$atime\t8 atime    last access time in seconds since the epoch\n";
+    print "$mtime\t9 mtime    last modify time in seconds since the epoch\n";
+    print "$ctime\t10 ctime    inode change time in seconds since the epoch (*\n";
+    print "$blksize\t11 blksize  preferred block size for file system I/O\n";
+    print "$blocks\t 12 blocks   actual number of blocks allocated\n";
+  }
+
+sub process_file {
+#    my ( @file_attributes ) = stat($file);
+    print $File::Find::name, -d && '/', "\n"
+}
+
+find(\&process_file, $file);

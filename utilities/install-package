@@ -1,0 +1,14 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use DBI;
+
+my $installed_package = shift;
+my $date = '2009-12-29';
+
+die if !defined $installed_package;
+
+my $DATABASE = '/var/lib/stowball/local-repository.db';
+my $dbh = DBI->connect("dbi:SQLite:$DATABASE", "", "", {RaiseError => 1, AutoCommit => 1});
+my $sth = $dbh->prepare("INSERT INTO installed_packages VALUES (NULL,$installed_package,\'$date\')");
+$sth->execute();

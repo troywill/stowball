@@ -1,0 +1,1345 @@
+File: mcron.info,  Node: Top,  Next: Introduction,  Prev: (dir),  Up: (dir)
+
+mcron
+*****
+
+This file documents the `mcron' command (Mellor's cron) for running
+jobs at scheduled times.
+
+* Menu:
+
+* Introduction::                Introducing mcron.
+* Simple examples::             How to use mcron 99.9% of the time.
+* Syntax::                      All the possibilities for configuring cron jobs.
+* Invoking::                    What happens when you run the mcron command.
+* Guile modules::               Incorporating mcron into another Guile program.
+* Index::                       The complete index.
+
+ --- The Detailed Node Listing ---
+
+Simple examples
+
+* Guile Simple Examples::
+* Vixie Simple Examples::
+
+Full available syntax
+
+* Guile Syntax::
+* Extended Guile examples::
+* Vixie Syntax::
+
+Extended Guile examples
+
+* AT commands::
+* Every second Sunday::
+* Two hours every day::
+* Missing the first appointment::
+* Penultimate day of every month::
+
+Vixie
+
+* Paul Vixie's copyright::
+* Crontab file::
+* Incompatibilities with old Unices::
+
+Detailed invoking
+
+* Invoking mcron::
+* Invoking cron or crond::
+* Invoking crontab::
+* Behaviour on laptops::
+* Exit codes::
+
+Guile modules
+
+* The core module::             The job list and execution loop.
+* The redirect module::         Sending output of jobs to a mail box.
+* The vixie-time module::       Parsing vixie-style time specifications.
+* The job-specifier module::    All commands for scheme configuration files.
+* The vixie-specification module::  Commands for reading vixie-style crontabs.
+
+File: mcron.info,  Node: Introduction,  Next: Simple examples,  Prev: Top,  Up: Top
+
+1 Introducing mcron
+*******************
+
+The mcron program represents a complete re-think of the cron concept
+originally found in the Berkeley and AT&T unices, and subsequently
+rationalized by Paul Vixie.  The original idea was to have a daemon
+that wakes up every minute, scans a set of files under a special
+directory, and determines from those files if any shell commands should
+be executed in this minute.
+
+   The new idea is to read the required command instructions, work out
+which command needs to be executed next, and then sleep until the
+inferred time has arrived.  On waking the commands are run, and the
+time of the next command is computed.  Furthermore, the specifications
+are written in scheme, allowing at the same time simple command
+execution instructions and very much more flexible ones to be composed
+than the original Vixie format.  This has several useful advantages
+over the original idea.  (Changes to user crontabs are signalled
+directly to mcron by the crontab program; cron must still scan the
+/etc/crontab file once every minute, although use of this file is
+highly discouraged and this behaviour can be turned off).
+
+   * Does not consume CPU resources when not needed.  Many cron daemons
+     only run jobs once an hour, or even just once a day.
+
+   * Can easily allow for finer time-points to be specified, i.e.
+     seconds.  In principle this could be extended to microseconds, but
+     this is not implemented.
+
+   * Times can be more or less regular.  For example, a job that runs
+     every 17 hours can be specified, or a job that runs on the first
+     Sunday of every month.
+
+   * Times can be dynamic.  Arbitrary Guile (scheme) code can be
+     provided to compute the next time that a command needs to be run.
+     This could, for example, take the system load into consideration.
+
+   * Turns out to be easy to provide complete backwards compatibility
+     with Vixie cron.
+
+   * Each user looks after his own files in his own directory.  He can
+     use more than one to break up complicated cron specifications.
+
+   * Each user can run his own daemon.  This removes the need for suid
+     programs to manipulate the crontabs, and eliminates many security
+     concerns that surround all existing cron programs.
+
+   * The user can obtain an advance schedule of all the jobs that are
+     due to run.
+
+   * Vixie cron is implemented in 4500 lines of C code; mcron is 2000
+     lines of scheme, despite the fact that it offers many more
+     features and much more flexibility, and complete compatibility
+     with Vixie cron.
+
+   A full discussion of the design and philosophy of mcron can be found
+in the white paper at `http://www.gnu.org/software/mcron/design.html'.
+
+File: mcron.info,  Node: Simple examples,  Next: Syntax,  Prev: Introduction,  Up: Top
+
+2 Simple examples
+*****************
+
+The vast majority of uses of cron are sublimely simple: run a program
+every hour, or every day.  With this in mind the design of mcron has
+been to allow such simple specifications to be made easily.  The
+examples show how to create the command descriptions, and subsequently
+how to run mcron to make them happen.
+
+* Menu:
+
+* Guile Simple Examples::
+* Vixie Simple Examples::
+
+File: mcron.info,  Node: Guile Simple Examples,  Next: Vixie Simple Examples,  Prev: Simple examples,  Up: Simple examples
+
+2.1 Guile
+=========
+
+You have an executable `my-program' in your home directory, which you
+want to run every hour.  Create a file `job.guile' in directory
+`~/.cron' with the following contents
+
+     (job '(next-hour) "my-program")
+
+   then run the command `mcron'.
+
+   Want the program to run fifteen minutes past the hour, every two
+hours? Edit the file to read
+
+     (job
+        '(next-minute-from
+           (next-hour (range 0 24 2))
+           15)
+        "my-program")
+
+   and run the command `mcron'.
+
+   Or, if you are not comfortable with Scheme, you could use (and see
+also the next section)
+
+     (job "15 */2 * * *" "my-program")
+
+   and run the `mcron' command.
+
+   If you want to run other jobs, you can either add more lines to this
+file, or you can create other files in your `.cron' directory with the
+`.guile' extension.  Alternatively, you can use any file you want and
+pass it as an argument to `mcron', or even pipe the commands into the
+standard input.
+
+File: mcron.info,  Node: Vixie Simple Examples,  Prev: Guile Simple Examples,  Up: Simple examples
+
+2.2 Vixie
+=========
+
+You have an executable `my-program' in your home directory, which you
+want to run every hour.  Create a file `job.vixie' in directory
+`~/.cron' with the following contents
+
+     0 * * * * my-program
+
+   then run the command `mcron'.
+
+   Alternatively (full compatibility with Vixie cron), set your
+environment variable `EDITOR' to your favorite editor, run `crontab
+-e', put the above line into the edit buffer, save and exit.  For this
+to work the `cron' daemon must be already running on your system, as
+root.
+
+File: mcron.info,  Node: Syntax,  Next: Invoking,  Prev: Simple examples,  Up: Top
+
+3 Full available syntax
+***********************
+
+* Menu:
+
+* Guile Syntax::
+* Extended Guile examples::
+* Vixie Syntax::
+
+File: mcron.info,  Node: Guile Syntax,  Next: Extended Guile examples,  Prev: Syntax,  Up: Syntax
+
+3.1 Guile Syntax
+================
+
+3.1.1 Job specification
+-----------------------
+
+In Guile-formatted configuration files each command that needs
+executing is introduced with the `job' function.  This function always
+takes two arguments, the first a time specification, and the second a
+command specification.  An optional third argument may contain a string
+to display when this job is listed in a schedule.
+
+   The first argument can be a procedure, a list, or a string.  If a
+function is supplied, it must take exactly one argument, which will be
+the "current" time in UNIX format, and the return value of the function
+must be the time in UNIX format when this action should next be run.
+The following functions are available to facilitate the computation:
+
+   `(next-second-from time . args)' without arguments this returns the
+second after the current one.  With the extra arguments, these form a
+list of seconds in the minute when the action should run, and the
+function will return the time of the next allowed second (which may be
+in the next minute of the hour).  (1)
+
+   Similarly to `next-second-from', there are also `next-minute-from',
+`next-hour-from', `next-day-from', `next-week-from', `next-month-from',
+`next-year-from'.
+
+   Furthermore, the optional argument can be fulfilled by the function
+`(range start end . step)', which will provide a list of values from
+start to (but not including) end, with the step if given.  For example
+`(range 0 10 2)' will yield the list `'(0 2 4 6 8)'.
+
+   If the first argument to the `job' function is a list, it is taken
+to be program code made up of the functions `(next-second . args)',
+`(next-minute...)', etc, where the optional arguments can be supplied
+with the `(range)' function above (these functions are analogous to the
+ones above except that they implicitly assume the current time; it is
+supplied by the mcron core when the list is eval'd).
+
+   If the first argument to the `job' function is a string, it is
+expected to be a Vixie cron-style time specification.  See the section
+on Vixie syntax for this.
+
+   The second argument to the `(job)' function can be either a string,
+a list, or a function.  In all cases the command is executed in the
+user's home directory, under the user's own UID.  If a string is
+passed, it is assumed to be shell script and is executed with the
+user's default shell.  If a list is passed it is assumed to be scheme
+code and is eval'd as such.  A supplied function should take exactly
+zero arguments, and will be called at the pertinent times.
+
+3.1.2 Sending output as e-mail
+------------------------------
+
+When jobs are specified in a vixie-style configuration, the command is
+broken at a percentage sign, and the stuff that comes after this is
+sent into the command's standard input.  Furthermore, any output from
+the command is mailed to the user.  This functionality is provided for
+compatibility with Vixie cron, but it is also available to scheme
+configuration files.  The command (with-mail-out action . user) can be
+used to direct output from the action (which may be a procedure, list,
+or string) into an e-mail to the user.
+
+   In the case that the action is a string, then percentage signs are
+processed as per the vixie specifications, and information is piped to
+the shell command's standard input.
+
+3.1.3 Setting environment variables
+-----------------------------------
+
+Also for compatibility with Vixie cron, mcron has the ability to set
+environment variables in configuration files.  To access this
+functionality from a scheme configuration file, use the command
+(append-environment-mods name value), where name is the name of an
+environment variable, and value is the value put to it.  A value of #f
+will remove the variable from the environment.
+
+   Note that environment modifications are accumulated as the
+configuration file is processed, so when a job actually runs, its
+environment will be modified according to the modifications specified
+before the job specification in the configuration file.
+
+   ---------- Footnotes ----------
+
+   (1) Note that while commands can be scheduled to run at any second,
+it is unlikely that they will be executed then but some time shortly
+thereafter, depending on the load on the system and the number of jobs
+that mcron has to start at the same time.
+
+File: mcron.info,  Node: Extended Guile examples,  Next: Vixie Syntax,  Prev: Guile Syntax,  Up: Syntax
+
+3.2 Extended Guile examples
+===========================
+
+While Guile gives you flexibility to do anything, and the power to
+represent complex requirements succinctly, things are not always as
+they seem.  The following examples illustrate some pitfalls, and
+demonstrate how to code around them.
+
+* Menu:
+
+* AT commands::
+* Every second Sunday::
+* Two hours every day::
+* Missing the first appointment::
+* Penultimate day of every month::
+
+File: mcron.info,  Node: AT commands,  Next: Every second Sunday,  Prev: Extended Guile examples,  Up: Extended Guile examples
+
+3.2.1 Synthesizing "at" commands
+--------------------------------
+
+The current implementation of mcron does not provide for an at command
+(a command-line program that allows the user to specify that a job runs
+exactly once at a certain time).  This can, however, be achieved.
+
+   Suppose the program `my-program' needs to be run at midnight
+tonight.  A Guile script like the following would work (but a printed
+schedule, obtained with the `--schedule' option, will show superfluous
+entries).
+
+     (job '(next-day)
+          (lambda () (system "my-program")
+                     (kill (getppid) SIGINT)))
+
+File: mcron.info,  Node: Every second Sunday,  Next: Two hours every day,  Prev: AT commands,  Up: Extended Guile examples
+
+3.2.2 Every second Sunday
+-------------------------
+
+To run `my-program' on the second Sunday of every month, a Guile script
+like the following should suffice (it is left as an exercise to the
+student to understand how this works!).
+
+     (job (lambda (current-time)
+            (let* ((next-month (next-month-from current-time))
+                   (first-day (tm:wday (localtime next-month)))
+                   (second-sunday (if (eqv? first-day 0)
+                                      8
+                                      (- 14 first-day))))
+              (+ next-month (* 24 60 60 second-sunday))))
+          "my-program")
+
+File: mcron.info,  Node: Two hours every day,  Next: Missing the first appointment,  Prev: Every second Sunday,  Up: Extended Guile examples
+
+3.2.3 Two hours every day
+-------------------------
+
+Surprisingly perhaps, the following will *not* have the desired effect.
+
+     (job '(next-hour-from (next-day) '(1 2))
+          "my-program")
+
+   Rather than running the my-program program at one o'clock and two
+o'clock every day, it will only run it at one o'clock.  This is because
+each time mcron has to compute the next time to run the command, it
+first obtains the next day, and then finds the earliest hour in that
+day to run at.  Thus, after running the command at one o'clock, the
+program first skips forwards to the next midnight (missing the two
+o'clock appointment), and then finds the next one o'clock schedule.
+
+   The following simple command is the correct way to specify this
+behaviour.
+
+     (job '(next-hour '(1 2)) "my-program")
+
+File: mcron.info,  Node: Missing the first appointment,  Next: Penultimate day of every month,  Prev: Two hours every day,  Up: Extended Guile examples
+
+3.2.4 Missing the first appointment
+-----------------------------------
+
+The command
+
+     (job '(next-hour-from (next-day) '(16))
+          "my-program")
+
+   will run `my-program' every day at four o'clock in the afternoon.
+However, if mcron is started with this script at midday, the first time
+the command will run will be four o'clock tomorrow; today's appointment
+will be missed (one time only).
+
+   The correct way to specify this requirement is simply
+
+     (job '(next-hour '(16))
+          "my-program")
+
+File: mcron.info,  Node: Penultimate day of every month,  Prev: Missing the first appointment,  Up: Extended Guile examples
+
+3.2.5 Penultimate day of every month
+------------------------------------
+
+The following will run the `my-program' program on the second-to-last
+day of every month.
+
+     (job '(- (next-month-from (next-month)) (* 48 3600))
+          "my-program")
+
+File: mcron.info,  Node: Vixie Syntax,  Prev: Extended Guile examples,  Up: Syntax
+
+3.3 Vixie
+=========
+
+_NOTE_ that this section is definitive.  If there is a difference in
+behaviour between the mcron program and this part of the manual, then
+there is a bug in the program.  This section is also copied verbatim
+from Paul Vixie's documentation for his cron program, and his copyright
+notice is duly reproduced below.
+
+   There are three problems with this specification.
+
+   1.  It is allowed to specify days of the month in the range 0-31.
+What does it mean to specify day 0? Looking at the Vixie source code, it
+seems that if this date appears as part of a list, it has no effect.
+However, if it appears on its own, the effect is to say "don't run on
+any particular day of the month, only take the week-day specification
+into account." Mcron has been coded to mimic this behaviour as a
+special case (unmodified mcron logic implies that this date
+specification would cause jobs to run on the last day of the previous
+month).
+
+   2.  Similarly to the above (but different), months of the year can be
+specified in the range 0-12.  In the case of mcron (don't know what
+Vixie cron did) month 12 will cause the program to wait until January
+of the following year (but don't rely on this).
+
+   3.  Somewhere it says that cron sets the SHELL environment variable
+to /bin/sh, and elsewhere it implies that the default behaviour is for
+the user's default shell to be used to execute commands.  Mcron sets
+the variable and runs the command in the user's default shell, as
+advertised by the /etc/passwd file.
+
+* Menu:
+
+* Paul Vixie's copyright::
+* Crontab file::
+* Incompatibilities with old Unices::
+
+File: mcron.info,  Node: Paul Vixie's copyright,  Next: Crontab file,  Prev: Vixie Syntax,  Up: Vixie Syntax
+
+3.3.1 Paul Vixie's copyright
+----------------------------
+
+     Copyright 1988,1990,1993,1994 by Paul Vixie All rights reserved
+
+     Distribute freely, except: don't remove my name from the source or
+     documentation (don't take credit for my work), mark your changes
+     (don't get me blamed for your possible bugs), don't alter or
+     remove this notice.  May be sold if buildable source is provided
+     to buyer.  No warrantee of any kind, express or implied, is
+     included with this software; use at your own risk, responsibility
+     for damages (if any) to anyone resulting from the use of this
+     software rests entirely with the user.
+
+File: mcron.info,  Node: Crontab file,  Next: Incompatibilities with old Unices,  Prev: Paul Vixie's copyright,  Up: Vixie Syntax
+
+3.3.2 Crontab files
+-------------------
+
+A `crontab' file contains instructions to the `cron' daemon of the
+general form: "run this command at this time on this date".  Each user
+has their own crontab, and commands in any given crontab will be
+executed as the user who owns the crontab.  Uucp and News will usually
+have their own crontabs, eliminating the need for explicitly running
+`su' as part of a cron command.
+
+   Blank lines and leading spaces and tabs are ignored.  Lines whose
+first non-space character is a pound-sign (#) are comments, and are
+ignored.  Note that comments are not allowed on the same line as cron
+commands, since they will be taken to be part of the command.
+Similarly, comments are not allowed on the same line as environment
+variable settings.
+
+   An active line in a crontab will be either an environment setting or
+a cron command.  An environment setting is of the form,
+
+     name = value
+
+   where the spaces around the equal-sign (=) are optional, and any
+subsequent non-leading spaces in `value' will be part of the value
+assigned to `name'.  The `value' string may be placed in quotes (single
+or double, but matching) to preserve leading or trailing blanks.
+
+   Several environment variables are set up automatically by the `cron'
+daemon.  SHELL is set to /bin/sh, and LOGNAME and HOME are set from the
+/etc/passwd line of the crontab's owner.  HOME and SHELL may be
+overridden by settings in the crontab; LOGNAME may not.
+
+   (Another note: the LOGNAME variable is sometimes called USER on BSD
+systems...  on these systems, USER will be set also.) (1)
+
+   In addition to LOGNAME, HOME, and SHELL, `cron' will look at MAILTO
+if it has any reason to send mail as a result of running commands in
+"this" crontab.  If MAILTO is defined (and non-empty), mail is sent to
+the user so named.  If MAILTO is defined but empty (MAILTO=""), no mail
+will be sent.  Otherwise mail is sent to the owner of the crontab.
+This option is useful if you decide on /bin/mail instead of
+/usr/lib/sendmail as your mailer when you install cron - /bin/mail
+doesn't do aliasing, and UUCP usually doesn't read its mail.
+
+   The format of a cron command is very much the V7 standard, with a
+number of upward-compatible extensions.  Each line has five time and
+date fields, followed by a user name if this is the system crontab file,
+followed by a command.  Commands are executed by `cron' when the
+minute, hour, and month of year fields match the current time, *and*
+when at least one of the two day fields (day of month, or day of week)
+match the current time (see "Note" below).  `cron' examines cron
+entries once every minute.  The time and date fields are:
+
+Field          Allowed values
+----           -------------
+minute         0-59
+hour           0-23
+day of month   0-31
+month          0-12 (or names, see below)
+day of week    0-7 (0 or 7 is Sun, or use names)
+
+   A field may be an asterisk (*), which always stands for "first-last".
+
+   Ranges of numbers are allowed.  Ranges are two numbers separated
+with a hyphen.  The specified range is inclusive.  For example, 8-11
+for an "hours" entry specifies execution at hours 8, 9, 10 and 11.
+
+   Lists are allowed.  A list is a set of numbers (or ranges) separated
+by commas.  Examples: "1,2,5,9", "0-4,8-12".
+
+   Step values can be used in conjunction with ranges.  Following a
+range with "/<number>" specifies skips of the number's value through
+the range.  For example, "0-23/2" can be used in the hours field to
+specify command execution every other hour (the alternative in the V7
+standard is "0,2,4,6,8,10,12,14,16,18,20,22").  Steps are also
+permitted after an asterisk, so if you want to say "every two hours",
+just use "*/2".
+
+   Names can also be used for the "month" and "day of week" fields.
+Use the first three letters of the particular day or month (case
+doesn't matter).  Ranges or lists of names are not allowed.  (2)
+
+   The "sixth" field (the rest of the line) specifies the command to be
+run.  The entire command portion of the line, up to a newline or %
+character, will be executed by /bin/sh or by the shell specified in the
+SHELL variable of the cronfile.  Percent-signs (%) in the command,
+unless escaped with backslash (\\), will be changed into newline
+characters, and all data after the first % will be sent to the command
+as standard input.
+
+   Note: The day of a command's execution can be specified by two
+fields - day of month, and day of week.  If both fields are restricted
+(ie, aren't *), the command will be run when _either_ field matches the
+current time.  For example,
+
+   "30 4 1,15 * 5"
+
+   would cause a command to be run at 4:30 am on the 1st and 15th of
+each month, plus every Friday.
+
+   EXAMPLE CRON FILE
+
+     # use /bin/sh to run commands, no matter what /etc/passwd says
+     SHELL=/bin/sh
+     # mail any output to `paul', no matter whose crontab this is
+     MAILTO=paul
+     #
+     # run five minutes after midnight, every day
+     5 0 * * *       $HOME/bin/daily.job >> $HOME/tmp/out 2>&1
+     # run at 2:15pm on the first of every month -- output mailed to paul
+     15 14 1 * *     $HOME/bin/monthly
+     # run at 10 pm on weekdays, annoy Joe
+     0 22 * * 1-5	mail -s "It's 10pm" joe%Joe,%%Where are your kids?%
+     23 0-23/2 * * * echo "run 23 minutes after midn, 2am, 4am ..., everyday"
+     5 4 * * sun     echo "run at 5 after 4 every sunday"
+
+   ---------- Footnotes ----------
+
+   (1) mcron has not been ported to BSD, so these notes are not
+relevant.
+
+   (2) Mcron allows any alphabetic characters after a name, so full
+names of days or months are also valid.
+
+File: mcron.info,  Node: Incompatibilities with old Unices,  Prev: Crontab file,  Up: Vixie Syntax
+
+3.3.3 Extensions and incompatibilities
+--------------------------------------
+
+This section lists differences between Paul Vixie's cron and the
+olde-worlde BSD and AT&T programs, for the benefit of system
+administrators and users who are upgrading all the way.
+
+   * When specifying day of week, both day 0 and day 7 will be
+     considered Sunday.  BSD and AT&T seem to disagree about this.
+
+   * Lists and ranges are allowed to co-exist in the same field.
+     "1-3,7-9" would be rejected by AT&T or BSD cron - they want to see
+     "1-3" or "7,8,9" ONLY.
+
+   * Ranges can include "steps", so "1-9/2" is the same as "1,3,5,7,9".
+
+   * Names of months or days of the week can be specified by name.
+
+   * Environment variables can be set in the crontab.  In BSD or AT&T,
+     the environment handed to child processes is basically the one
+     from /etc/rc.
+
+   * Command output is mailed to the crontab owner (BSD can't do this),
+     can be mailed to a person other than the crontab owner (SysV can't
+     do this), or the feature can be turned off and no mail will be
+     sent at all (SysV can't do this either).
+
+
+File: mcron.info,  Node: Invoking,  Next: Guile modules,  Prev: Syntax,  Up: Top
+
+4 Detailed invoking
+*******************
+
+The program adopts one of three different personalities depending on
+the name used to invoke it.  In a standard installation, the program is
+installed in the system under the names mcron, cron and crontab
+(installed SUID).
+
+   The recommended way to invoke the program is via the mcron
+personality described in the next section.  The program can also be run
+as cron by root, and by the SUID program crontab by individual users to
+gain backwards compatibility with Vixie cron.  However, due to the fact
+that this daemon process is shared by, and under control of, all the
+users of the system it is possible (though very unlikely) that it may
+become unusable, hence the recommendation to use the mcron personality.
+
+   Furthermore, the Vixie personality is considered deprecated by this
+author (it offers not a single advantage over the mcron personality,
+and bloats the code by a factor of three).  It is unlikely that this
+personality will ever actually go away, but the program may in future
+be split into two distinct parts, and new developments will only take
+place in the part which implements the mcron personality.
+
+* Menu:
+
+* Invoking mcron::
+* Invoking cron or crond::
+* Invoking crontab::
+* Behaviour on laptops::
+* Exit codes::
+
+File: mcron.info,  Node: Invoking mcron,  Next: Invoking cron or crond,  Prev: Invoking,  Up: Invoking
+
+4.1 Invoking mcron
+==================
+
+Mcron should be run by the user who wants to schedule his jobs.  It may
+be made a background job using the facilities of the shell.  The basic
+command is `mcron [OPTION ...] [file ...]' which has the effect of
+reading all the configuration files specified (subject to the options)
+and then waiting until it is time to execute some command.  If no files
+are given on the command line, then mcron will look in the user's
+~/.cron directory.  In either case, files which end in the extension
+.vixie or .vix will be assumed to contain Vixie-style crontabs, and
+files ending .guile or .gle will be assumed to contain scheme code and
+will be executed as such; ANY OTHER FILES WILL BE IGNORED - specify a
+file name of "-" and then pipe the files into the standard input if you
+really want to read them, possibly using the `stdin' option to specify
+the type of file.
+
+   The program accepts the following options.
+
+`-s [count]'
+`--schedule[=count]'
+     With this option specified no commands are run.  Instead, the
+     program computes the times the commands would be run and prints the
+     information to the screen, and then immediately exits.
+
+     The count, if supplied, indicates the number of commands to
+     display.  The default value is 8.
+
+`-d'
+`--daemon'
+     With this option the program will detach itself from the
+     controlling terminal and run as a daemon process.
+
+`-i (vixie|guile)'
+`--stdin=(vixie|guile)'
+     This option is used to indicate whether the configuration
+     information being passed on the standard input is in Vixie format
+     or Guile format.  Guile is the default.
+
+`-v'
+`--version'
+     This option causes a message to be printed on the standard output
+     with information about the version and copyright for the current
+     program.
+
+`-h'
+`--help'
+     This causes a short but complete usage message to be displayed on
+     standard output.
+
+
+File: mcron.info,  Node: Invoking cron or crond,  Next: Invoking crontab,  Prev: Invoking mcron,  Up: Invoking
+
+4.2 Invoking cron or crond
+==========================
+
+NOTE THAT THIS SECTION ONLY APPLIES IF THE `cron' or `crond', and
+`crontab' PROGRAMS HAVE BEEN INSTALLED BY THE SYSTEM ADMINISTRATOR.
+
+   If the program runs by the name of `cron' or `crond', then it will
+read all the files in `/var/cron/tabs' (which should only be readable
+by root) and the file `/etc/crontab', and then detaches itself from the
+terminal to live forever as a daemon process.  Additionally, it creates
+a UNIX socket at `/var/cron/socket', and listens for messages sent to
+that socket consisting of a user name whose crontabs have been changed.
+In this case, the program will re-read that user's crontab.  This is for
+correct functioning with the crontab program.
+
+   Further, if the `--noetc' option was not used, a job is scheduled to
+run every minute to check if /etc/crontab has been modified recently.
+If so, this file will also be re-read.
+
+   The options which may be used with this program are as follows.
+
+`-v'
+`--version'
+     This option causes a message to be printed on the standard output
+     with information about the version and copyright for the current
+     program.
+
+`-h'
+`--help'
+     This causes a short but complete usage message to be displayed on
+     standard output.
+
+`-s [count]'
+`--schedule[=count]'
+     With this option specified no commands are run.  Instead, the
+     program computes the times the commands would be run and prints the
+     information to the screen, and then immediately exits.
+
+     The count, if supplied, indicates the number of commands to
+     display.  The default value is 8.
+
+`-n'
+`--noetc'
+     This tells cron not to add a job to the system which wakes up every
+     minute to check for modifications to `/etc/crontab'.  It is
+     recommended that this option be used (and further that the
+     `/etc/crontab' file be taken off the system altogether!)
+
+
+File: mcron.info,  Node: Invoking crontab,  Next: Behaviour on laptops,  Prev: Invoking cron or crond,  Up: Invoking
+
+4.3 Invoking crontab
+====================
+
+This program is run by individual users to inspect or modify their
+crontab files.  If a change is made to the file, then the root daemon
+process will be given a kick, and will immediately read the new
+configuration.  A warning will be issued to standard output if it
+appears that a cron daemon is not running.
+
+   The command is used as
+
+   `crontab [-u user] file'
+
+   or
+
+   `crontab [-u user] ( -l | -e | -r )'
+
+   Only the root user can use the -u option, to specify the manipulation
+of another user's crontab file.  In the first instance, the entire
+crontab file of the user is replaced with the contents of the specified
+file, or standard input if the file is "-".
+
+   In the latter case, the program behaves according to which of the
+(mutually exclusive) options was given (note that the long options are
+an mcron extension).
+
+`-l'
+`--list'
+     Print the user's crontab file to the standard output, and exit.
+
+`-r'
+
+`--remove'
+     Delete the user's crontab file, and exit.
+
+`-e'
+
+`--edit'
+     Using the editor specified in the user's VISUAL or EDITOR
+     environment variables, allow the user to edit his crontab.  Once
+     the user exits the editor, the crontab is checked for
+     parseability, and if it is okay then it is installed as the user's
+     new crontab and the daemon is notified that a change has taken
+     place, so that the new file will become immediately effective.
+
+
+File: mcron.info,  Node: Behaviour on laptops,  Next: Exit codes,  Prev: Invoking crontab,  Up: Invoking
+
+4.4 Behaviour on laptops
+========================
+
+While mcron has not been designed to work anachronistically, the
+behaviour of mcron when a laptop emerges from a suspended state is well
+defined, and the following description explains what happens in this
+situation.
+
+   When a laptop awakes from a suspended state, all jobs which would
+have run while the laptop was suspended will run exactly once
+immediately (and simultaneously) when the laptop awakes, and then the
+next time that those jobs run will be computed based on the time the
+laptop was awoken.  Any jobs which would not have run during the
+suspense period will be unaffected, and will still run at their proper
+times.
+
+File: mcron.info,  Node: Exit codes,  Prev: Behaviour on laptops,  Up: Invoking
+
+4.5 Exit codes
+==============
+
+The following are the status codes returned to the operating system
+when the program terminates.
+
+0
+     No problems.
+
+1
+     An attempt has been made to start cron but there is already a
+     /var/run/cron.pid file.  If there really is no other cron daemon
+     running (this does not include invokations of mcron) then you
+     should remove this file before attempting to run cron.
+
+2
+     In parsing a guile configuration file, a `job' command has been
+     seen but the second argument is neither a procedure, list or
+     string.  This argument is the job's action, and needs to be
+     specified in one of these forms.
+
+3
+     In parsing a guile configuration file, a `job' command has been
+     seen but the first argument is neither a procedure, list or
+     string.  This argument is the job's next-time specification, and
+     needs to be specified in one of these forms.
+
+4
+     An attempt to run cron has been made by a user who does not have
+     permission to access the crontabs in /var/cron/tabs.  These files
+     should be readable only by root, and the cron daemon must be run as
+     root.
+
+5
+     An attempt to run mcron has been made, but there are no jobs to
+     schedule!
+
+6
+     The system administrator has blocked this user from using crontab
+     with the files /var/cron/allow and /var/cron/deny.
+
+7
+     Crontab has been run with more than one of the arguments `-l',
+     `-r', `-e'.  These are mutually exclusive options.
+
+8
+     Crontab has been run with the -u option by a user other than root.
+     Only root is allowed to use this option.
+
+9
+     An invalid vixie-style time specification has been supplied.
+
+10
+     An invalid vixie-style job specification has been supplied.
+
+11
+     A bad line has been seen in /etc/crontab.
+
+12
+     The last component of the name of the program was not one of
+     `mcron', `cron', `crond' or `crontab'.
+
+13
+     Either the ~/.cron directory does not exist, or there is a problem
+     reading the files there.
+
+15
+     Crontab has been run without any arguments at all.  There is no
+     default behaviour in this case.
+
+16
+     Cron has been run by a user other than root.
+
+
+File: mcron.info,  Node: Guile modules,  Next: Index,  Prev: Invoking,  Up: Top
+
+5 Guile modules
+***************
+
+Some of the key parts of mcron are implemented as modules so they can
+be incorporated into other Guile programs, or even into C-sourced
+programs if they are linked against libguile.
+
+   It may be, for example, that a program needs to perform house-keeping
+functions at certain times of the day, in which case it can spawn
+(either fork or thread) a sub-process which uses a built-in mcron.
+Another example may be a program which must sleep until some
+non-absolute time specified on the Gregorian calendar (the first day of
+next week, for example).  Finally, it may be the wish of the user to
+provide a program with the functionality of mcron plus a bit extra.
+
+   The core module maintains mcron's internal job lists, and provides
+the main wait-run-wait loop that is mcron's main function.  It also
+introduces the facilities for accumulating a set of environment
+modifiers, which take effect when jobs run.
+
+* Menu:
+
+* The core module::             The job list and execution loop.
+* The redirect module::         Sending output of jobs to a mail box.
+* The vixie-time module::       Parsing vixie-style time specifications.
+* The job-specifier module::    All commands for scheme configuration files.
+* The vixie-specification module::  Commands for reading vixie-style crontabs.
+
+File: mcron.info,  Node: The core module,  Next: The redirect module,  Prev: Guile modules,  Up: Guile modules
+
+5.1 The core module
+===================
+
+This module may be used by including `(use-modules (mcron core))' in a
+program.  The main functions are `add-job' and `run-job-loop', which
+allow a program to create a list of job specifications to run, and then
+to initiate the wait-run-wait loop firing the jobs off at the requisite
+times.  However, before they are introduced two functions which
+manipulate the environment that takes effect when a job runs are
+defined.
+
+   The environment is a set of name-value pairs which is built up
+incrementally.  Each time the `add-job' function is called, the
+environment modifiers that have been accumulated up to that point are
+stored with the new job specification, and when the job actually runs
+these name-value pairs are used to modify the run-time environment in
+effect.
+
+ -- Scheme procedure: append-environment-mods name value
+     When a job is run make sure the environment variable NAME has the
+     value VALUE.
+
+ -- Scheme procedure: clear-environment-mods
+     This procedure causes all the environment modifiers that have been
+     specified so far to be forgotten.
+
+ -- Scheme procedure: add-job time-proc action displayable
+          configuration-time configuration-user
+     This procedure adds a job specification to the list of all jobs to
+     run.  TIME-PROC should be a procedure taking exactly one argument
+     which will be a UNIX time.  This procedure must compute the next
+     time that the job should run, and return the result.  ACTION
+     should be a procedure taking no arguments, and contains the
+     instructions that actually get executed whenever the job is
+     scheduled to run.  DISPLAYABLE should be a string, and is only for
+     the use of humans; it can be anything which identifies or simply
+     gives a clue as to the purpose or function of this job.
+     CONFIGURATION-TIME is the time from which the first invokation of
+     this job should be computed.  Finally, CONFIGURATION-USER should
+     be the passwd entry for the user under whose personality the job
+     is to run.
+
+ -- Scheme procedure: run-job-loop . fd-list
+     This procedure returns only under exceptional circumstances, but
+     usually loops forever waiting for the next time to arrive when a
+     job needs to run, running that job, recomputing the next run time,
+     and then waiting again.  However, the wait can be interrupted by
+     data becoming available for reading on one of the file descriptors
+     in the fd-list, if supplied.  Only in this case will the procedure
+     return to the calling program, which may then make modifications
+     to the job list before calling the `run-job-loop' procedure again
+     to resume execution of the mcron core.
+
+ -- Scheme procedure: remove-user-jobs user
+     The argument USER should be a string naming a user (his login
+     name), or an integer UID, or an object representing the user's
+     passwd entry.  All jobs on the current job list that are scheduled
+     to be run under this personality are removed from the job list.
+
+ -- Scheme procedure: get-schedule count
+     The argument COUNT should be an integer value giving the number of
+     time-points in the future to report that jobs will run as.  Note
+     that this procedure is disruptive; if `run-job-loop' is called
+     after this procedure, the first job to run will be the one after
+     the last job that was reported in the schedule report.  The report
+     itself is returned to the calling program as a string.
+
+File: mcron.info,  Node: The redirect module,  Next: The vixie-time module,  Prev: The core module,  Up: Guile modules
+
+5.2 The redirect module
+=======================
+
+This module is introduced to a program with the command `(use-modules
+(mcron redirect))'.
+
+   This module provides the `with-mail-out' function, described fully
+in *note Guile Syntax::.
+
+File: mcron.info,  Node: The vixie-time module,  Next: The job-specifier module,  Prev: The redirect module,  Up: Guile modules
+
+5.3 The vixie-time module
+=========================
+
+This module is introduced to a program by `(use-modules (mcron
+vixie-time))'.
+
+   This module provides a single method for converting a vixie-style
+time specification into a procedure which can be used as the
+`next-time-function' to the core `add-job' procedure, or to the
+`job-specifier' `job' procedure.  See *note Vixie Syntax:: for full
+details of the allowed format for the time string.
+
+ -- Scheme procedure: parse-vixie-time time-string
+     The single argument TIME-STRING should be a string containing a
+     vixie-style time specification, and the return value is the
+     required procedure.
+
+File: mcron.info,  Node: The job-specifier module,  Next: The vixie-specification module,  Prev: The vixie-time module,  Up: Guile modules
+
+5.4 The job-specifier module
+============================
+
+This module is introduced to a program by `(use-modules (mcron
+job-specifier))'.
+
+   This module provides all the functions available to user's Guile
+configuration files, namely `range', `next-year-from', `next-year',
+`next-month-from', `next-month', `next-day-from', `next-day',
+`next-hour-from', `next-hour', `next-minute-from', `next-minute',
+`next-second-from', `next-second',  and last but not least, `job'.  See
+*note Guile Syntax:: for full  details.
+
+   Once this module is loaded, a scheme configuration file can be used
+to put jobs onto the job list simply by `load'ing the file.
+
+File: mcron.info,  Node: The vixie-specification module,  Prev: The job-specifier module,  Up: Guile modules
+
+5.5 The vixie-specification module
+==================================
+
+To use this module, put the command `(use-modules (mcron
+vixie-specification))' into your program.
+
+   This module exports a couple of functions for adding jobs to the
+internal job list according to a Vixie-style crontab file.
+
+ -- Scheme procedure: read-vixie-port port . parse-line
+     This procedure reads a crontab from the given port, and adds jobs
+     to the job list accordingly, taking care of environment
+     specifications and comments which may appear in such a file.
+
+     PARSE-LINE should not normally be used, except that if you are
+     parsing a (deprecated) `/etc/crontab' file with a slightly
+     modified syntax, you may pass the value PARSE-SYSTEM-VIXIE-LINE as
+     the optional argument.
+
+
+ -- Scheme procedure: read-vixie-file name . parse-line
+     This procedure attempts to open the named file, and if it fails
+     will return silently.  Otherwise, the behaviour is identical to
+     `read-vixie-port' above.
+
+
+   Once this module has been declared in a program, a crontab file can
+be used to augment the current job list with a call to
+`read-vixie-file'.
+
+File: mcron.info,  Node: Index,  Prev: Guile modules,  Up: Top
+
+Index
+*****
+
+ [index ]
+* Menu:
+
+* % character on vixie-style commands:   Crontab file.         (line 85)
+* -d option:                             Invoking mcron.       (line 31)
+* -daemon option:                        Invoking mcron.       (line 31)
+* -e option:                             Invoking crontab.     (line 38)
+* -h option <1>:                         Invoking cron or crond.
+                                                               (line 30)
+* -h option:                             Invoking mcron.       (line 48)
+* -help option <1>:                      Invoking cron or crond.
+                                                               (line 30)
+* -help option:                          Invoking mcron.       (line 48)
+* -i option:                             Invoking mcron.       (line 36)
+* -l option:                             Invoking crontab.     (line 29)
+* -n option:                             Invoking cron or crond.
+                                                               (line 44)
+* -noetc option:                         Invoking cron or crond.
+                                                               (line 44)
+* -r option:                             Invoking crontab.     (line 33)
+* -s option <1>:                         Invoking cron or crond.
+                                                               (line 37)
+* -s option:                             Invoking mcron.       (line 24)
+* -schedule option <1>:                  Invoking cron or crond.
+                                                               (line 37)
+* -schedule option:                      Invoking mcron.       (line 24)
+* -stdin option:                         Invoking mcron.       (line 36)
+* -v option <1>:                         Invoking cron or crond.
+                                                               (line 24)
+* -v option:                             Invoking mcron.       (line 42)
+* -version option <1>:                   Invoking cron or crond.
+                                                               (line 24)
+* -version option:                       Invoking mcron.       (line 42)
+* /etc/passwd <1>:                       Crontab file.         (line 30)
+* /etc/passwd:                           Vixie Syntax.         (line 29)
+* /var/cron/socket:                      Invoking cron or crond.
+                                                               (line  6)
+* /var/cron/tabs:                        Invoking cron or crond.
+                                                               (line  6)
+* 0'th day of month:                     Vixie Syntax.         (line 14)
+* 13th month of year:                    Vixie Syntax.         (line 24)
+* add-job:                               The core module.      (line 31)
+* advantages of mcron:                   Introduction.         (line 25)
+* append-environment-mods <1>:           The core module.      (line 22)
+* append-environment-mods:               Guile Syntax.         (line 74)
+* at command:                            AT commands.          (line  6)
+* BSD:                                   Crontab file.         (line 35)
+* clear-environment-mods:                The core module.      (line 26)
+* command execution:                     Guile Syntax.         (line 47)
+* command line, mcron:                   Invoking mcron.       (line  6)
+* comments, vixie-style:                 Crontab file.         (line 13)
+* compatibility:                         Vixie Simple Examples.
+                                                               (line 14)
+* compatibility, vixie:                  Vixie Syntax.         (line  6)
+* configuring from standard input:       Invoking mcron.       (line 36)
+* copyright, Paul Vixie's:               Paul Vixie's copyright.
+                                                               (line  6)
+* core module:                           The core module.      (line  6)
+* creating a crontab:                    Invoking crontab.     (line 38)
+* cron program:                          Invoking.             (line  6)
+* cron, invokation:                      Invoking cron or crond.
+                                                               (line  6)
+* crond program:                         Invoking.             (line  6)
+* crond, invokation:                     Invoking cron or crond.
+                                                               (line  6)
+* crontab file:                          Crontab file.         (line  6)
+* crontab program:                       Invoking.             (line  6)
+* crontab, invoking:                     Invoking crontab.     (line  6)
+* daemon option:                         Invoking mcron.       (line 31)
+* day 7:                                 Incompatibilities with old Unices.
+                                                               (line 10)
+* day specification, vixie-style:        Crontab file.         (line 93)
+* deleting a crontab:                    Invoking crontab.     (line 33)
+* deprecated, vixie personality:         Invoking.             (line 19)
+* edit option:                           Invoking crontab.     (line 38)
+* editing a crontab:                     Invoking crontab.     (line 38)
+* email from guile script:               Guile Syntax.         (line 58)
+* email output:                          Guile Syntax.         (line 58)
+* environment:                           The core module.      (line 14)
+* environment setting, vixie-style:      Crontab file.         (line 23)
+* environment variables in scheme:       Guile Syntax.         (line 74)
+* environment variables, HOME:           Crontab file.         (line 30)
+* environment variables, LOGNAME:        Crontab file.         (line 30)
+* environment variables, MAILTO:         Crontab file.         (line 38)
+* environment variables, SHELL:          Crontab file.         (line 30)
+* environment variables, shell:          Vixie Syntax.         (line 29)
+* environment variables, USER:           Crontab file.         (line 35)
+* error conditions:                      Exit codes.           (line  6)
+* errors:                                Exit codes.           (line  6)
+* example, run a program every hour:     Guile Simple Examples.
+                                                               (line  6)
+* examples:                              Vixie Simple Examples.
+                                                               (line  6)
+* examples, every second sunday:         Every second Sunday.  (line  6)
+* examples, extended guile:              Extended Guile examples.
+                                                               (line  6)
+* examples, guile:                       Guile Simple Examples.
+                                                               (line  6)
+* examples, missing the first appointment: Missing the first appointment.
+                                                               (line  6)
+* examples, penultimate day of every month: Penultimate day of every month.
+                                                               (line  6)
+* examples, two hours every day:         Two hours every day.  (line  6)
+* examples, vixie:                       Vixie Simple Examples.
+                                                               (line  6)
+* execution:                             Guile Syntax.         (line 47)
+* exit codes:                            Exit codes.           (line  6)
+* extended guile examples:               Extended Guile examples.
+                                                               (line  6)
+* extensions, vixie over old Unices:     Incompatibilities with old Unices.
+                                                               (line  6)
+* fields, vixie time specification:      Crontab file.         (line 56)
+* file descriptors:                      The core module.      (line 46)
+* get-schedule:                          The core module.      (line 63)
+* guile examples:                        Guile Simple Examples.
+                                                               (line  6)
+* guile module:                          The core module.      (line  6)
+* guile syntax:                          Guile Syntax.         (line  9)
+* HOME environment variable:             Crontab file.         (line 30)
+* incompatibilities with old Unices:     Incompatibilities with old Unices.
+                                                               (line  6)
+* interrupting the mcron loop:           The core module.      (line 46)
+* introduction:                          Introduction.         (line  6)
+* invoking:                              Invoking.             (line  6)
+* invoking cron:                         Invoking cron or crond.
+                                                               (line  6)
+* invoking crond:                        Invoking cron or crond.
+                                                               (line  6)
+* invoking crontab:                      Invoking crontab.     (line  6)
+* invoking mcron:                        Invoking mcron.       (line  6)
+* job:                                   Guile Syntax.         (line  9)
+* job execution:                         Guile Syntax.         (line 47)
+* job-specifier module:                  The job-specifier module.
+                                                               (line  6)
+* laptops:                               Behaviour on laptops. (line  6)
+* list option, crontab:                  Invoking crontab.     (line 29)
+* list time specification:               Guile Syntax.         (line 36)
+* listing a crontab:                     Invoking crontab.     (line 29)
+* lists in vixie time specifications:    Crontab file.         (line 70)
+* LOGNAME environment variable:          Crontab file.         (line 30)
+* MAILTO environment variable:           Crontab file.         (line 38)
+* mcron:                                 Introduction.         (line  6)
+* mcron arguments:                       Invoking mcron.       (line  6)
+* mcron command line:                    Invoking mcron.       (line  6)
+* mcron options:                         Invoking mcron.       (line  6)
+* mcron program:                         Invoking.             (line  6)
+* modules, core:                         The core module.      (line  6)
+* modules, job-specifier:                The job-specifier module.
+                                                               (line  6)
+* modules, redirect:                     The redirect module.  (line  6)
+* modules, vixie-specification:          The vixie-specification module.
+                                                               (line  6)
+* modules, vixie-time:                   The vixie-time module.
+                                                               (line  6)
+* names in vixie-style time specifications: Crontab file.      (line 81)
+* next-day:                              Guile Syntax.         (line 36)
+* next-day-from:                         Guile Syntax.         (line 27)
+* next-hour:                             Guile Syntax.         (line 36)
+* next-hour-from:                        Guile Syntax.         (line 27)
+* next-minute:                           Guile Syntax.         (line 36)
+* next-minute-from:                      Guile Syntax.         (line 27)
+* next-month:                            Guile Syntax.         (line 36)
+* next-month-from:                       Guile Syntax.         (line 27)
+* next-second:                           Guile Syntax.         (line 36)
+* next-second-from:                      Guile Syntax.         (line 21)
+* next-week:                             Guile Syntax.         (line 36)
+* next-week-from:                        Guile Syntax.         (line 27)
+* next-year:                             Guile Syntax.         (line 36)
+* next-year-from:                        Guile Syntax.         (line 27)
+* options, -d:                           Invoking mcron.       (line 31)
+* options, -e:                           Invoking crontab.     (line 38)
+* options, -edit:                        Invoking crontab.     (line 38)
+* options, -h <1>:                       Invoking cron or crond.
+                                                               (line 30)
+* options, -h:                           Invoking mcron.       (line 48)
+* options, -help <1>:                    Invoking cron or crond.
+                                                               (line 30)
+* options, -help:                        Invoking mcron.       (line 48)
+* options, -i:                           Invoking mcron.       (line 36)
+* options, -l:                           Invoking crontab.     (line 29)
+* options, -list:                        Invoking crontab.     (line 29)
+* options, -n:                           Invoking cron or crond.
+                                                               (line 44)
+* options, -noetc:                       Invoking cron or crond.
+                                                               (line 44)
+* options, -r:                           Invoking crontab.     (line 33)
+* options, -remove:                      Invoking crontab.     (line 33)
+* options, -s <1>:                       Invoking cron or crond.
+                                                               (line 37)
+* options, -s:                           Invoking mcron.       (line 24)
+* options, -v <1>:                       Invoking cron or crond.
+                                                               (line 24)
+* options, -v:                           Invoking mcron.       (line 42)
+* options, daemon:                       Invoking mcron.       (line 31)
+* options, schedule <1>:                 Invoking cron or crond.
+                                                               (line 37)
+* options, schedule:                     Invoking mcron.       (line 24)
+* options, stdin:                        Invoking mcron.       (line 36)
+* options, version <1>:                  Invoking cron or crond.
+                                                               (line 24)
+* options, version:                      Invoking mcron.       (line 42)
+* parse-vixie-time:                      The vixie-time module.
+                                                               (line 16)
+* Paul Vixie's copyright:                Paul Vixie's copyright.
+                                                               (line  6)
+* personality:                           Invoking.             (line  6)
+* pitfalls, missing the first appointment: Missing the first appointment.
+                                                               (line  6)
+* pitfalls, two hours every day:         Two hours every day.  (line  6)
+* power suspend:                         Behaviour on laptops. (line  6)
+* printout of jobs schedule <1>:         Invoking cron or crond.
+                                                               (line 37)
+* printout of jobs schedule:             Invoking mcron.       (line 24)
+* procedure time specification:          Guile Syntax.         (line 15)
+* range:                                 Guile Syntax.         (line 31)
+* ranges in vixie time specifications:   Crontab file.         (line 66)
+* read-vixie-file:                       The vixie-specification module.
+                                                               (line 24)
+* read-vixie-port:                       The vixie-specification module.
+                                                               (line 13)
+* redirect module:                       The redirect module.  (line  6)
+* remove option:                         Invoking crontab.     (line 33)
+* remove-user-jobs:                      The core module.      (line 57)
+* removing a crontab:                    Invoking crontab.     (line 33)
+* run-job-loop:                          The core module.      (line 46)
+* schedule of jobs:                      The core module.      (line 63)
+* schedule of jobs, listing <1>:         Invoking cron or crond.
+                                                               (line 37)
+* schedule of jobs, listing:             Invoking mcron.       (line 24)
+* setting environment variables:         Guile Syntax.         (line 74)
+* shell:                                 Vixie Syntax.         (line 29)
+* SHELL environment variable:            Crontab file.         (line 30)
+* standard input to commands:            Guile Syntax.         (line 58)
+* standard input, configuring from:      Invoking mcron.       (line 36)
+* standard input, vixie-style:           Crontab file.         (line 85)
+* stdin option:                          Invoking mcron.       (line 36)
+* steps in vixie time specifications:    Crontab file.         (line 73)
+* string time specification:             Guile Syntax.         (line 43)
+* syntax, guile:                         Guile Syntax.         (line  9)
+* syntax, vixie:                         Vixie Syntax.         (line  6)
+* thirteenth month of year:              Vixie Syntax.         (line 24)
+* time specification:                    Guile Syntax.         (line 43)
+* time specification, list:              Guile Syntax.         (line 36)
+* time specification, procedure:         Guile Syntax.         (line 15)
+* time specification, string:            Guile Syntax.         (line 43)
+* time specification, vixie-style:       Guile Syntax.         (line 43)
+* USER environment variable:             Crontab file.         (line 35)
+* viewing a crontab:                     Invoking crontab.     (line 29)
+* vixie compatibility <1>:               Vixie Syntax.         (line  6)
+* vixie compatibility:                   Vixie Simple Examples.
+                                                               (line 14)
+* vixie crontab file:                    Crontab file.         (line  6)
+* vixie definition:                      Vixie Syntax.         (line  6)
+* vixie examples:                        Vixie Simple Examples.
+                                                               (line  6)
+* vixie syntax:                          Vixie Syntax.         (line  6)
+* vixie time specification fields:       Crontab file.         (line 56)
+* vixie-specification module:            The vixie-specification module.
+                                                               (line  6)
+* vixie-style day specification:         Crontab file.         (line 93)
+* vixie-style time specification:        Guile Syntax.         (line 43)
+* vixie-time module:                     The vixie-time module.
+                                                               (line  6)
+* with-mail-out:                         Guile Syntax.         (line 58)
+* zero'th day of month:                  Vixie Syntax.         (line 14)
+
+

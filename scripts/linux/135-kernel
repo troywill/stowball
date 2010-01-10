@@ -1,0 +1,26 @@
+#!/bin/bash
+set +h
+set -o errexit
+SUDO_COMMAND='sudo'
+VERSION='2.6.31.4'
+make mrproper
+make menuconfig
+make
+# make modules_install
+${SUDO_COMMAND} make install
+${SUDO_COMMAND} cp -v arch/x86/boot/bzImage /boot/lfskernel-${VERSION}
+${SUDO_COMMAND} cp -v System.map /boot/System.map-${VERSION}
+${SUDO_COMMAND} cp -v .config /boot/config-${VERSION}
+${SUDO_COMMAND} install -d /usr/share/doc/linux-${VERSION}
+${SUDO_COMMAND} cp -r Documentation/* /usr/share/doc/linux-${VERSION}
+
+configure_modprobe () {
+    cat > /etc/modprobe.conf << "EOF"
+# Begin /etc/modprobe.conf
+
+install ohci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i ohci_hcd ; true
+install uhci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i uhci_hcd ; true
+
+# End /etc/modprobe.conf
+EOF
+}

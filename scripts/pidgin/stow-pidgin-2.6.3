@@ -1,0 +1,134 @@
+#!/bin/bash
+set -o errexit
+PACKAGE="pidgin"
+VERSION="2.6.3"
+PACKAGER="TDW <troydwill@gmail.com>"
+DATE="2009-12-21"
+PREFIX="/usr"
+TARGET="/"
+STOW_DIR="/stow"
+SUDO="sudo"
+
+PACKAGE_DIR=${PACKAGE}-${VERSION}
+
+do_configure () {
+    ./configure --prefix=${PREFIX} --disable-screensaver \
+	--disable-startup-notification \
+	--disable-gtkspell \
+	--disable-gstreamer \
+	--disable-vv \
+	--disable-idn \
+	--disable-meanwhile \
+	--disable-avahi \
+	--disable-dbus \
+	--disable-tcl \
+	2>&1 | tee log.stow.configure
+}
+
+do_build () {
+    make 2>&1 | tee log.stow.make
+}
+
+do_install () {
+    ${SUDO} make DESTDIR=${STOW_DIR}/${PACKAGE_DIR} install 2>&1 | tee log.stow.install
+}
+
+do_stow () {
+    ${SUDO} find ${STOW_DIR}/${PACKAGE_DIR} -name "dir" -okdir mv -v "{}" dir.stow.${PACKAGE_DIR} ";"
+    ${SUDO} stow -v --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.stow
+}
+
+do_poststow () {
+    echo "run makeinfo"
+}
+
+do_package () {
+    cd /tmp
+    ${SUDO} tar -jcf ${PACKAGE_DIR}.stow.tar.bz2 ${STOW_DIR}${PACKAGE_DIR}
+}
+
+do_configure
+do_build
+do_install
+do_stow
+do_poststow
+# do_package
+exit
+
+<note>
+2009-11-20 TDW <troydwill@gmail.com> XScreenSaver extension development headers not found.
+Use --disable-screensaver if you do not need XScreenSaver extension support,
+this is required for detecting idle time by mouse and keyboard usage.
+</note>
+
+<note>
+2009-11-20 TDW
+checking for STARTUP_NOTIFICATION... no
+no
+configure: error:
+Startup notification development headers not found.
+Use --disable-startup-notification if you do not need it.
+</note>
+
+<note>
+checking for GTKSPELL... no
+no
+configure: error:
+GtkSpell development headers not found.
+Use --disable-gtkspell if you do not need it.
+</note>
+
+<note>
+checking for GSTREAMER... no
+no
+configure: error:
+GStreamer development headers not found.
+Use --disable-gstreamer if you do not need GStreamer (sound) support.
+</note>
+
+<note>
+checking for FARSIGHT... no
+configure: error:
+Dependencies for voice/video were not met.
+Install the necessary gstreamer and farsight packages first.
+Or use --disable-vv if you do not need voice/video support.
+</note>
+
+<note>
+checking for IDN... no
+no
+configure: error:
+GNU Libidn development headers not found.
+Use --disable-idn if you do not need it.
+</note>
+
+<note>
+checking for MEANWHILE... no
+configure: error:
+Meanwhile development headers not found.
+Use --disable-meanwhile if you do not need meanwhile (Sametime) support.
+</note>
+
+<note>
+checking for avahi_client_new in -lavahi-client... no
+configure: error:
+avahi development headers not found.
+Use --disable-avahi if you do not need avahi (Bonjour) support.
+</note>
+
+<note>
+checking for DBUS... no
+configure: error:
+D-Bus development headers not found.
+Use --disable-dbus if you do not need D-Bus support.
+</note>
+
+<note>
+checking for Mozilla nspr4 libraries... no
+checking for Mozilla nss3 includes... no
+checking for Mozilla nss libraries... no
+configure: error:
+Neither GnuTLS or NSS SSL development headers found.
+Use --disable-nss --disable-gnutls if you do not need SSL support.
+MSN, Yahoo!, Novell Groupwise and Google Talk will not work without GnuTLS or NSS. OpenSSL is NOT usable!
+</note>

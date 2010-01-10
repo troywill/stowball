@@ -1,0 +1,117 @@
+#!/bin/bash
+set -o errexit
+PACKAGE="dbus"
+VERSION="1.3.0"
+PACKAGER="TDW <troydwill@gmail.com>"
+DATE="2009-12-27"
+PREFIX="/usr"
+TARGET="/"
+STOW_DIR="/stow"
+SUDO="sudo"
+
+PACKAGE_DIR=${PACKAGE}-${VERSION}
+
+do_setup () {
+    # TDW <troydwill@gmail.com> Jan. 2010 Shamelessly stolen from the BLFS website
+    ${SUDO} /usr/sbin/groupadd -g 18 messagebus
+    ${SUDO} /usr/sbin/useradd -c "D-BUS Message Daemon User" -d /dev/null \
+        -u 18 -g messagebus -s /bin/false messagebus
+}
+
+do_configure () {
+    ./configure --prefix=${PREFIX} \
+	--sysconfdir=/etc \
+        --localstatedir=/var 2>&1 | tee log.stow.configure
+}
+
+do_build () {
+    make 2>&1 | tee log.stow.make
+}
+
+do_install () {
+    ${SUDO} make DESTDIR=${STOW_DIR}/${PACKAGE_DIR} install 2>&1 | tee log.stow.install
+}
+
+do_stow () {
+    ${SUDO} find ${STOW_DIR}/${PACKAGE_DIR} -name "dir" -okdir mv -v "{}" dir.stow.${PACKAGE_DIR} ";"
+    ${SUDO} stow -v --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.stow
+}
+
+do_poststow () {
+    echo "run makeinfo"
+}
+
+do_package () {
+    cd /tmp
+    ${SUDO} tar -jcf ${PACKAGE_DIR}.stow.tar.bz2 ${STOW_DIR}${PACKAGE_DIR}
+}
+
+do_setup
+do_configure
+do_build
+do_install
+do_stow
+do_poststow
+# do_package
+exit
+Configuration of dbus 1.3.0:
+
+Optional Features:
+  --disable-option-checking  ignore unrecognized --enable/--with options
+  --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
+  --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --enable-maintainer-mode  enable make rules and dependencies not useful
+			  (and sometimes confusing) to the casual installer
+  --disable-dependency-tracking  speeds up one-time build
+  --enable-dependency-tracking   do not reject slow dependency extractors
+  --enable-shared[=PKGS]  build shared libraries [default=yes]
+  --enable-static[=PKGS]  build static libraries [default=yes]
+  --enable-fast-install[=PKGS]
+                          optimize for fast installation [default=yes]
+  --disable-libtool-lock  avoid locking (might break parallel builds)
+  --enable-tests          enable unit test code
+  --enable-ansi           enable -ansi -pedantic gcc flags
+  --enable-verbose-mode   support verbose debug mode
+  --enable-asserts        include assertion checks
+  --enable-checks         include sanity checks on public API
+  --enable-xml-docs       build XML documentation (requires xmlto)
+  --enable-doxygen-docs   build DOXYGEN documentation (requires Doxygen)
+  --enable-gcov           compile with coverage profiling instrumentation (gcc
+                          only)
+  --enable-abstract-sockets
+                          use abstract socket namespace (linux only)
+  --enable-selinux        build with SELinux support
+  --enable-libaudit       build audit daemon support for SELinux
+  --enable-dnotify        build with dnotify support (linux only)
+  --enable-inotify        build with inotify support (linux only)
+  --enable-kqueue         build with kqueue support
+  --enable-console-owner-file
+                          enable console owner file
+  --enable-userdb-cache   build with userdb-cache support
+
+Optional Packages:
+  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
+  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-pic              try to use only PIC/non-PIC objects [default=use
+                          both]
+  --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
+  --with-xml=libxml/expat XML library to use
+  --with-init-scripts=redhat
+                          Style of init scripts to install
+  --with-session-socket-dir=dirname
+                          Where to put sockets for the per-login-session
+                          message bus
+  --with-test-socket-dir=dirname
+                          Where to put sockets for make check
+  --with-system-pid-file=pidfile
+                          PID file for systemwide daemon
+  --with-system-socket=filename
+                          UNIX domain socket for systemwide daemon
+  --with-console-auth-dir=dirname
+                          directory to check for console ownerhip
+  --with-console-owner-file=filename
+                          file whose owner determines current console owner
+  --with-dbus-user=<user> User for running the DBUS daemon (messagebus)
+  --with-dbus-daemondir=dirname
+                          Directory for installing the DBUS daemon
+  --with-x                use the X Window System

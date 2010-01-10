@@ -1,0 +1,35 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use DBI;
+use Text::CSV;
+use ConfigReader::Simple;
+
+# November 2009, <troydwill@gmail.com>
+
+my $config = ConfigReader::Simple->new('stowball.cfg');
+die "Could not read config! $ConfigReader::Simple::ERROR\n"
+  unless ref $config;
+
+my $LOCAL_DATABASE = $config->get('LOCAL_DATABASE');
+print $LOCAL_DATABASE;
+my $dbh =
+  DBI->connect( "dbi:SQLite:$LOCAL_DATABASE", "", "",
+    { RaiseError => 1, AutoCommit => 1 } );
+
+&create_table_installed_packages($dbh);
+&create_table_dependencies($dbh);
+
+sub create_table_installed_packages {
+    my $dbh = shift;
+    $dbh->do(
+	"CREATE TABLE installed_packages (id INTEGER PRIMARY KEY AUTOINCREMENT, package_id integer UNIQUE, date_verified date )"
+	);
+}
+
+sub create_table_dependencies {
+    my $dbh = shift;
+    $dbh->do(
+	"CREATE TABLE dependencies (id INTEGER PRIMARY KEY, package_id integer, dependent_package_id integer, date_verified date )"
+	);
+}
