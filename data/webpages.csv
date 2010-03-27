@@ -50,7 +50,7 @@
 63,"http://www.gnu.org/software/screen/","http://en.wikipedia.org/wiki/GNU_Screen","http://www.linuxfromscratch.org/blfs/view/svn/general/screen.html","http://docs.google.com/View?id=df927s4r_75xw7z6tgh","2009-10-20"
 64,"http://dbi.perl.org/","http://en.wikipedia.org/wiki/Perl_DBI","n/a","n/a","2009-10-24"
 65,"http://search.cpan.org/dist/DBD-SQLite/","n/a","n/a""n/a","2009-10-24"
-66,"http://rsync.samba.org/","http://en.wikipedia.org/wiki/Rsync","http://www.linuxfromscratch.org/blfs/view/svn/server/rsync.html","2009-10-24"
+66,"http://rsync.samba.org/","http://en.wikipedia.org/wiki/Rsync","http://www.linuxfromscratch.org/blfs/view/svn/server/rsync.html","n/a","2010-03-27"
 67,"http://search.cpan.org/~msergeant/","n/a","http://www.linuxfromscratch.org/blfs/view/svn/general/perl-modules.html","n/a","2009-10-27"
 68,"http://www.gnu.org/software/gperf/","http://en.wikipedia.org/wiki/Perfect_hash_function","http://www.linuxfromscratch.org/blfs/view/svn/general/gperf.html","n/a","2009-10-28"
 69,"http://www.ruby-lang.org","http://en.wikipedia.org/wiki/Ruby_(programming_language)","http://www.linuxfromscratch.org/blfs/view/svn/general/ruby.html","n/a","2009-11-01"
