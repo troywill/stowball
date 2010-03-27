@@ -9,7 +9,7 @@ my $man     = 0;
 my $help    = 0;
 my $verbose = 0;
 
-my $build_template       = 'gnu';
+my $build_template       = 'gnu.tmpl';
 my $software_package = 'emacs';
 my $version          = '23.1.1';
 my $result           = GetOptions(
