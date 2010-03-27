@@ -1,10 +1,9 @@
 #!/bin/bash
-# autostow template: GNU DESTDIR type with stow target = /usr/local
 set -o errexit
 PACKAGE="sudo"
-VERSION="1.7.2p2"
+VERSION="1.7.2p3"
 PACKAGER="TDW <troydwill@gmail.com>"
-DATE="2009-12-15"
+DATE="2010-03-27"
 PREFIX="/usr"
 TARGET="/"
 STOW_DIR="/stow"
