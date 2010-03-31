@@ -1,2 +1,4 @@
 #!/bin/bash
-sqlite3 ../gnu.db '.schema'
+DATABASE='/var/lib/stowball/gng-repository.db'
+sqlite3 ${DATABASE} '.schema'
+
