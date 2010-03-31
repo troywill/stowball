@@ -35,7 +35,7 @@ if ( defined($ARGV[0])) {
 
 sub stow_software {
     my ( $software ) = @_;
-    print "Beging to download => $software\n";
+    print "Beginning to download => $software\n";
     my $sth_id = $dbh->prepare("SELECT id, latest_version FROM packages WHERE short_name = \'$software\'");
     $sth_id->execute();
     my ($software_id, $version) = $sth_id->fetchrow_array();
