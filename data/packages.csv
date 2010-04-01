@@ -18,7 +18,7 @@
 18,18,"pciutils","PCI Utilities","3.1.4","2009-08-14","2009-12-25"
 19,19,"glib","Glib utility library","2.22.3","2009-12-21","2009-12-27"
 20,20,"gettext","GNU internationalization and localization i18n library","0.17","2007-11-06","2009-10-04"
-21,21,"intltool","Internationalization Tool Collection","0.41.0","2009-07-16","2009-10-28"
+21,21,"intltool","Internationalization Tool Collection","0.41.1","2010-03-24","2010-04-01"
 22,22,"linux","Linux kernel","2.6.31.4","2009-10-12","2009-10-19"
 23,23,"wget","GNU Wget","1.12","2009-09-22","2009-10-22"
 24,24,"xterm","xterm terminal emulator","250","2009-08-01","2009-10-24"
