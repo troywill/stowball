@@ -41,6 +41,7 @@
 50,"http://phonon.kde.org/","http://en.wikipedia.org/wiki/Phonon_(KDE)","n/a","n/a","2009-12-30"
 51,"http://www.pcre.org/","http://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions","http://www.linuxfromscratch.org/blfs/view/svn/general/pcre.html","2009-12-30"
 52,"http://www.vandenoever.info/software/strigi/","http://en.wikipedia.org/wiki/Strigi","n/a","n/a","2009-12-13"
+53,"http://www.freedesktop.org/wiki/Software/shared-mime-info","n/a","http://www.linuxfromscratch.org/blfs/view/svn/x/shared-mime-info.html","2010-04-01"
 57,"http://en.wikipedia.org/wiki/Website","http://en.wikipedia.org/wiki/MPlayer","http://www.linuxfromscratch.org/blfs/view/svn/multimedia/mplayer.html","G","2009-10-22"
 58,"http://www.sudo.ws/","http://en.wikipedia.org/wiki/Sudo","http://www.linuxfromscratch.org/blfs/view/svn/postlfs/sudo.html","","2009-10-27"
 59,"http://roy.marples.name/projects/dhcpcd/wiki","http://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol","http://www.linuxfromscratch.org/blfs/view/svn/basicnet/dhcpcd.html","","2009-11-08"
