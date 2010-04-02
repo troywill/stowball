@@ -9,8 +9,4 @@ ${EDITOR} packages.csv package_metas.csv
 git add *
 git commit
 git push origin master
-cd -
-cd ..
-pwd
-ls
 ./stowball-write-repository-data
