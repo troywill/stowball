@@ -20,6 +20,7 @@ my $su_command   = $config->get('su_command');
 my $TAR_COMMAND  = $config->get('TAR_COMMAND');
 my $database     = $config->get('DATABASE');
 my $RSYNC_MODULE = $config->get('RSYNC_MODULE');
+my $DATA_DIR = $config->get('DATA_DIR');
 
 unlink($database);
 
@@ -39,8 +40,6 @@ my $dbh =
 &populate_latest_tarball($dbh);
 &populate_webpages($dbh);
 
-# &populate_google_doc_table($dbh);
-
 ############################ Subroutines ############################
 
 sub populate_table_package_metas {
@@ -49,7 +48,7 @@ sub populate_table_package_metas {
     $dbh->do(
 "CREATE TABLE package_metas (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, webpage_id INTEGER)"
     );
-    my $data_file = 'data/package_metas.csv';
+    my $data_file = $DATA_DIR . '/package_metas.csv';
     my @packages;
     my $csv = Text::CSV->new();
 
@@ -89,7 +88,7 @@ sub create_table_dependency_types {
 sub populate_latest_tarball {
     print "sub populate_latest_tarball\n";
     my $dbh       = shift;
-    my $data_file = 'data/latest_tarball.csv';
+    my $data_file = $DATA_DIR . '/latest_tarball.csv';
     $dbh->do(
 "CREATE TABLE latest_tarball (id INTEGER PRIMARY KEY, url VARCHAR(128), latest_tarball VARCHAR(128), unpack_dir VARCHAR(63), date_checked DATE  )"
     );
@@ -118,7 +117,7 @@ sub populate_latest_tarball {
 sub populate_webpages {
     print "sub populate_webpages\n";
     my $dbh       = shift;
-    my $data_file = 'data/webpages.csv';
+    my $data_file = $DATA_DIR . '/webpages.csv';
     $dbh->do(
 "CREATE TABLE webpages (id INTEGER PRIMARY KEY, homepage_url VARCHAR(128), wikipedia_url VARCHAR(128), lfs_url VARCHAR(128), google_doc VARCHAR(128), date_checked DATE)"
     );
@@ -145,31 +144,13 @@ sub populate_webpages {
     $dbh->do("COMMIT");
 }
 
-sub populate_google_doc_table {
-    print "sub populate_google_doc_table\n";
-    my $dbh = shift;
-    $dbh->do(
-"CREATE TABLE google_doc (id INTEGER PRIMARY KEY, package_name UNIQUE, url VARCHAR(128))"
-    );
-    my @packages =
-      ( [ 3, 'mdk', 'http://docs.google.com/View?id=df927s4r_52df77p4fm' ] );
-    $dbh->do("BEGIN");
-    my $sth_insert_into_software =
-      $dbh->prepare("INSERT INTO google_doc VALUES (?, ?, ?)");
-    foreach my $row (@packages) {
-        my ( $id, $package_name, $url ) = @$row;
-        $sth_insert_into_software->execute( $id, $package_name, $url );
-    }
-    $dbh->do("COMMIT");
-}
-
 sub populate_table_packages {
     print "sub populate_table_packages\n";
     my $dbh = shift;
     $dbh->do(
 "CREATE TABLE packages (id INTEGER PRIMARY KEY, package_meta_id INTEGER NOT NULL, short_name VARCHAR(128) UNIQUE, name VARCHAR(128), latest_version VARCHAR(128), date_released DATE, date_checked DATE )"
     );
-    my $data_file = 'data/packages.csv';
+    my $data_file = $DATA_DIR . '/packages.csv';
     my @packages;
     my $csv = Text::CSV->new();
 

@@ -11,4 +11,6 @@ git commit
 git push origin master
 cd -
 cd ..
+pwd
+ls
 ./stowball-write-repository-data
