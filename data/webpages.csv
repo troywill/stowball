@@ -57,7 +57,7 @@
 69,"http://www.ruby-lang.org","http://en.wikipedia.org/wiki/Ruby_(programming_language)","http://www.linuxfromscratch.org/blfs/view/svn/general/ruby.html","n/a","2009-11-01"
 70,"http://en.wikipedia.org/wiki/Website","http://en.wikipedia.org/wiki/MPlayer","http://www.linuxfromscratch.org/blfs/view/svn/multimedia/mplayer.html","G","2009-10-22"
 73,"http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.82.tar.gz","http://en.wikipedia.org/wiki/D-Bus","http://www.linuxfromscratch.org/blfs/view/svn/general/dbus-bindings.html","G","2009-11-07"
-75,"http://search.cpan.org/dist/ConfigReader-Simple/","n/a","n/a","n/a","2009-11-07"
+75,"http://search.cpan.org/dist/ConfigReader-Simple/","n/a","n/a","n/a","2010-04-01"
 79,"http://www.kernel.org/pub/linux/libs/pam/","http://en.wikipedia.org/wiki/Linux_PAM","http://www.linuxfromscratch.org/blfs/view/svn/postlfs/linux-pam.html","n/a","2009-11-09"
 81,"http://sourceware.org/libffi/","http://en.wikipedia.org/wiki/Libffi","http://www.linuxfromscratch.org/blfs/view/svn/general/libffi.html","n/a","2009-11-11"
 82,"http://subversion.tigris.org/","http://en.wikipedia.org/wiki/Subversion_(software)","http://www.linuxfromscratch.org/blfs/view/svn/basicnet/subversion.html","n/a","2009-11-12"
