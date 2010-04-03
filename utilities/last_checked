@@ -1,3 +1,0 @@
-#!/bin/bash
-DATABASE='/var/lib/stowball/gng-repository.db'
-sqlite3 ${DATABASE} 'SELECT date_checked, short_name, latest_version FROM packages ORDER BY date_checked DESC'
