@@ -61,7 +61,7 @@ sub stow_software {
 sub print_software {
     my $all = $dbh->selectall_arrayref("SELECT * FROM packages ORDER BY UPPER(short_name)");
     foreach my $row (@$all) {
-	my ($id, $package_meta_id, $short_name, $name, $latest_version, $date_checked ) = @$row;
-	print "$short_name($id) [v$latest_version] $name\n";
+	my ($id, $short_name, $name, $latest_version, $date_checked ) = @$row;
+	print "$id: $short_name [v$latest_version] $name\n";
     }
 }

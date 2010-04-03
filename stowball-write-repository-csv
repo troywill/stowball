@@ -160,7 +160,7 @@ sub populate_table_packages {
       $dbh->prepare("INSERT INTO packages VALUES (?, ?, ?, ?, ?, ?)");
     while (<CSV>) {
         if ( $csv->parse($_) ) {
-            my ( $id, $package_meta_id, $short_name, $name, $latest_version,
+            my ( $id, $short_name, $name, $latest_version,
                 $date_checked, $date_released )
               = $csv->fields();
             $sth_insert_into_packages->execute( $id, $short_name, $name, $latest_version, $date_checked, $date_released );
