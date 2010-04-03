@@ -17,6 +17,8 @@ foreach my $stow_package ( @stow_packages ) {
 foreach my $stow_package ( @stow_packages ) {
     my $stowball = $stow_package . '.stow.tar.bz2';
     chdir $stow_dir;
-    my $shell_command = "tar --extract --file $download_dir/$stowball";
+    my $shell_command = "sudo tar --extract --file $download_dir/$stowball";
+    my $stow_command = "sudo stow --verbose $stow_package";
     print `$shell_command`;
+    print `$stow_command`;
 }
