@@ -20,7 +20,7 @@ my $su_command   = $config->get('su_command');
 my $TAR_COMMAND  = $config->get('TAR_COMMAND');
 my $database     = $config->get('DATABASE');
 my $RSYNC_MODULE = $config->get('RSYNC_MODULE');
-my $DATA_DIR = $config->get('DATA_DIR');
+my $DATA_DIR     = $config->get('DATA_DIR');
 
 unlink($database);
 
@@ -145,11 +145,11 @@ sub populate_webpages {
 }
 
 sub populate_table_packages {
-    print "sub populate_table_packages\n";
     my $dbh = shift;
-    $dbh->do(
-"CREATE TABLE packages (id INTEGER PRIMARY KEY, package_meta_id INTEGER NOT NULL, short_name VARCHAR(128) UNIQUE, name VARCHAR(128), latest_version VARCHAR(128), date_released DATE, date_checked DATE )"
-    );
+    my $statement = 'CREATE TABLE packages (id INTEGER PRIMARY KEY, package_meta_id INTEGER NOT NULL, short_name VARCHAR(128) UNIQUE, name VARCHAR(128), latest_version VARCHAR(128), date_released DATE, date_checked DATE)';
+
+    $dbh->do( $statement );
+
     my $data_file = $DATA_DIR . '/packages.csv';
     my @packages;
     my $csv = Text::CSV->new();
