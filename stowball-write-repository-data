@@ -157,15 +157,13 @@ sub populate_table_packages {
     open( CSV, "<", $data_file ) or die "$data_file $!";
     $dbh->do("BEGIN");
     my $sth_insert_into_packages =
-      $dbh->prepare("INSERT INTO packages VALUES (?, ?, ?, ?, ?, ?,?)");
+      $dbh->prepare("INSERT INTO packages VALUES (?, ?, ?, ?, ?, ?)");
     while (<CSV>) {
         if ( $csv->parse($_) ) {
             my ( $id, $package_meta_id, $short_name, $name, $latest_version,
                 $date_checked, $date_released )
               = $csv->fields();
-            $sth_insert_into_packages->execute( $id, $package_meta_id,
-                $short_name, $name, $latest_version, $date_checked,
-                $date_released );
+            $sth_insert_into_packages->execute( $id, $short_name, $name, $latest_version, $date_checked, $date_released );
         }
         else {
             my $err = $csv->error_input;
