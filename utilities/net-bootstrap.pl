@@ -6,7 +6,7 @@ my $stow_dir     = '/stow';
 my @stow_packages = (
     'Text-CSV-1.17',   'ConfigReader-Simple-1.28',
     'DBD-SQLite-1.29', 'rsync-3.0.7',
-    'sqlite-3.6.23.1', 'libxml2-2.7.6'
+    'sqlite-3.6.23.1', 'libxml2-2.7.7'
 );
 
 # Retrieve
