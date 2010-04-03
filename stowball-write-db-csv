@@ -145,6 +145,7 @@ sub populate_webpages {
 }
 
 sub populate_table_packages {
+    print "sub populate_table_packages\n";
     my $dbh = shift;
     my $statement = 'CREATE TABLE packages (id INTEGER PRIMARY KEY, short_name VARCHAR(128) UNIQUE, name VARCHAR(128), latest_version VARCHAR(128), date_released DATE, date_checked DATE)';
 
