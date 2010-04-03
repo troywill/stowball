@@ -1,4 +1,0 @@
-# http://www.linuxfromscratch.org/blfs/view/svn/basicnet/lynx.html [2009-11-26]
-sed -i 's/#\(LOCALE_CHARSET\):FALSE/\1:TRUE/' /etc/lynx/lynx.cfg
-sed -i 's/#\(DEFAULT_EDITOR\):/\1:vi/' /etc/lynx/lynx.cfg
-sed -i 's/#\(PERSISTENT_COOKIES\):FALSE/\1:TRUE/' /etc/lynx/lynx.cfg

@@ -1,6 +1,0 @@
-<failure>
-December 25, 2009 / 2009-12-25 / troydwill@gmail.com
-See http://redmine.ruby-lang.org/issues/show/1113
-gcc version 4.3.2 (Debian 4.3.2-1.1)
-"Or optflags=-O3 prevents it, and defaulted in trunk."
-</failure>

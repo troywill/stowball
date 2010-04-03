@@ -1,7 +1,0 @@
-<failure>
-  2009-12-28
-  TDW
-  Uses a module that requires input.
-  Circumvented with yes '' | perl Makefile.PL
-  Check sub perl_version_from in inc/Module/Install/Metadata.pm
-</failure>
