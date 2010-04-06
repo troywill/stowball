@@ -12,9 +12,7 @@ use ConfigReader::Simple;
 # http://mailliststock.wordpress.com/2007/03/01/sqlite-examples-with-bash-perl-and-python/
 #### End Section: Useful webpages
 
-my $config = ConfigReader::Simple->new('stowball.cfg');
-die "Could not read config! $ConfigReader::Simple::ERROR\n"
-  unless ref $config;
+my $config = ConfigReader::Simple->new('/home/troy/rcs/stowball/stowball.cfg');
 my $stow_dir     = $config->get('stow_dir');
 my $su_command   = $config->get('su_command');
 my $TAR_COMMAND  = $config->get('TAR_COMMAND');
