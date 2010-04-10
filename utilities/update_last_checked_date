@@ -1,0 +1,44 @@
+#!/usb/bin/env perl
+use DBI;
+use warnings;
+use strict;
+print "\n----------------------------------------------------------------";
+my $CSV_DIR = "/home/troy/rcs/stowball/data/shilohSchema/2010_spring/csv";
+my $packages_csv_file = $CSV_DIR . '/packages.csv';
+
+my $dbh = DBI->connect ("DBI:CSV:f_dir=$CSV_DIR") or
+    die "Cannot connect: $DBI::errstr";
+$dbh->{csv_tables}{packages} = {
+    file => $packages_csv_file,
+    col_names => [
+	"id",
+	"short_name",
+	"name",
+	"latest_version",
+	"date_released",
+	"date_checked"
+	]
+};
+my $result = $dbh->selectall_arrayref("SELECT id, short_name, latest_version, date_checked FROM packages ORDER BY date_checked DESC");
+foreach my $row (@$result) {
+    my ( $id, $short_name, $version, $date_checked ) = @$row;
+    print "\n$id: $short_name [$version]\t$date_checked";
+}
+
+$dbh->do("UPDATE packages SET date_checked = '2010-04-09' WHERE id = 9");
+
+$dbh->disconnect;
+
+exit;
+__END__
+
+# Read a CSV file with ";" as the separator, as exported by
+# MS Excel. Note we need to escape the ";", otherwise it
+# would be treated as an attribute separator.
+$dbh = DBI->connect (qq{DBI:CSV:csv_sep_char=\\;});
+$sth = $dbh->prepare ("SELECT * FROM info");
+
+# Same example, this time reading "info.csv" as a table:
+$dbh = DBI->connect (qq{DBI:CSV:csv_sep_char=\\;});
+$dbh->{csv_tables}{info} = { file => "info.csv"};
+$sth = $dbh->prepare ("SELECT * FROM info");
