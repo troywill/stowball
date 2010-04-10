@@ -2,7 +2,10 @@
 use DBI;
 use warnings;
 use strict;
+# use Date::Format;
+
 print "\n----------------------------------------------------------------";
+my $package_id = $ARGV[0];
 my $CSV_DIR = "/home/troy/rcs/stowball/data/shilohSchema/2010_spring/csv";
 my $packages_csv_file = $CSV_DIR . '/packages.csv';
 
@@ -25,20 +28,13 @@ foreach my $row (@$result) {
     print "\n$id: $short_name [$version]\t$date_checked";
 }
 
+
 $dbh->do("UPDATE packages SET date_checked = '2010-04-09' WHERE id = 9");
 
 $dbh->disconnect;
 
+my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) =
+    localtime(time);
+my $iso_date = sprintf("%4d-%02d-%02d",($year + 1900), ++$mon, $mday);
+print "\n$iso_date\n";
 exit;
-__END__
-
-# Read a CSV file with ";" as the separator, as exported by
-# MS Excel. Note we need to escape the ";", otherwise it
-# would be treated as an attribute separator.
-$dbh = DBI->connect (qq{DBI:CSV:csv_sep_char=\\;});
-$sth = $dbh->prepare ("SELECT * FROM info");
-
-# Same example, this time reading "info.csv" as a table:
-$dbh = DBI->connect (qq{DBI:CSV:csv_sep_char=\\;});
-$dbh->{csv_tables}{info} = { file => "info.csv"};
-$sth = $dbh->prepare ("SELECT * FROM info");
