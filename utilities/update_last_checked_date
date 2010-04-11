@@ -4,13 +4,14 @@ use warnings;
 use strict;
 # use Date::Format;
 
-print "\n----------------------------------------------------------------";
+print "\n----------------------------------------------------------------\n";
 my $package_id = $ARGV[0];
 my $CSV_DIR = "/home/troy/rcs/stowball/data/shilohSchema/2010_spring/csv";
 my $packages_csv_file = $CSV_DIR . '/packages.csv';
 
 my $dbh = DBI->connect ("DBI:CSV:f_dir=$CSV_DIR") or
     die "Cannot connect: $DBI::errstr";
+
 $dbh->{csv_tables}{packages} = {
     file => $packages_csv_file,
     col_names => [
@@ -22,19 +23,23 @@ $dbh->{csv_tables}{packages} = {
 	"date_checked"
 	]
 };
+
+if ( defined $package_id ) {
+    my $iso_date = &yyyy_mm_dd;
+    $dbh->do("UPDATE packages SET date_checked = '$iso_date' WHERE id = $package_id");
+}
+
 my $result = $dbh->selectall_arrayref("SELECT id, short_name, latest_version, date_checked FROM packages ORDER BY date_checked DESC");
 foreach my $row (@$result) {
     my ( $id, $short_name, $version, $date_checked ) = @$row;
-    print "\n$id: $short_name [$version]\t$date_checked";
+    print "$id: $short_name [$version]\t$date_checked\n";
 }
-
-
-$dbh->do("UPDATE packages SET date_checked = '2010-04-09' WHERE id = 9");
 
 $dbh->disconnect;
 
-my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) =
-    localtime(time);
-my $iso_date = sprintf("%4d-%02d-%02d",($year + 1900), ++$mon, $mday);
-print "\n$iso_date\n";
-exit;
+sub yyyy_mm_dd {
+    my $time = shift || time();
+    my ($year, $mon, $mday) = (localtime($time))[5,4,3];
+    my $iso_date = sprintf("%4d-%02d-%02d",($year + 1900), ++$mon, $mday);
+    return $iso_date;
+}
