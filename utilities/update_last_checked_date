@@ -2,44 +2,53 @@
 use DBI;
 use warnings;
 use strict;
-# use Date::Format;
 
-print "\n----------------------------------------------------------------\n";
 my $package_id = $ARGV[0];
-my $CSV_DIR = "/home/troy/rcs/stowball/data/shilohSchema/2010_spring/csv";
+my $CSV_DIR    = "/home/troy/rcs/stowball/data/shilohSchema/2010_spring/csv";
 my $packages_csv_file = $CSV_DIR . '/packages.csv';
+my $webpages_csv_file = $CSV_DIR . '/webpages.csv';
 
-my $dbh = DBI->connect ("DBI:CSV:f_dir=$CSV_DIR") or
-    die "Cannot connect: $DBI::errstr";
+my $dbh = DBI->connect("DBI:CSV:f_dir=$CSV_DIR")
+  or die "Cannot connect: $DBI::errstr";
 
-$dbh->{csv_tables}{packages} = {
-    file => $packages_csv_file,
-    col_names => [
-	"id",
-	"short_name",
-	"name",
-	"latest_version",
-	"date_released",
-	"date_checked"
-	]
-};
+$dbh->{csv_tables}{packages} = { file => $packages_csv_file };
+$dbh->{csv_tables}{webpages} = { file => $webpages_csv_file };
 
 if ( defined $package_id ) {
     my $iso_date = &yyyy_mm_dd;
-    $dbh->do("UPDATE packages SET date_checked = '$iso_date' WHERE id = $package_id");
+    $dbh->do(
+        "UPDATE packages SET date_checked = '$iso_date' WHERE id = $package_id"
+    );
 }
 
-my $result = $dbh->selectall_arrayref("SELECT id, short_name, latest_version, date_checked FROM packages ORDER BY date_checked DESC");
+my $result = $dbh->selectall_arrayref(
+"SELECT id, short_name, latest_version, date_checked FROM packages ORDER BY date_checked DESC, short_name DESC"
+);
+
 foreach my $row (@$result) {
     my ( $id, $short_name, $version, $date_checked ) = @$row;
-    print "$id: $short_name [$version]\t$date_checked\n";
+    my $websites =
+	$dbh->selectall_arrayref("SELECT * FROM webpages WHERE id = $id");
+    my ( $web_id, $homepage_url, $wikipedia_url, $lfs_url, $web_date_checked ) = @{${$websites}[0]};
+    print "$date_checked $short_name v$version [$id]\n\t$homepage_url\n\t$wikipedia_url\n\t$lfs_url\n";
 }
+
+my $count = 0;
+
+# foreach my $row (@$result) {
+#     my ( $id, $short_name, $version, $date_checked ) = @$row;
+#     my $websites =
+# 	$dbh->selectall_arrayref("SELECT * FROM webpages WHERE id = $id"); #$websites is a reference
+# #    my ( $web_id, $homepage_url, $wikipedia_url, $lfs_url, $web_date_checked ) = @{${$websites}[0]}; # This works
+#     my ( $web_id, $homepage_url, $wikipedia_url, $lfs_url, $web_date_checked ) = @{${$websites}[0]};
+#     print "$homepage_url\n";
+# }
 
 $dbh->disconnect;
 
 sub yyyy_mm_dd {
     my $time = shift || time();
-    my ($year, $mon, $mday) = (localtime($time))[5,4,3];
-    my $iso_date = sprintf("%4d-%02d-%02d",($year + 1900), ++$mon, $mday);
+    my ( $year, $mon, $mday ) = ( localtime($time) )[ 5, 4, 3 ];
+    my $iso_date = sprintf( "%4d-%02d-%02d", ( $year + 1900 ), ++$mon, $mday );
     return $iso_date;
 }

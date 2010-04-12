@@ -2,65 +2,59 @@
 use strict;
 use warnings;
 use DBI;
+my $delay = $ARGV[0] or 10;
 
-my $DATABASE = '../gnu.db';
-my $dbh = DBI->connect("dbi:SQLite:$DATABASE", "", "", {RaiseError => 1, AutoCommit => 1});
+my $DATABASE = '/var/lib/stowball/2010_spring.db';
+my $dbh =
+  DBI->connect( "dbi:SQLite:$DATABASE", "", "",
+    { RaiseError => 1, AutoCommit => 1 } );
 
 &order_software_by_date_checked;
-&packages_with_urls;
+
+# &packages_with_urls;
+
+sub order_software_by_date_checked {
+    open( HTML, '>software.html' );
+    my $all = $dbh->selectall_arrayref(
+        "SELECT * FROM packages ORDER BY date_checked DESC");
+    print HTML "<table border=1>\n";
+    foreach my $row (@$all) {
+        my ( $id, $short_name, $name, $latest_version, $date_released,
+            $date_checked )
+          = @$row;
+        print "$date_checked $id: $short_name\n";
+
+        my $website =
+          $dbh->selectall_arrayref("SELECT * FROM webpages WHERE id = $id");
+        foreach my $row (@$website) {
+            my ( $id, $homepage_url, $wikipedia_url, $lfs_url, $date_checked ) =
+              @$row;
+            print "\t$id\t$homepage_url\n";
+            system("/usr/local/bin/arora $homepage_url &");
+            sleep $delay;
+
+        }
+    }
+    print HTML "</table>\n";
+}
 
 sub packages_with_urls {
-    open (HTML, '>urls.html');
+    open( HTML, '>urls.html' );
     my $all = $dbh->selectall_arrayref("SELECT * FROM packages ORDER BY id");
     print HTML "<table border=1>\n";
+
     # Loop through all packages
     foreach my $row (@$all) {
-	my ($id, $short_name, $name, $latest_version, $date_checked ) = @$row;
-	my $tarball = $dbh->selectall_arrayref("SELECT * FROM latest_tarball WHERE id = \'$id\'");
-	foreach my $row (@$tarball) {
-	    my ($id, $software_id, $unpack_dir, $latest_tarball, $date_checked, $url ) =  @$row;
-	    print "DEBUG => $id, $software_id, $unpack_dir, $latest_tarball, $date_checked, $url <==\n";
-	    print HTML "<tr><td>$id</td><td>$short_name</td><td>$url</td><td>$date_checked</td></tr>\n";
-	}
+        my ( $id, $short_name, $name, $latest_version, $date_checked ) = @$row;
+        my $tarball = $dbh->selectall_arrayref(
+            "SELECT * FROM latest_tarball WHERE id = \'$id\'");
+        foreach my $row (@$tarball) {
+            my ( $id, $latest_tarball, $url, $date_checked ) = @$row;
+            print "DEBUG => $id, $latest_tarball, $date_checked, $url <==\n";
+            print HTML
+"<tr><td>$id</td><td>$short_name</td><td>$url</td><td>$date_checked</td></tr>\n";
+        }
     }
     print HTML "</table>\n";
     close HTML;
-}
-
-sub build_table_row {
-    my ( $row, $latest_version ) = @_;
-    my ($id, $package_name, $homepage_url, $wikipedia_url, $lfs_url, $google_doc, $date_checked) = @$row;
-    $homepage_url = build_cell ( 'HP', $homepage_url);
-    $wikipedia_url = build_cell ( 'WP', $wikipedia_url);
-    $lfs_url = build_cell ( 'LFS', $lfs_url);
-    $google_doc = build_cell ( 'GD', $google_doc);
-    print HTML "<tr><td>$id</td><td>$package_name</td><td>$homepage_url</td><td>$wikipedia_url</td><td>$lfs_url</a></td><td>$google_doc</td><td>$date_checked</td></tr>\n\n";
-}
-
-# Return hyperlink if in database
-sub build_cell {
-    my ( $tag, $url ) = @_;
-    my $hyperlink;
-    if ( length($url) < 5 ) {
-	$hyperlink = "n/a";
-    } else {
-	$hyperlink = "<a href=\"$url\">$tag</a>";
-    }
-    return $hyperlink;
-}
-sub order_software_by_date_checked {
-  open (HTML, '>software.html');
-  my $all = $dbh->selectall_arrayref("SELECT * FROM packages ORDER BY date_checked DESC");
-  print HTML "<table border=1>\n";
-  foreach my $row (@$all) {
-    my ($id, $short_name, $name, $latest_version, $date_checked ) = @$row;
-#    print "$short_name ($latest_version) $name $date_checked\n";
-    my $websites = $dbh->selectall_arrayref("SELECT * FROM webpages WHERE id = $id");
-    foreach my $row (@$websites) {
-	my ($id, $homepage_url, $wikipedia_url, $lfs_url, $google_doc, $date_checked) = @$row;
-#	print HTML "<tr><td>$id</td><td>$package_name</td><td><a href=\"$homepage_url\">HP</a></td><td><a href=\"$wikipedia_url\">WP</a></td><td><a href=\"$lfs_url\">(B)LFS</a></td><td>$google_doc</td><td>$date_checked</td></tr>\n";
-	&build_table_row( $row, $latest_version );
-    }
-  }
-  print HTML "</table>\n";
 }
