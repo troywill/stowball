@@ -26,7 +26,7 @@ my $CREATE_TABLE_PACKAGES_STATEMENT =
 my $CREATE_TABLE_WEBPAGES_STATEMENT = 
 "CREATE TABLE webpages (id INTEGER PRIMARY KEY, homepage_url VARCHAR(128), wikipedia_url VARCHAR(128), lfs_url VARCHAR(128), date_checked DATE)";
 my $CREATE_TABLE_LATEST_TARBALL_STATEMENT = 
-"CREATE TABLE latest_tarball (id INTEGER PRIMARY KEY, url VARCHAR(128), latest_tarball VARCHAR(128), unpack_dir VARCHAR(63), date_checked DATE)";
+"CREATE TABLE latest_tarball (id INTEGER PRIMARY KEY, url VARCHAR(128), date_checked DATE)";
 
 #### End Section Table Creation Statements ####
 
@@ -45,7 +45,7 @@ my $dbh =
 &create_table_dependencies($dbh);
 &create_table_dependency_types($dbh);
 &create_table_installed_packages($dbh);
-&populate_latest_tarball($dbh);
+&populate_latest_tarball($dbh, $CREATE_TABLE_LATEST_TARBALL_STATEMENT);
 &populate_webpages($dbh, $CREATE_TABLE_WEBPAGES_STATEMENT);
 
 ############################ Subroutines ############################
@@ -138,15 +138,13 @@ sub populate_latest_tarball {
     my $csv = Text::CSV->new();
     open( CSV, "<", $data_file ) or die "$data_file $!";
     my $sth_tarball =
-      $dbh->prepare("INSERT INTO latest_tarball VALUES (?, ?, ?, ?, ?)");
+      $dbh->prepare("INSERT INTO latest_tarball VALUES (?, ?, ?)");
     $dbh->do("BEGIN");
-
+    my $table_columns = <CSV>;
     while (<CSV>) {
         if ( $csv->parse($_) ) {
-            my ( $id, $url, $tarball, $upack_dir, $date_checked, ) =
-              $csv->fields();
-            $sth_tarball->execute( $id, $url, $tarball, $upack_dir,
-                $date_checked );
+            my ( $id, $url, $date_checked ) = $csv->fields();
+            $sth_tarball->execute( $id, $url, $date_checked );
         }
         else {
             my $err = $csv->error_input;
