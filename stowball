@@ -18,7 +18,7 @@ my $TAR_COMMAND = $config->get( 'TAR_COMMAND' );
 my $DATABASE = $config->get( 'DATABASE' );
 my $RSYNC_MODULE = $config->get( 'RSYNC_MODULE' );
 if ( defined( $ARGV[1] )) {
-    $RSYNC_MODULE = '192.168.1.5::pristine' if ( $ARGV[1] eq "l" );
+    $RSYNC_MODULE = '192.168.1.5::stowballs' if ( $ARGV[1] eq "l" );
 }
 my $DOWNLOAD_COMMAND = "rsync --archive --progress --verbose ${RSYNC_MODULE}";
 
@@ -43,19 +43,11 @@ sub stow_software {
 
     # Given software short name, get id
     # Given id, get version
-    my $sth2 = $dbh->prepare('SELECT unpack_dir, latest_tarball, url FROM latest_tarball WHERE id = ?');
+    my $sth2 = $dbh->prepare('SELECT latest_tarball, url FROM latest_tarball WHERE id = ?');
     $sth2->execute($software_id);
     my ( $directory, $tarball, $url ) = $sth2->fetchrow_array;
     print "==> $url\n";
     &download_tarball( $directory, $tarball );
-    sub download_tarball {
-	my ( $directory, $tarball ) = @_;
-	my $download_command = $DOWNLOAD_COMMAND . "/$tarball .";
-	die if !defined ( $tarball );
-	print "==== $download_command ====\n";
-	system ("$download_command");
-	system ("$TAR_COMMAND $tarball");
-    }
 }
 
 sub print_software {
@@ -64,4 +56,13 @@ sub print_software {
 	my ($id, $short_name, $name, $latest_version, $date_checked ) = @$row;
 	print "$short_name [v$latest_version]($id) $name\n";
     }
+}
+
+sub download_tarball {
+    my ( $directory, $tarball ) = @_;
+    my $download_command = $DOWNLOAD_COMMAND . "/$tarball .";
+    die if !defined ( $tarball );
+    print "==== $download_command ====\n";
+    system ("$download_command");
+    system ("$TAR_COMMAND $tarball");
 }
