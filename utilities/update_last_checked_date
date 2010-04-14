@@ -10,6 +10,7 @@ my $webpages_csv_file = $CSV_DIR . '/webpages.csv';
 
 my $dbh = DBI->connect("DBI:CSV:f_dir=$CSV_DIR")
   or die "Cannot connect: $DBI::errstr";
+$dbh->{csv_eol} = "\n";
 
 $dbh->{csv_tables}{packages} = { file => $packages_csv_file };
 $dbh->{csv_tables}{webpages} = { file => $webpages_csv_file };
@@ -22,7 +23,7 @@ if ( defined $package_id ) {
 }
 
 my $result = $dbh->selectall_arrayref(
-"SELECT id, short_name, latest_version, date_checked FROM packages ORDER BY date_checked, short_name DESC"
+"SELECT id, short_name, latest_version, date_checked FROM packages ORDER BY date_checked DESC, short_name DESC"
 );
 
 foreach my $row (@$result) {
@@ -31,7 +32,7 @@ foreach my $row (@$result) {
 	$dbh->selectall_arrayref("SELECT * FROM webpages WHERE id = $id");
     my ( $web_id, $homepage_url, $wikipedia_url, $lfs_url, $web_date_checked ) = @{${$websites}[0]};
     print "$date_checked $short_name v$version [$id]\n\t$homepage_url\n\t$wikipedia_url\n\t$lfs_url\n";
-    system("/usr/local/bin/arora $homepage_url");
+#    system("/usr/local/bin/arora $homepage_url");
 }
 
 $dbh->disconnect;
