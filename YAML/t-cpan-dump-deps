@@ -28,21 +28,21 @@ sub read_yaml_file {
 sub print_build_requires {
     my $href = shift;
     for my $key (keys %{$href}) {
-	print "$key => ${$href}{$key}\n" unless ${$href}{$key} == 0;
+	print "$key => ${$href}{$key}\n";
     }
 }
 
 sub print_configure_requires {
     my $href = shift;
     for my $key (keys %{$href}) {
-	print "$key => ${$href}{$key}\n" unless ${$href}{$key} == 0;
+	print "$key => ${$href}{$key}\n";
     }
 }
 
 sub print_requires {
     my $href = shift;
     for my $key (keys %{$href}) {
-	print "$key => ${$href}{$key}\n" unless ${$href}{$key} == 0;
+	print "$key => ${$href}{$key}\n";
     }
 }
 

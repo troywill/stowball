@@ -1,0 +1,186 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use DBI;
+use Text::CSV;
+use ConfigReader::Simple;
+
+# <troydwill@gmail.com> December 2009
+#### Begin Section: Useful webpages
+# http://directory.fsf.org/GNU/ Directory of GNU software
+# http://sql-info.de/mysql/examples/Perl-DBI-examples.html
+# http://mailliststock.wordpress.com/2007/03/01/sqlite-examples-with-bash-perl-and-python/
+#### End Section: Useful webpages
+
+my $config = ConfigReader::Simple->new('/home/troy/rcs/stowball/stowball.cfg');
+my $stow_dir     = $config->get('stow_dir');
+my $su_command   = $config->get('su_command');
+my $TAR_COMMAND  = $config->get('TAR_COMMAND');
+my $database     = $config->get('DATABASE');
+my $RSYNC_MODULE = $config->get('RSYNC_MODULE');
+my $DATA_DIR     = $config->get('DATA_DIR');
+
+#### Begin Section Table Creation Statements ####
+my $CREATE_TABLE_PACKAGES_STATEMENT =
+"CREATE TABLE packages (id INTEGER PRIMARY KEY, short_name VARCHAR(64) UNIQUE, name VARCHAR(128), latest_version VARCHAR(128), date_released DATE, date_checked DATE)";
+my $CREATE_TABLE_WEBPAGES_STATEMENT =
+"CREATE TABLE webpages (id INTEGER PRIMARY KEY, homepage_url VARCHAR(128), wikipedia_url VARCHAR(128), lfs_url VARCHAR(128), date_checked DATE)";
+my $CREATE_TABLE_LATEST_TARBALL_STATEMENT =
+"CREATE TABLE latest_tarball (id INTEGER PRIMARY KEY, url VARCHAR(128), date_checked DATE)";
+
+#### End Section Table Creation Statements ####
+
+unlink($database);
+
+my $dbh =
+  DBI->connect( "dbi:SQLite:$database", "", "",
+    { RaiseError => 1, AutoCommit => 1 } );
+
+# su -c 'aptitude install libdbd-sqlite3-perl' on a Debian system TDW 2009-04-19
+# su -c 'perl -MCPAN -e "install DBI"'
+# su -c 'perl -MCPAN -e "install DBD::SQLite"'
+
+&populate_table_packages( $dbh, $CREATE_TABLE_PACKAGES_STATEMENT );
+&populate_table_package_metas($dbh);
+&create_table_dependencies($dbh);
+&create_table_dependency_types($dbh);
+&create_table_installed_packages($dbh);
+&populate_latest_tarball( $dbh, $CREATE_TABLE_LATEST_TARBALL_STATEMENT );
+&populate_webpages( $dbh, $CREATE_TABLE_WEBPAGES_STATEMENT );
+
+############################ Subroutines ############################
+
+# Subroutine populate_table_packages
+# This subroutine reads the packages.csv file and does the following 3 things:
+# 1. Reads the first line of the csv file for the SQLite table creation statement
+# 2. Creates a SQLite packages table from this table
+# 3. Reads the rest of the packages.csv file and populates table packages
+
+sub populate_table_packages {
+    my ( $dbh, $table_statement ) = @_;
+    print "sub populate_table_packages\n";
+    my $data_file = $DATA_DIR . '/packages.csv';
+    open( my ($csv_handle), "<", $data_file ) or die "Unable to open $data_file $!";
+
+    my $table_columns = <$csv_handle>;
+    $dbh->do("$table_statement");
+    my @packages;
+    my $csv = Text::CSV->new();
+
+    $dbh->do("BEGIN");
+    my $sth_insert_into_packages =
+      $dbh->prepare("INSERT INTO packages VALUES (?, ?, ?, ?, ?, ?)");
+    while (<$csv_handle>) {
+        if ( $csv->parse($_) ) {
+            my ( $id, $short_name, $name, $latest_version, $date_checked,
+                $date_released )
+              = $csv->fields();
+            $sth_insert_into_packages->execute( $id, $short_name, $name,
+                $latest_version, $date_checked, $date_released );
+        }
+        else {
+            my $err = $csv->error_input;
+            print "Failed to parse line: $err";
+        }
+    }
+    close CSV;
+    $dbh->do("COMMIT");
+}
+
+sub populate_table_package_metas {
+    print "sub populate_table_package_metas\n";
+    my $dbh = shift;
+    $dbh->do(
+"CREATE TABLE package_metas (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, webpage_id INTEGER)"
+    );
+    my $data_file = $DATA_DIR . '/package_metas.csv';
+    my @packages;
+    my $csv = Text::CSV->new();
+
+    open( CSV, "<", $data_file ) or die "$data_file $!";
+    $dbh->do("BEGIN");
+    my $sth_insert_into_package_metas =
+      $dbh->prepare("INSERT INTO package_metas VALUES (?,?)");
+    while (<CSV>) {
+        if ( $csv->parse($_) ) {
+            my ( $id, $webpage_id ) = $csv->fields();
+            $sth_insert_into_package_metas->execute( $id, $webpage_id );
+        }
+        else {
+            my $err = $csv->error_input;
+            print "Failed to parse line: $err";
+        }
+    }
+    close CSV;
+    $dbh->do("COMMIT");
+}
+
+sub create_table_installed_packages {
+    my $dbh = shift;
+    $dbh->do(
+"CREATE TABLE installed_packages (id INTEGER PRIMARY KEY, package varchar(64) UNIQUE )"
+    );
+}
+
+sub create_table_dependencies {
+    my $dbh = shift;
+}
+
+sub create_table_dependency_types {
+    my $dbh = shift;
+}
+
+sub populate_latest_tarball {
+    print "sub populate_latest_tarball\n";
+    my ( $dbh, $create_table_latest_tarball_statement ) = @_;
+    my $data_file = $DATA_DIR . '/latest_tarball.csv';
+    $dbh->do($create_table_latest_tarball_statement);
+    my @tarballs;
+    my $csv = Text::CSV->new();
+    open( CSV, "<", $data_file ) or die "$data_file $!";
+    my $sth_tarball =
+      $dbh->prepare("INSERT INTO latest_tarball VALUES (?, ?, ?)");
+    $dbh->do("BEGIN");
+    my $table_columns = <CSV>;
+
+    while (<CSV>) {
+        if ( $csv->parse($_) ) {
+            my ( $id, $url, $date_checked ) = $csv->fields();
+            $sth_tarball->execute( $id, $url, $date_checked );
+        }
+        else {
+            my $err = $csv->error_input;
+            print "Failed to parse line: $err";
+        }
+    }
+    $dbh->do("COMMIT");
+}
+
+sub populate_webpages {
+    print "sub populate_webpages\n";
+    my ( $dbh, $table_create_statement ) = @_;
+    my $data_file = $DATA_DIR . '/webpages.csv';
+
+    $dbh->do($table_create_statement);
+    my @urls;
+    my $csv = Text::CSV->new();
+    my $sth_insert_urls =
+      $dbh->prepare("INSERT INTO webpages VALUES (?, ?, ?, ?, ?)");
+    open( CSV, "<", $data_file ) or die "$data_file $!";
+    my $table_columns = <CSV>;
+    $dbh->do("BEGIN");
+
+    while (<CSV>) {
+        if ( $csv->parse($_) ) {
+            my ( $id, $homepage_url, $wikipedia_url, $lfs_url, $date_checked ) =
+              $csv->fields();
+            $sth_insert_urls->execute( $id, $homepage_url, $wikipedia_url,
+                $lfs_url, $date_checked );
+        }
+        else {
+            my $err = $csv->error_input;
+            print "Failed to parse line: $err";
+        }
+    }
+    $dbh->do("COMMIT");
+}

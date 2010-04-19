@@ -1,0 +1,55 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use File::Basename;
+
+my $stow_path = $ARGV[0] or die "Please supply stow package(s)";
+my $basename  = basename($stow_path);
+die "$stow_path is not a directory" unless ( -d $stow_path );
+
+&check($basename);
+&unstow($basename);
+&purge($stow_path);
+    
+print "==> $basename <==\n";
+exit;
+
+
+sub unstow {
+    my $stow_package = shift;
+    print `sudo stow -v -D $stow_package`;
+    print `sudo stow -v -D $stow_package`;
+}
+
+sub purge {
+    my $stow_package = shift;
+    print "Shall I purge? ";
+    chomp( my $answer = <STDIN> );
+    if ( $answer eq 'y' ) {
+     	print `sudo mv -iv $stow_path /tmp`;
+    }
+}
+
+sub check {
+    my $basename = shift;
+    my $count = 0;
+    my @lines = `stow --conflicts $basename 2>&1`;
+    print @lines;
+    chomp @lines;
+    foreach my $line ( @lines ) {
+	if ( $line =~ m/There are no outstanding operations to perform/ ) {
+	    print "stowed";
+	}
+	if ( $line =~ m/existing target is stowed to a different package/ ) {
+	    print "existing target is stowed to a different package";
+	    last;
+	}
+	if ( $line =~ m/simulating so all operations are deferred./ ) {
+	    print "not stowed, no conflicts";
+	}
+	if ( $line =~ m/existing target is neither a link nor a directory/ ) {
+	    print "existing target is neither a link nor a directory";
+	    last;
+	}
+    }
+}
