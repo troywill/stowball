@@ -6,37 +6,40 @@ use ConfigReader::Simple;
 use Getopt::Long;
 
 my $result = GetOptions(
-    'debug|d'   => \ my $debug,
-    'verbose|v' => \ my $verbose,
-    'install|i=s'  => \ my $install
-    );
-    
+    'debug|d'     => \my $debug,
+    'verbose|v'   => \my $verbose,
+    'install|i=s' => \my $install
+);
+
 #### Begin Section: Useful webpages
 # http://directory.fsf.org/GNU/ Directory of GNU software
 # http://sql-info.de/mysql/examples/Perl-DBI-examples.html
 # http://mailliststock.wordpress.com/2007/03/01/sqlite-examples-with-bash-perl-and-python/
 #### End Section: Useful webpages
 
-my $config = ConfigReader::Simple->new( 'stowball.cfg' );
+my $config = ConfigReader::Simple->new('stowball.cfg');
 die "Could not read config! $ConfigReader::Simple::ERROR\n"
-    unless ref $config;
+  unless ref $config;
 
-my $TAR_COMMAND = $config->get( 'TAR_COMMAND' );
-my $DATABASE = $config->get( 'DATABASE' );
-my $RSYNC_MODULE = $config->get( 'RSYNC_MODULE' );
-if ( defined( $ARGV[1] )) {
+my $TAR_COMMAND  = $config->get('TAR_COMMAND');
+my $DATABASE     = $config->get('DATABASE');
+my $RSYNC_MODULE = $config->get('RSYNC_MODULE');
+if ( defined( $ARGV[1] ) ) {
     $RSYNC_MODULE = '192.168.1.5::stowballs' if ( $ARGV[1] eq "l" );
 }
 my $DOWNLOAD_COMMAND = "rsync --archive --progress --verbose ${RSYNC_MODULE}";
 
-my $dbh = DBI->connect("dbi:SQLite:$DATABASE", "", "", {RaiseError => 1, AutoCommit => 1});
+my $dbh =
+  DBI->connect( "dbi:SQLite:$DATABASE", "", "",
+    { RaiseError => 1, AutoCommit => 1 } );
+
 # su -c 'aptitude install libdbd-sqlite3-perl' on a Debian system TDW 2009-04-19
 
-if ( !defined($ARGV[0])) {
+if ( !defined( $ARGV[0] ) ) {
     &print_software;
 }
 
-if ( $install ) {
+if ($install) {
     print "$install\n";
 }
 
@@ -45,16 +48,19 @@ exit;
 ################################################ Subroutines only below this line ############################
 
 sub stow_software {
-    my ( $software ) = @_;
+    my ($software) = @_;
     print "Beginning to download => $software\n";
-    my $sth_id = $dbh->prepare("SELECT id, latest_version FROM packages WHERE short_name = \'$software\'");
+    my $sth_id = $dbh->prepare(
+"SELECT id, latest_version FROM packages WHERE short_name = \'$software\'"
+    );
     $sth_id->execute();
-    my ($software_id, $version) = $sth_id->fetchrow_array();
+    my ( $software_id, $version ) = $sth_id->fetchrow_array();
     print "$software_id, $version\n";
 
     # Given software short name, get id
     # Given id, get version
-    my $sth2 = $dbh->prepare('SELECT latest_tarball, url FROM latest_tarball WHERE id = ?');
+    my $sth2 = $dbh->prepare(
+        'SELECT latest_tarball, url FROM latest_tarball WHERE id = ?');
     $sth2->execute($software_id);
     my ( $directory, $tarball, $url ) = $sth2->fetchrow_array;
     print "==> $url\n";
@@ -62,18 +68,19 @@ sub stow_software {
 }
 
 sub print_software {
-    my $all = $dbh->selectall_arrayref("SELECT * FROM packages ORDER BY UPPER(short_name)");
+    my $all = $dbh->selectall_arrayref(
+        "SELECT * FROM packages ORDER BY UPPER(short_name)");
     foreach my $row (@$all) {
-	my ($id, $short_name, $name, $latest_version, $date_checked ) = @$row;
-	print "$short_name [v$latest_version]($id) $name\n";
+        my ( $id, $short_name, $name, $latest_version, $date_checked ) = @$row;
+        print "$short_name [v$latest_version]($id) $name\n";
     }
 }
 
 sub download_tarball {
     my ( $directory, $tarball ) = @_;
     my $download_command = $DOWNLOAD_COMMAND . "/$tarball .";
-    die if !defined ( $tarball );
+    die if !defined($tarball);
     print "==== $download_command ====\n";
-    system ("$download_command");
-    system ("$TAR_COMMAND $tarball");
+    system("$download_command");
+    system("$TAR_COMMAND $tarball");
 }

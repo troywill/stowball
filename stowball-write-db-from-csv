@@ -23,9 +23,9 @@ my $DATA_DIR     = $config->get('DATA_DIR');
 #### Begin Section Table Creation Statements ####
 my $CREATE_TABLE_PACKAGES_STATEMENT =
 "CREATE TABLE packages (id INTEGER PRIMARY KEY, short_name VARCHAR(64) UNIQUE, name VARCHAR(128), latest_version VARCHAR(128), date_released DATE, date_checked DATE)";
-my $CREATE_TABLE_WEBPAGES_STATEMENT = 
+my $CREATE_TABLE_WEBPAGES_STATEMENT =
 "CREATE TABLE webpages (id INTEGER PRIMARY KEY, homepage_url VARCHAR(128), wikipedia_url VARCHAR(128), lfs_url VARCHAR(128), date_checked DATE)";
-my $CREATE_TABLE_LATEST_TARBALL_STATEMENT = 
+my $CREATE_TABLE_LATEST_TARBALL_STATEMENT =
 "CREATE TABLE latest_tarball (id INTEGER PRIMARY KEY, url VARCHAR(128), date_checked DATE)";
 
 #### End Section Table Creation Statements ####
@@ -45,8 +45,8 @@ my $dbh =
 &create_table_dependencies($dbh);
 &create_table_dependency_types($dbh);
 &create_table_installed_packages($dbh);
-&populate_latest_tarball($dbh, $CREATE_TABLE_LATEST_TARBALL_STATEMENT);
-&populate_webpages($dbh, $CREATE_TABLE_WEBPAGES_STATEMENT);
+&populate_latest_tarball( $dbh, $CREATE_TABLE_LATEST_TARBALL_STATEMENT );
+&populate_webpages( $dbh, $CREATE_TABLE_WEBPAGES_STATEMENT );
 
 ############################ Subroutines ############################
 
@@ -60,8 +60,9 @@ sub populate_table_packages {
     my ( $dbh, $table_statement ) = @_;
     print "sub populate_table_packages\n";
     my $data_file = $DATA_DIR . '/packages.csv';
-    open( CSV, "<", $data_file ) or die "Unable to open $data_file $!";
-    my $table_columns = <CSV>;
+    open( my ($csv_handle), "<", $data_file ) or die "Unable to open $data_file $!";
+
+    my $table_columns = <$csv_handle>;
     $dbh->do("$table_statement");
     my @packages;
     my $csv = Text::CSV->new();
@@ -69,7 +70,7 @@ sub populate_table_packages {
     $dbh->do("BEGIN");
     my $sth_insert_into_packages =
       $dbh->prepare("INSERT INTO packages VALUES (?, ?, ?, ?, ?, ?)");
-    while (<CSV>) {
+    while (<$csv_handle>) {
         if ( $csv->parse($_) ) {
             my ( $id, $short_name, $name, $latest_version, $date_checked,
                 $date_released )
@@ -133,7 +134,7 @@ sub populate_latest_tarball {
     print "sub populate_latest_tarball\n";
     my ( $dbh, $create_table_latest_tarball_statement ) = @_;
     my $data_file = $DATA_DIR . '/latest_tarball.csv';
-    $dbh->do( $create_table_latest_tarball_statement );
+    $dbh->do($create_table_latest_tarball_statement);
     my @tarballs;
     my $csv = Text::CSV->new();
     open( CSV, "<", $data_file ) or die "$data_file $!";
@@ -141,6 +142,7 @@ sub populate_latest_tarball {
       $dbh->prepare("INSERT INTO latest_tarball VALUES (?, ?, ?)");
     $dbh->do("BEGIN");
     my $table_columns = <CSV>;
+
     while (<CSV>) {
         if ( $csv->parse($_) ) {
             my ( $id, $url, $date_checked ) = $csv->fields();
@@ -159,7 +161,7 @@ sub populate_webpages {
     my ( $dbh, $table_create_statement ) = @_;
     my $data_file = $DATA_DIR . '/webpages.csv';
 
-    $dbh->do( $table_create_statement );
+    $dbh->do($table_create_statement);
     my @urls;
     my $csv = Text::CSV->new();
     my $sth_insert_urls =
@@ -167,10 +169,11 @@ sub populate_webpages {
     open( CSV, "<", $data_file ) or die "$data_file $!";
     my $table_columns = <CSV>;
     $dbh->do("BEGIN");
+
     while (<CSV>) {
         if ( $csv->parse($_) ) {
-            my ( $id, $homepage_url, $wikipedia_url, $lfs_url, $date_checked )
-              = $csv->fields();
+            my ( $id, $homepage_url, $wikipedia_url, $lfs_url, $date_checked ) =
+              $csv->fields();
             $sth_insert_urls->execute( $id, $homepage_url, $wikipedia_url,
                 $lfs_url, $date_checked );
         }

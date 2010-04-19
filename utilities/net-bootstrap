@@ -1,4 +1,7 @@
 #!/usr/bin/env perl
+use strict;
+use warnings;
+
 my $rsync_module = 'troywill.com::stowballs';
 my $download_dir = '/tmp';
 my $stow_dir     = '/stow';
@@ -23,7 +26,7 @@ sub fetch_stowball {
     print `$shell_command`;
 }
 
-sub unpack_and_stow ( ) {
+sub unpack_and_stow  {
     my $stow_package = shift;
     my $stowball     = $stow_package . '.stow.tar.bz2';
     chdir $stow_dir;
