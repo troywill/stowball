@@ -2,14 +2,15 @@
 use warnings;
 use strict;
 
-use YAML qw(DumpFile);
+my $yaml_file = shift or die "$!";
+&read_yaml_file($yaml_file);
 
-&write_yaml_file;
-&read_yaml_file("META.yml");
 
 exit;
+&write_yaml_file;
 
 sub write_yaml_file {
+    use YAML qw(DumpFile);
     my $meta = { name => "Foo::Bar", version => 1.23 };
     DumpFile( "TEMP.yml", $meta );
 }
@@ -19,7 +20,9 @@ sub read_yaml_file {
     use YAML qw(LoadFile);
     my $meta = LoadFile($yaml_file);
     print "----------\n";
-    print $meta->{name}, ": ", $meta->{abstract}, "\n";
+    print "id: ", $meta->{id}, "\n";
+    print "name: ", $meta->{name}, "\n";
+    print "abstract: ", $meta->{abstract}, "\n";
     &print_build_requires( $meta->{build_requires} );
     &print_configure_requires( $meta->{configure_requires} );
     &print_requires( $meta->{requires} );
