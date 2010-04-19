@@ -1,0 +1,54 @@
+#!/bin/bash
+set -o errexit
+PACKAGE="CPAN-DistnameInfo"
+VERSION="0.10"
+PACKAGER="TDW <troydwill@gmail.com>"
+DATE="2010-04-18"
+HOMEPAGE_URL=""
+SOURCE_URL="http://search.cpan.org/CPAN/authors/id/G/GB/GBARR/CPAN-DistnameInfo-0.10.tar.gz"
+PREFIX="/usr"
+TARGET="/"
+STOW_DIR="/stow"
+SUDO="sudo"
+
+PACKAGE_DIR=${PACKAGE}-${VERSION}
+
+continue_prompt () {
+    echo "Ctrl-c to quit, Enter to continue"
+    read
+}
+
+do_configure () {
+    perl Makefile.PL PREFIX=${PREFIX} 2>&1 | tee log.stow.configure.${PACKAGE}-${VERSION}
+}
+
+do_build () {
+    make 2>&1 | tee log.stow.make.${PACKAGE}-${VERSION}
+}
+
+do_test () {
+    make test 2>&1 | tee log.stow.make.test.${PACKAGE}-${VERSION}
+}
+
+do_install () {
+    ${SUDO} make DESTDIR=${STOW_DIR}/${PACKAGE_DIR} install 2>&1 | tee log.stow.install.${PACKAGE}-${VERSION}
+}
+
+do_stow () {
+    ${SUDO} find ${STOW_DIR}/${PACKAGE_DIR} -name 'perllocal.pod' -okdir mv -v '{}' perllocal.pod.stow.${PACKAGE}-${VERSION} ';'
+    ${SUDO} stow -v --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.stow.${PACKAGE}-${VERSION}
+}
+
+do_package () {
+    TARBALL="${PACKAGE_DIR}.stow.tar.bz2"
+    cd ${STOW_DIR}
+    ${SUDO} tar -jcf ${TARBALL} ${PACKAGE_DIR}
+    ${SUDO} mv --verbose ${TARBALL} /tmp
+}
+
+do_configure && continue_prompt
+do_build && continue_prompt
+do_test && continue_prompt
+do_install && continue_prompt
+do_stow && continue_prompt
+do_package && continue_prompt
