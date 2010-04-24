@@ -1,6 +1,6 @@
 package Package;
-use My::DB;
-use base qw(Rose::DB::Object);
+
+use base My::DB::Object;
 
 __PACKAGE__->meta->setup
     (
