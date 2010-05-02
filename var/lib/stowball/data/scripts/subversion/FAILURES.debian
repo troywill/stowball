@@ -1,0 +1,5 @@
+<failure>
+2009-12-25 / December 25, 2009 / troydwill@gmail.com / TDW
+Couldn't stow due to Apache Portable Runtime conflict.
+Perhaps install Debian Apache Portable Runtime development package and recompile?
+</failure>

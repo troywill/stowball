@@ -1,0 +1,6 @@
+#!/bin/bash
+# Run as root from dhcpcd source directory
+set -o errexit
+sed --in-place "s;/var/lib/dhcpcd-;/var/lib/dhcpcd/dhcpcd-;g" \
+    dhcpcd-hooks/50-dhcpcd-compat
+install -v --mode 644 dhcpcd-hooks/50-dhcpcd-compat /lib/dhcpcd/dhcpcd-hooks/

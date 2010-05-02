@@ -1,0 +1,6 @@
+#!/bin/bash
+set -o errexit
+# 2009-12-17 <troydwill@gmail.com>
+#  See http://www.linuxfromscratch.org/blfs/view/svn/basicnet/dhcpcd.html
+cd ../blfs-bootscripts-20090302
+make install-service-dhcpcd

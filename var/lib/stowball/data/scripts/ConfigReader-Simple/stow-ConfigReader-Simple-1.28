@@ -1,0 +1,34 @@
+#!/bin/bash
+set -o errexit
+PACKAGE="ConfigReader-Simple"
+VERSION="1.28"
+PACKAGER="TDW <troydwill@gmail.com>"
+DATE="2010-04-01"
+PREFIX="/usr"
+TARGET="/"
+STOW_DIR="/stow"
+SUDO="sudo"
+
+PACKAGE_DIR=${PACKAGE}-${VERSION}
+
+do_configure () {
+    perl Makefile.PL PREFIX=${PREFIX} 2>&1 | tee log.stow.configure.${PACKAGE}-${VERSION}
+}
+
+do_build () {
+    make 2>&1 | tee log.stow.make.${PACKAGE}-${VERSION}
+}
+
+do_install () {
+    ${SUDO} make DESTDIR=${STOW_DIR}/${PACKAGE_DIR} install 2>&1 | tee log.stow.install.${PACKAGE}-${VERSION}
+}
+
+do_stow () {
+    ${SUDO} find ${STOW_DIR}/${PACKAGE_DIR} -name 'perllocal.pod' -okdir mv -v '{}' perllocal.pod.stow.${PACKAGE}-${VERSION} ';'
+    ${SUDO} stow -v --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.stow.${PACKAGE}-${VERSION}
+}
+
+do_configure
+do_build
+do_install
+do_stow

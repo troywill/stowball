@@ -1,0 +1,103 @@
+#!/bin/bash
+set -o errexit
+# autostow template 2010-04-03
+# GNU DESTDIR type
+# stow target = /, stow dir = /stow
+
+
+
+
+
+PACKAGE="libxslt"
+VERSION="1.1.26"
+PACKAGER="TDW <troydwill@gmail.com>"
+HOMEPAGE_URL="http://xmlsoft.org/XSLT/"
+SOURCE_URL="ftp://xmlsoft.org/libxslt/libxslt-1.1.26.tar.gz"
+STOWBALL_MD5SUM="613c11e28eb65165b33e01fd73bad7dc"
+DATE="2010-04-03"
+PREFIX="/usr"
+TARGET="/"
+STOW_DIR="/stow"
+SUDO="sudo"
+
+PACKAGE_DIR=${PACKAGE}-${VERSION}
+
+do_configure () {
+    ./configure --prefix=${PREFIX} 2>&1 | tee log.stow.configure
+}
+
+do_build () {
+    make 2>&1 | tee log.stow.make
+}
+
+do_install () {
+    ${SUDO} make DESTDIR=${STOW_DIR}/${PACKAGE_DIR} install 2>&1 | tee log.stow.install
+}
+
+do_clean_texinfo () {
+    ${SUDO} find ${STOW_DIR}/${PACKAGE_DIR} -name "dir" -okdir mv -v "{}" dir.stow.${PACKAGE_DIR} ";" 2>&1 | tee log.stow.texinfo
+}
+
+do_check_conflicts () {
+    ${SUDO} stow --conflicts --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.conflicts
+}
+
+do_stow () {
+    ${SUDO} stow -v --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.stow
+}
+
+do_poststow () {
+    echo "run makeinfo"
+}
+
+do_package () {
+    TARBALL="${PACKAGE_DIR}.stow.tar.bz2"
+    cd ${STOW_DIR}
+    ${SUDO} tar -jcvf ${TARBALL} ${PACKAGE_DIR}
+    ${SUDO} mv --verbose ${TARBALL} /tmp
+    md5sum /tmp/${TARBALL}
+}
+
+do_configure
+do_build
+do_install
+do_clean_texinfo
+do_stow
+do_poststow
+do_package
+exit
+
+Some output from ./configure --help=short on 2010-04-03:
+
+Optional Features:
+  --disable-option-checking  ignore unrecognized --enable/--with options
+  --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
+  --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --disable-dependency-tracking  speeds up one-time build
+  --enable-dependency-tracking   do not reject slow dependency extractors
+  --enable-shared[=PKGS]  build shared libraries [default=yes]
+  --enable-static[=PKGS]  build static libraries [default=yes]
+  --enable-fast-install[=PKGS]
+                          optimize for fast installation [default=yes]
+  --disable-libtool-lock  avoid locking (might break parallel builds)
+
+Optional Packages:
+  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
+  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-html-dir=path    path to base html directory, default
+                          $datadir/doc/html
+  --with-html-subdir=path directory used under html-dir, default
+                          $PACKAGE-$VERSION/html
+  --with-pic              try to use only PIC/non-PIC objects [default=use
+                          both]
+  --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
+  --with-python=DIR    Build Python bindings if found
+  --with-crypto           Add crypto support to exslt (on)
+  --with-debug            Add the debugging code (on)
+  --with-mem-debug        Add the memory debugging module (off)
+  --with-debugger        Add the debugging support (on)
+  --with-libxml-prefix=PFX		Specify location of libxml config
+  --with-libxml-include-prefix=PFX	Specify location of libxml headers
+  --with-libxml-libs-prefix=PFX	Specify location of libxml libs
+  --with-libxml-src=DIR              For libxml thats not installed yet (sets all three above)
+  --with-plugins          Add plugin extension support (on)

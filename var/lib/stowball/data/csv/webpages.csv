@@ -1,0 +1,5 @@
+1,http://search.cpan.org/dist/Text-CSV/,n/a,http://www.linuxfromscratch.org/blfs/view/svn/general/perl-modules.html,2010-04-02
+2,http://www.sqlite.org/,http://en.wikipedia.org/wiki/SQLite,http://www.linuxfromscratch.org/blfs/view/svn/server/sqlite.html,2010-04-03
+3,http://xmlsoft.org/,http://en.wikipedia.org/wiki/Libxml2,http://www.linuxfromscratch.org/blfs/view/svn/general/libxml2.html,2010-04-03
+4,http://xmlsoft.org/XSLT,http://en.wikipedia.org/wiki/Libxslt,http://www.linuxfromscratch.org/blfs/view/svn/general/libxslt.html,2010-04-03
+5,http://www.gnu.org/software/wget/,http://en.wikipedia.org/wiki/Wget,http://www.linuxfromscratch.org/blfs/view/svn/basicnet/wget.html,2010-04-03

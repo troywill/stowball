@@ -1,0 +1,96 @@
+#!/bin/bash
+set -o errexit
+# autostow template 2010-04-03
+# GNU DESTDIR type
+# stow target = /, stow dir = /stow
+PACKAGE="wget"
+VERSION="1.12"
+PACKAGER="TDW <troydwill@gmail.com>"
+HOMEPAGE_URL="http://www.gnu.org/software/wget/"
+SOURCE_URL="ftp://mirrors.kernel.org/gnu/wget/wget-1.12.tar.bz2"
+DATE="2010-04-03"
+PREFIX="/usr"
+TARGET="/"
+STOW_DIR="/stow"
+SUDO="sudo"
+
+PACKAGE_DIR=${PACKAGE}-${VERSION}
+
+do_configure () {
+    ./configure --prefix=${PREFIX} 2>&1 | tee log.stow.configure
+}
+
+do_build () {
+    make 2>&1 | tee log.stow.make
+}
+
+do_install () {
+    ${SUDO} make DESTDIR=${STOW_DIR}/${PACKAGE_DIR} install 2>&1 | tee log.stow.install
+}
+
+do_clean_texinfo () {
+    ${SUDO} find ${STOW_DIR}/${PACKAGE_DIR} -name "dir" -okdir mv -v "{}" dir.stow.${PACKAGE_DIR} ";" 2>&1 | tee log.stow.texinfo
+}
+
+do_check_conflicts () {
+    ${SUDO} stow --conflicts --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.conflicts
+}
+
+do_stow () {
+    ${SUDO} stow -v --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.stow
+}
+
+do_poststow () {
+    echo "run makeinfo"
+}
+
+do_package () {
+    TARBALL="${PACKAGE_DIR}.stow.tar.bz2"
+    cd ${STOW_DIR}
+    ${SUDO} tar -jcvf ${TARBALL} ${PACKAGE_DIR}
+    ${SUDO} mv --verbose ${TARBALL} /tmp
+    md5sum /tmp/${TARBALL}
+}
+
+do_configure
+do_build
+do_install
+do_clean_texinfo
+do_stow
+do_poststow
+do_package
+exit
+
+Some output from ./configur --help=short on 2010-04-03
+Configuration of wget 1.12:
+
+Optional Features:
+  --disable-option-checking  ignore unrecognized --enable/--with options
+  --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
+  --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --disable-opie          disable support for opie or s/key FTP login
+  --disable-digest        disable support for HTTP digest authorization
+  --disable-ntlm          disable support for NTLM authorization
+  --disable-debug         disable support for debugging output
+  --disable-dependency-tracking  speeds up one-time build
+  --enable-dependency-tracking   do not reject slow dependency extractors
+  --disable-nls           do not use Native Language Support
+  --disable-rpath         do not hardcode runtime library paths
+  --disable-largefile     omit support for large files
+  --disable-ipv6          disable IPv6 support
+  --disable-iri           disable IDN/IRIs support
+
+Optional Packages:
+  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
+  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --without-ssl           disable SSL autodetection
+  --with-gnu-ld           assume the C compiler uses GNU ld default=no
+  --with-libiconv-prefix[=DIR]  search for libiconv in DIR/include and DIR/lib
+  --without-libiconv-prefix     don't search for libiconv in includedir and libdir
+  --with-libintl-prefix[=DIR]  search for libintl in DIR/include and DIR/lib
+  --without-libintl-prefix     don't search for libintl in includedir and libdir
+  --with-libgnutls-prefix[=DIR]  search for libgnutls in DIR/include and DIR/lib
+  --without-libgnutls-prefix     don't search for libgnutls in includedir and libdir
+  --with-libssl-prefix[=DIR]  search for libssl in DIR/include and DIR/lib
+  --without-libssl-prefix     don't search for libssl in includedir and libdir
+  --with-libidn=DIR       Support IDN/IRIs (needs GNU Libidn)

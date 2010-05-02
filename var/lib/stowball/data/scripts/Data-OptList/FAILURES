@@ -1,0 +1,13 @@
+<2009-11-26>
+$ sh ../scripts/Data-OptList/stow-Data-OptList-0.104.sh
+Checking if your kit is complete...
+Looks good
+Warning: prerequisite Params::Util 0.14 not found.
+Warning: prerequisite Sub::Install 0.92 not found.
+Writing Makefile for Data::OptList
+cp lib/Data/OptList.pm blib/lib/Data/OptList.pm
+Manifying blib/man3/Data::OptList.3
+Installing /stow/Data-OptList-0.104/usr/lib/perl5/site_perl/5.10.1/Data/OptList.pm
+Installing /stow/Data-OptList-0.104/usr/share/man/man3/Data::OptList.3
+Appending installation info to /stow/Data-OptList-0.104/usr/lib/perl5/5.10.1/i6
+</2009-11-26>

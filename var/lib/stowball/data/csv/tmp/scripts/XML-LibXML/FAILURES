@@ -1,0 +1,6 @@
+<failure>
+  2009-12-28
+  TDW [troydwill@gmail.com]
+  Can't locate XML/LibXML/SAX/Parser.pm in @INC
+  Next time try exporting PERLIB
+</failure>

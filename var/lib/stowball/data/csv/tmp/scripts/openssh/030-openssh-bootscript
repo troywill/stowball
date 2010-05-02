@@ -1,0 +1,4 @@
+#!/bin/bash
+set -o errexit
+cd ../blfs-bootscripts-20090302
+sudo make install-sshd
