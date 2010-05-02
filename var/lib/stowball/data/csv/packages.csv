@@ -1,5 +1,7 @@
 1,Text::CSV,CPAN module: Text::CSV,1.17,2010-03-16,2010-04-02
 2,sqlite3,SQLite embedded SQL database engine,3.6.23.1,2010-03-30,2010-04-03
 3,libxml2,The XML C parser and toolkit of Gnome,2.7.7,2010-03-15,2010-04-03
-4,4,libxslt,The XSLT C library for GNOME (provides xsltproc),1.1.26,2009-06-10,2010-04-03
+4,libxslt,The XSLT C library for GNOME (provides xsltproc),1.1.26,2009-06-10,2010-04-03
 5,wget,GNU Wget,1.12,2009-09-22,2010-04-03
+6,xterm,xterm,1,2010-05-01,2010-05-01
+

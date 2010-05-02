@@ -17,7 +17,6 @@
 19,"http://library.gnome.org/devel/glib/","http://en.wikipedia.org/wiki/GLib","G","http://www.linuxfromscratch.org/blfs/view/svn/general/glib2.html"
 20,"http://www.gnu.org/software/gettext/","http://en.wikipedia.org/wiki/GNU_gettext","http://www.linuxfromscratch.org/blfs/view/svn/general/intltool.html","n/a","2009-10-03"
 21,"http://freedesktop.org/wiki/Software/intltool","n/a","G","n/a","2009-10-03"
-24,"http://invisible-island.net/xterm/","http://en.wikipedia.org/wiki/Xterm","http://www.linuxfromscratch.org/blfs/view/svn/general/xterm.html","n/a","2009-10-24"
 25,"n/a","n/a","2009-10-24"
 26,"http://libpng.org/","http://en.wikipedia.org/wiki/Libpng","http://www.linuxfromscratch.org/blfs/view/svn/general/libpng.html","n/a","2009-12-17"
 27,"http://cairographics.org/","http://en.wikipedia.org/wiki/Accessibility_Toolkit","http://www.linuxfromscratch.org/blfs/view/svn/x/cairo.html","n/a","2009-12-29"
