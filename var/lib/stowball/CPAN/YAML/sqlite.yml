@@ -1,0 +1,13 @@
+---
+id: 1
+name: sqlite3
+version: 3.6.23.1
+abstract: SQLite emedded SQL database engine
+release_date: 2010-03-30
+source_url: http://www.sqlite.org/sqlite-amalgamation-3.6.23.1.tar.gz
+homepage: http://www.sqlite.org
+wikipedia: http://en.wikipedia.org/wiki/SQLite
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/server/sqlite.html
+script_dir: sqlite
+stow_script: stow-sqlite-3.6.23.1
+dependencies:

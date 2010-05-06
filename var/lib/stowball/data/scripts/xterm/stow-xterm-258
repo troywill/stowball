@@ -1,6 +1,6 @@
 #!/bin/bash
 set -o errexit
-VERSION='250'
+VERSION='258'
 STOW_DIR='/stow'
 PREFIX='/usr'
 SUDO='sudo'

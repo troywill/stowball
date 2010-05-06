@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
+use Stowball;
 use DBI;
 use ConfigReader::Simple;
 use Getopt::Long;
@@ -8,8 +9,17 @@ use Getopt::Long;
 my $result = GetOptions(
     'debug|d'     => \my $debug,
     'verbose|v'   => \my $verbose,
-    'install|i=s' => \my $install
+    'install|i=s' => \my $install,
+    'download|d' =>  \my $download
 );
+
+print "==> $download <==\n";
+
+sub download {
+    print "DEBUG: in subroutine download\n";
+}
+
+exit;
 
 #### Begin Section: Useful webpages
 # http://directory.fsf.org/GNU/ Directory of GNU software
