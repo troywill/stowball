@@ -11,10 +11,7 @@ glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/x/gtk2.html
 script_dir: gtk+
 stow_script: stow-gtk+-2.20.1
 dependencies:
-	glib: 2.23.6
-	atk: 0
-	pango: 0
-	cairo: 0
-
-	
-	
+    glib: 2.23.6
+    atk: 0
+    pango: 0
+    cairo: 0
