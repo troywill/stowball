@@ -1,24 +1,23 @@
 use strict;
-use Data::Dumper;
 use YAML::XS;
-my $href = YAML::XS::LoadFile('sqlite.yml');
-$href = YAML::XS::LoadFile('gtk+.yml');
 
-my $id = $href->{id};
-my $name = $href->{name};
-my $version = $href->{version};
-print "$id: $name v$version\n";
+sub yaml_to_sql {
 
-print Dump($href);
-print Dumper($href);
+    my $YAML_FILE = shift;
+    my $href = YAML::XS::LoadFile($YAML_FILE);
 
-# Let's print out the dependencies
+    my $id = $href->{id};
+    my $name = $href->{name};
+    my $version = $href->{version};
+    print "$id: $name v$version\n";
+    
 # Let's print out the dependencies                                                                    
-
-$dependencies_href = $href->{dependencies};
-
-for my $key (keys %{$dependencies_href}) {
-    print "$key => ${$href}{$key}\n";
+    
+    my $dependencies_href = $href->{dependencies};
+    
+    for my $key (keys %{$dependencies_href}) {
+	print "$key => ${$dependencies_href}{$key}\n";
+    }
 }
 
 1;

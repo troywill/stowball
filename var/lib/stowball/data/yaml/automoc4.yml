@@ -1,0 +1,17 @@
+---
+id: 26
+name: automoc4
+version: 0.9.88
+abstract: A KDE development tool needed to build KDE
+release_date: 2009-01-22
+source_url: http://carroll.aset.psu.edu/pub/kde/stable/automoc4/0.9.88/automoc4-0.9.88.tar.bz2
+stowball: automoc4-0.9.88.stow.tar.bz2
+stowball_build_date: 2010-05-06
+homepage: http://techbase.kde.org/Development/Tools/Automoc4
+wikipedia: NULL
+glfs_url: NULL
+script_dir: automoc4
+stow_script: stow-automoc4-0.9.88
+dependencies:
+source_md5sum: 91bf517cb940109180ecd07bc90c69ec
+stowball_md5sum: 99c3cf5ed6874948171c8582073f50e5

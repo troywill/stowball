@@ -13,13 +13,9 @@ my $result = GetOptions(
     'download|d' =>  \my $download
 );
 
-print "==> $download <==\n";
-
 sub download {
     print "DEBUG: in subroutine download\n";
 }
-
-exit;
 
 #### Begin Section: Useful webpages
 # http://directory.fsf.org/GNU/ Directory of GNU software
@@ -83,6 +79,12 @@ sub print_software {
     foreach my $row (@$all) {
         my ( $id, $short_name, $name, $latest_version, $date_checked ) = @$row;
         print "$short_name [v$latest_version]($id) $name\n";
+    }
+    $all = $dbh->selectall_arrayref(
+        "SELECT * FROM packages ORDER BY id");
+    foreach my $row (@$all) {
+        my ( $id, $short_name, $name, $latest_version, $date_checked ) = @$row;
+        print "$id: $short_name [v$latest_version] | $name\n";
     }
 }
 

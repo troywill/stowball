@@ -1,0 +1,17 @@
+---
+id: 1
+name: gtk+
+version: 2.20.1
+abstract: GTK+ (GIMP Toolkit) cross-platform widget toolkit
+release_date: 2010-05-03
+source_url: http://ftp.gnome.org/pub/gnome/sources/gtk+/2.20/gtk+-2.20.1.tar.bz2
+homepage: http://www.gtk.org
+wikipedia: http://en.wikipedia.org/wiki/GTK+
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/x/gtk2.html
+script_dir: gtk+
+stow_script: stow-gtk+-2.20.1
+dependencies:
+  glib: 2.23.6
+  atk: 0
+  pango: 0
+  cairo: 0

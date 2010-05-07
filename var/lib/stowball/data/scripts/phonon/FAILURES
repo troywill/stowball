@@ -1,0 +1,35 @@
+<2010-05-06>
+[ 31%] Building CXX object phonon/CMakeFiles/phonon.dir/audiooutput.cpp.o
+/mnt/sd_sandisk_8g/build/phonon-4.4.1/phonon/audiooutput.cpp: In member function 'void Phonon::AudioOutputPrivate::init(Phonon\
+::Category)':
+/mnt/sd_sandisk_8g/build/phonon-4.4.1/phonon/audiooutput.cpp:104:18: error: 'QUuid' has not been declared
+make[2]: *** [phonon/CMakeFiles/phonon.dir/audiooutput.cpp.o] Error 1
+make[1]: *** [phonon/CMakeFiles/phonon.dir/all] Error 2
+make: *** [all] Error 2
+
+Question: What is QUuid?
+
+Posted this message to : phonon-backends@kde.org
+Subject: Phonon 4.4.1 audiooutput.cpp build failure - I had to include <QUuid>
+
+Hello,
+I just tried to build phonon with the latest Qt 4.7 preview and got a failure on audiooutput.cpp.
+
+This is where the error shows up:
+
+[ 29%] Building CXX object phonon/CMakeFiles/phonon.dir/abstractaudiooutput_p.cpp.o
+[ 31%] Building CXX object phonon/CMakeFiles/phonon.dir/audiooutput.cpp.o
+> phonon-4.4.1/phonon/audiooutput.cpp: In member function 'void Phonon::AudioOutputPrivate::init(Phonon\
+::Category)':
+> phonon-4.4.1/phonon/audiooutput.cpp:104:18: error: 'QUuid' has not been declared
+make[2]: *** [phonon/CMakeFiles/phonon.dir/audiooutput.cpp.o] Error 1
+make[1]: *** [phonon/CMakeFiles/phonon.dir/all] Error 2
+make: *** [all] Error 2
+
+
+
+
+If I add "include <QUuid>" to audiooutput.h phonon will build to completion. Is there a missing "include <QUuid>" statement in audiooutput.h?
+
+Thanks.
+</2010-05-06>
