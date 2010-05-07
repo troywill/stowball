@@ -1,20 +1,20 @@
 ---
-id: 1
-name: gtk+
-version: 2.20.1
-abstract: GTK+ (GIMP Toolkit) cross-platform widget toolkit
-release_date: 2010-05-03
-source_url: http://ftp.gnome.org/pub/gnome/sources/gtk+/2.20/gtk+-2.20.1.tar.bz2
+id: 28
+name: strigi
+version: 0.7.2
+abstract: strigi
+release_date: 2010-02-03
+source_url: http://www.vandenoever.info/software/strigi/strigi-0.7.2.tar.bz2
 stowball:
-homepage: http://www.gtk.org
-wikipedia: http://en.wikipedia.org/wiki/GTK+
-glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/x/gtk2.html
-script_dir: gtk+
-stow_script: stow-gtk+-2.20.1
+stowball_build_date:
+homepage: http://www.vandenoever.info/software/strigi
+wikipedia: http://en.wikipedia.org/wiki/Strigi
+glfs_url: NULL
+script_dir: strigi
+stow_script: stow-strigi-0.7.2
 dependencies:
-    glib: 2.23.6
+    glib: 2
     atk: 0
-    pango: 0
-    cairo: 0
+optional_packages:
 source_md5sum:
 stowball_md5sum:
