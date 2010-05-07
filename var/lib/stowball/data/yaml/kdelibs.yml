@@ -1,6 +1,6 @@
 ---
-id: 
-name: 
+id: 30
+name: kdelibs
 version: 
 abstract: 
 release_date: 
@@ -13,7 +13,12 @@ glfs_url: NULL
 script_dir: 
 stow_script: 
 dependencies:
-  clucene: 
+  automoc4:
+  phonon:
+  strigi:
+  soprano:
+  polkit: 
+  pcre: 
 optional_packages:
 source_md5sum:
 stowball_md5sum:
