@@ -5,8 +5,8 @@ version: 0.7.2
 abstract: strigi
 release_date: 2010-02-03
 source_url: http://www.vandenoever.info/software/strigi/strigi-0.7.2.tar.bz2
-stowball:
-stowball_build_date:
+stowball: strigi-0.7.2.stow.tar.bz2
+stowball_build_date: 2010-05-06
 homepage: http://www.vandenoever.info/software/strigi
 wikipedia: http://en.wikipedia.org/wiki/Strigi
 glfs_url: NULL
@@ -15,5 +15,5 @@ stow_script: stow-strigi-0.7.2
 dependencies:
   clucene: 0.9.21
 optional_packages:
-source_md5sum:
-stowball_md5sum:
+source_md5sum: ca09ba176cf3ffe9afce4d92f38f9a85
+stowball_md5sum: d2862ca5b895c89a2e539650ea25d7b1

@@ -1,0 +1,19 @@
+---
+id: 27
+name: phonon
+version: 4.4.1
+abstract: phonon
+release_date: 2010-04-22
+source_url: http://mirrors.ibiblio.org/pub/mirrors/kde/stable/phonon/4.4.1/phonon-4.4.1.tar.bz2
+stowball: phonon-4.4.1.stow.tar.bz2
+stowball_build_date: 2010-05-06
+homepage: http://phonon.kde.org
+wikipedia: http://en.wikipedia.org/wiki/Phonon_(KDE)
+glfs_url: NULL
+script_dir: phonon
+stow_script: stow-phonon-4.3
+dependencies:
+    glib: 2.23.6
+optional_packages:
+source_md5sum: 5a1444f009a77054f16fea38c08e6cb5
+stowball_md5sum: c93127b6486c76d7253f66636e7e43b1

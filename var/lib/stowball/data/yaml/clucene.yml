@@ -1,0 +1,19 @@
+---
+id: 29
+name: clucene
+version: 0.9.21b
+abstract: C++ search engine (port of Lucene search engine written in Java)
+release_date: 2010-02-03
+source_url: http://sourceforge.net/projects/clucene/files/clucene-core-stable/0.9.21b/clucene-core-0.9.21b.tar.bz2/download
+stowball:
+stowball_build_date:
+homepage: http://clucene.sourceforge.net
+wikipedia: http://en.wikipedia.org/wiki/Lucene
+glfs_url: NULL
+script_dir: clucene
+stow_script: stow-clucene-0.9.21b
+dependencies:
+optional_packages:
+source_md5sum:
+stowball_md5sum: d2862ca5b895c89a2e539650ea25d7b1
+
