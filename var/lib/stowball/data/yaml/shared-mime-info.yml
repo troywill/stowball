@@ -1,0 +1,18 @@
+---
+id: 33
+name: shared-mime-info.yml
+version: 0.71
+abstract: shared-mime-info
+release_date: 2010-02-01
+source_url: http://freedesktop.org/~hadess/shared-mime-info-0.71.tar.bz2
+stowball: 
+stowball_build_date:
+homepage: http://www.freedesktop.org/wiki/Software/shared-mime-info
+wikipedia: NULL
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/x/shared-mime-info.html
+script_dir: 
+stow_script: 
+dependencies:
+optional_packages:
+source_md5sum:
+stowball_md5sum:
