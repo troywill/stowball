@@ -1,15 +1,15 @@
 ---
-id: 
-name: 
-version: 
-abstract: 
-release_date: 
-source_url: 
+id: 31
+name: pcre
+version: 7.9
+abstract: Perl Compatible Regular Expression libraries
+release_date: 2009-08-09
+source_url: http://downloads.sourceforge.net/pcre/pcre-7.9.tar.bz2
 stowball:
 stowball_build_date:
-homepage: 
-wikipedia: 
-glfs_url: NULL
+homepage: http://www.pcre.org
+wikipedia: http://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/general/pcre.html
 script_dir: 
 stow_script: 
 dependencies:

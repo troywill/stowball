@@ -1,0 +1,50 @@
+#!/bin/bash
+set -o errexit
+PACKAGE="pcre"
+VERSION="8.2"
+PACKAGER="TDW <troydwill@gmail.com>"
+HOMEPAGE_URL=""
+SOURCE_URL=""
+DATE="2010-05-07"
+PREFIX="/usr"
+TARGET="/"
+STOW_DIR="/stow"
+SUDO="sudo"
+
+PACKAGE_DIR=${PACKAGE}-${VERSION}
+
+do_configure () {
+    ./configure --prefix=${PREFIX} \
+	2>&1 | tee log.stow.configure
+}
+
+do_build () {
+    make 2>&1 | tee log.stow.make
+}
+
+do_install () {
+    ${SUDO} make DESTDIR=${STOW_DIR}/${PACKAGE_DIR} install 2>&1 | tee log.stow.install
+}
+
+do_check_conflicts () {
+    ${SUDO} stow --conflicts --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.conflicts
+}
+
+do_stow () {
+    ${SUDO} stow --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.stow
+}
+
+do_package () {
+    TARBALL="${PACKAGE_DIR}.stow.tar.bz2"
+    cd ${STOW_DIR}
+    ${SUDO} tar -jcf ${TARBALL} ${PACKAGE_DIR}
+    ${SUDO} mv --verbose ${TARBALL} /tmp
+    md5sum /tmp/${TARBALL}
+}
+
+do_configure
+do_build
+do_install
+do_stow
+do_package
+exit
