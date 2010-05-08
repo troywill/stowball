@@ -15,4 +15,4 @@ stow_script: stow-libpng-1.4.1
 dependencies:
 optional_packages:
 source_md5sum: e1767bf290ded9fda9ee05bd23ae4cff
-stowball_md5sum:
+stowball_md5sum: 

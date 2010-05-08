@@ -1,0 +1,137 @@
+<HTML>
+  <H1>kdelibs</H1>
+  <OL>
+    <LI>qt (built with QtDBus) [2010-05-07]</LI>
+    <LI>automoc4</LI>
+    <LI>polkit</LI>
+    <OL>
+      <LI>D-Bus GObject Bindings-0.5</LI>
+      <LI>intltool-0.40.6</LI>
+      <LI>Linux-PAM-1.1.1</LI>
+      <LI>gobject-introspection-0.6.8</LI>
+      <LI>DocBook XML DTD-4.5</LI>
+    </OL>
+    <LI>pcre</LI>
+    <LI>libattica</LI>
+    <LI>shared-mime-info</LI>
+    <LI>libjpeg</LI>
+    <LI>giflib</LI>
+    <LI>libpng</LI>
+  </OL>
+</HTML>
+-- No backend for KAuth was explicitely specified: probing system to find the best one available
+-- Could NOT find PolkitQt  (missing:  POLKITQT_INCLUDE_DIR POLKITQT_GUI_LIBRARY POLKITQT_CORE_LIBRARY)
+-- Could NOT find PolkitQt-1  (missing:  POLKITQT-1_LIBRARIES POLKITQT-1_INCLUDE_DIR)
+-- Building Fake KAuth backend
+WARNING: No valid KAuth backends will be built. The library will not work properly unless compiled with
+             a working backend
+-- Could NOT find FAM  (missing:  FAM_INCLUDE_DIR FAM_LIBRARIES)
+
+-----------------------------------------------------------------------------
+-- The following external packages were located on your system.
+-- This installation will have the extra features provided by these packages.
+-----------------------------------------------------------------------------
+   * Perl - Perl Programming Language
+   * ZLib - The Zlib compression library
+   * Strigi - A fast and small desktop searching program
+   * X Rendering extension - an X Window System extension for image compositing
+   * libxext - XSync Extension
+   * BZip2 - A high-quality data compressor
+   * OpenSSL - A toolkit implementing the Secure Sockets Layer (SSL v2/v3) and Transport Layer Security (TLS v1) protocols
+   * Libintl - Library for message translation
+   * OpenGL - API for developing portable, interactive 2D and 3D graphics applications
+   * PCRE - Perl Compatible Regular Expression
+   * Flex - Fast lexical analyser generator
+   * Bison - Project parser generator (yacc replacement)
+   * LibXSLT - A library to transform XML files into other XML files
+   * LibXML2 - Libraries used to develop XML applications
+
+-----------------------------------------------------------------------------
+-- The following OPTIONAL packages could NOT be located on your system.
+-- Consider installing them to enable more features from this software.
+-----------------------------------------------------------------------------
+   * libxss  <http://www.x.org/>
+     XScreenSaver Library
+     Needed to enable fallback query methods in KIdleTime
+   * LZMA/XZ  <http://tukaani.org/xz/>
+     A very high compression ratio data compressor
+     Provides the ability to read and write xz compressed data files.
+   * Soprano (2.3.70 or higher)  <http://soprano.sourceforge.net>
+     Semantic Desktop Storing
+     Provide metadata support (for semantic desktop).
+   * Soprano Raptor Parser  <http://soprano.sourceforge.net>
+     RDF parser plugin for Soprano
+     The Soprano raptor parser plugin is required to build the Nepomuk semantic desktop system.
+   * Soprano Redland Backend  <http://soprano.sourceforge.net>
+     Redland storage backend for Soprano
+     The Soprano redland backend is required to build the Nepomuk semantic desktop system.
+   * Shared desktop ontologies  <http://oscaf.sourceforge.net>
+     Desktop ontologies
+     Ontologies necessary for the Nepomuk semantic desktop.
+   * QCA2 (2.0.0 or higher)  <http://delta.affinix.com/qca>
+     Qt Cryptographic Architecture
+     Needed for the plasma remote widgets functionality.
+   * LibACL  <ftp://oss.sgi.com/projects/xfs/cmd_tars>
+     Access control list (ACL) support library
+     STRONGLY RECOMMENDED: For manipulating access control lists.
+   * PolkitQt  <http://api.kde.org/polkit-qt>
+     Qt Wrapper around Policykit
+     STRONGLY RECOMMENDED: Needed to make KAuth work (using PolicyKit < 0.90), hence to enable some workspace functionalities
+   * PolkitQt-1  <http://techbase.kde.org/Polkit-Qt-1>
+     Qt Wrapper around polkit-1
+     STRONGLY RECOMMENDED: Needed to make KAuth work (using polkit-1), hence to enable some workspace functionalities
+   * FAM  <http://oss.sgi.com/projects/fam>
+     File Alteration Monitor
+     Provides file alteration notification facilities using a separate service.
+   * GSSAPI  <http://web.mit.edu/kerberos/www>
+     Generic Security Services API
+     A MIT or HEIMDAL flavor of GSSAPI to provide HTTP authentication services.
+   * Aspell  <http://aspell.net/>
+     GNU Aspell spell checker
+     Provides a spell checker for dozens of languages.
+   * HSpell  <http://ivrix.org.il/projects/spell-checker/>
+     Hebrew spell checker
+     Provides spell checking for Hebrew.
+   * Enchant  <http://www.abisource.com/projects/enchant/>
+     Enchant Package
+     Provides a way to access many spell checking backends.
+   * JasPer  <http://www.ece.uvic.ca/~mdadams/jasper>
+     JasPer JPEG2000 Library
+     Provides support for JPEG-2000 images.
+   * OpenEXR  <http://www.openexr.com>
+     A library for manipulating OpenEXR image files
+     Provides support for OpenEXR images.
+   * Avahi  <http://avahi.org>
+     For Linux and BSDs: a system which facilitates service discovery on a local network, based on the Zeroconf standard
+     Enables KDE applications access to multicast DNS/DNS-SD service discovery.
+   * DNSSD  <http://www.zeroconf.org>
+     For MacOS and platforms without Avahi: A system which facilitates service discovery on a local network, based on the Zeroconf standard
+     Enables KDE applications access to multicast DNS/DNS-SD service discovery.
+
+
+CMake Error at cmake/modules/MacroLogFeature.cmake:141 (MESSAGE):
+  Exiting: Missing Requirements
+Call Stack (most recent call first):
+  CMakeLists.txt:313 (macro_display_feature_log)
+
+
+CMake Error: The following variables are used in this project, but they are set to NOTFOUND.
+Please set them or make sure they are set and tested correctly in the CMake files:
+GIF_INCLUDE_DIR (ADVANCED)
+   used as include directory in directory /mnt/sd_sandisk_8g/build/kdelibs-4.4.3/khtml
+   used as include directory in directory /mnt/sd_sandisk_8g/build/kdelibs-4.4.3/khtml/kmultipart
+   used as include directory in directory /mnt/sd_sandisk_8g/build/kdelibs-4.4.3/khtml/java
+   used as include directory in directory /mnt/sd_sandisk_8g/build/kdelibs-4.4.3/khtml/java/tests
+GIF_LIBRARIES (ADVANCED)
+    linked by target "khtml" in directory /mnt/sd_sandisk_8g/build/kdelibs-4.4.3/khtml
+JPEG_INCLUDE_DIR (ADVANCED)
+   used as include directory in directory /mnt/sd_sandisk_8g/build/kdelibs-4.4.3/khtml
+   used as include directory in directory /mnt/sd_sandisk_8g/build/kdelibs-4.4.3/khtml/kmultipart
+   used as include directory in directory /mnt/sd_sandisk_8g/build/kdelibs-4.4.3/khtml/java
+   used as include directory in directory /mnt/sd_sandisk_8g/build/kdelibs-4.4.3/khtml/java/tests
+LIBATTICA_INCLUDE_DIR (ADVANCED)
+   used as include directory in directory /mnt/sd_sandisk_8g/build/kdelibs-4.4.3/knewstuff/knewstuff3
+LIBATTICA_LIBRARIES (ADVANCED)
+    linked by target "knewstuff3" in directory /mnt/sd_sandisk_8g/build/kdelibs-4.4.3/knewstuff/knewstuff3
+
+-- Configuring incomplete, errors occurred!
