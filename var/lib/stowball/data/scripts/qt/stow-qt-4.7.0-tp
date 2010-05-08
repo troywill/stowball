@@ -1,10 +1,7 @@
 #!/bin/bash
 set -o errexit
-# autostow template 2010-04-06
-# GNU DESTDIR type
-# stow target = /, stow dir = /stow
-PACKAGE="dbus"
-VERSION="1.2.24"
+PACKAGE="qt"
+VERSION="4.7.0-tp"
 PACKAGER="TDW <troydwill@gmail.com>"
 HOMEPAGE_URL=""
 SOURCE_URL=""
@@ -12,21 +9,18 @@ DATE="2010-05-07"
 PREFIX="/usr"
 TARGET="/"
 STOW_DIR="/stow"
-SUDO="sudo"
-
 PACKAGE_DIR=${PACKAGE}-${VERSION}
-
-do_setup () {
-    # TDW <troydwill@gmail.com> Jan. 2010 Shamelessly stolen from the BLFS website
-    ${SUDO} /usr/sbin/groupadd --gid 18 messagebus
-    ${SUDO} /usr/sbin/useradd --comment "D-BUS Message Daemon User" --home /dev/null \
-        --uid 18 --gid messagebus --shell /bin/false messagebus
-}
+SUDO="sudo"
+# Qt Specific
+DOCDIR="${PREFIX}/share/doc/qt" # TDW default is ${PREFIX}/doc
+INSTALL_ROOT="${STOW_DIR}/${PACKAGE_DIR}"
 
 do_configure () {
-    ./configure --prefix=${PREFIX} \
-	--sysconfdir=/etc \
-	--localstatedir=/var \
+    yes 'yes' | ./configure -prefix ${PREFIX} \
+	-opensource \
+	-docdir ${DOCDIR} \
+	-release \
+        -no-separate-debug-info \
 	2>&1 | tee log.stow.configure
 }
 
@@ -35,7 +29,7 @@ do_build () {
 }
 
 do_install () {
-    ${SUDO} make DESTDIR=${STOW_DIR}/${PACKAGE_DIR} install 2>&1 | tee log.stow.install
+    ${SUDO} make INSTALL_ROOT=${STOW_DIR}/${PACKAGE_DIR} install 2>&1 | tee log.stow.install
 }
 
 do_check_conflicts () {
@@ -54,7 +48,6 @@ do_package () {
     md5sum /tmp/${TARBALL}
 }
 
-do_setup
 do_configure
 do_build
 do_install

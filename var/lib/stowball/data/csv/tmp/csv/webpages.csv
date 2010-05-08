@@ -28,7 +28,6 @@
 37,"http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html","http://en.wikipedia.org/wiki/Wireless_tools_for_Linux","http://www.linuxfromscratch.org/blfs/view/svn/basicnet/wireless_tools.html","n/a","2010-01-10"
 38,"http://www.pidgin.im/","http://en.wikipedia.org/wiki/Pidgin_(software)","http://www.linuxfromscratch.org/blfs/view/svn/xsoft/pidgin.html","n/a","2009-11-20"
 40,"http://www.cmake.org","http://en.wikipedia.org/wiki/CMake","n/a","n/a","2009-11-20"
-41,"http://qt.nokia.com/","http://en.wikipedia.org/wiki/Qt_(toolkit)","http://www.linuxfromscratch.org/blfs/view/svn/x/qt4.html","G","2009-10-20"
 44,"http://www.gnupg.org","n/a","http://www.linuxfromscratch.org/blfs/view/svn/general/libgpg-error.html","n/a","2009-12-29"
 47,"http://www.ece.uvic.ca/~mdadams/jasper/","n/a","http://www.linuxfromscratch.org/blfs/view/svn/general/jasper.html","n/a","2009-12-30"
 57,"http://en.wikipedia.org/wiki/Website","http://en.wikipedia.org/wiki/MPlayer","http://www.linuxfromscratch.org/blfs/view/svn/multimedia/mplayer.html","G","2009-10-22"
