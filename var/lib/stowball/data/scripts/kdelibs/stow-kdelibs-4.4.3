@@ -1,10 +1,10 @@
 #!/bin/bash
-# autostow template: cmake DESTDIR type with stow target = /
 set -o errexit
+BUILD_DIR="kdelibs-build"
 PACKAGE="kdelibs"
 VERSION="4.4.3"
 PACKAGER="TDW <troydwill@gmail.com>"
-DATE="2009-12-27"
+DATE="2010-05-07"
 PREFIX="/usr"
 TARGET="/"
 STOW_DIR="/stow"
@@ -13,23 +13,26 @@ SUDO="sudo"
 PACKAGE_DIR=${PACKAGE}-${VERSION}
 
 do_configure () {
-    cmake . -DCMAKE_INSTALL_PREFIX:PATH=${PREFIX} 2>&1 | tee log.stow.configure
+    mkdir --parent --verbose ../${BUILD_DIR}
+    cd ../${BUILD_DIR}
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=${PREFIX} ../${PACKAGE}-${VERSION} 2>&1 | tee log.stow.configure
+    cd -
 }
 
 do_build () {
+    cd ../${BUILD_DIR}
     make 2>&1 | tee log.stow.make
+    cd -
 }
 
 do_install () {
+    cd ../${BUILD_DIR}
     ${SUDO} make DESTDIR=${STOW_DIR}/${PACKAGE_DIR} install 2>&1 | tee log.stow.install
+    cd -
 }
 
 do_stow () {
     ${SUDO} stow --verbose --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR}
-}
-
-do_poststow () {
-    echo "postow"
 }
 
 do_package () {
@@ -42,7 +45,7 @@ do_build
 do_install
 do_stow
 do_poststow
-# do_package
+do_package
 exit
 CMake uses different options than configure, but some have direct equivalents:
    <srcdir>           : the source directory
