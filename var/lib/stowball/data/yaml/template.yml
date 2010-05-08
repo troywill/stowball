@@ -1,7 +1,7 @@
 ---
 id: 
-name: &name
-version: &version
+name: *name
+version: *version
 abstract: 
 release_date: 2010-05-0
 source_url: *name-*version-

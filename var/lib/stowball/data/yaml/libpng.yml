@@ -1,0 +1,18 @@
+---
+id: 37
+name: libpng
+version: 1.4.1
+abstract: library for reading and writing PNGs
+release_date: 2010-05-0
+source_url: http://downloads.sourceforge.net/libpng/libpng-1.4.1.tar.bz2
+stowball: libpng-1.4.1-stow.tar.bz2
+stowball_build_date: 2010-05-0
+homepage: http://libpng.org
+wikipedia: http://en.wikipedia.org/wiki/Libpng
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/general/libpng.html
+script_dir: libpng
+stow_script: stow-libpng-1.4.1
+dependencies:
+optional_packages:
+source_md5sum: e1767bf290ded9fda9ee05bd23ae4cff
+stowball_md5sum:
