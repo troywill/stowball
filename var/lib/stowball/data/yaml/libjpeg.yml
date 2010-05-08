@@ -15,4 +15,4 @@ stow_script: stow-libjpeg-8a
 dependencies:
 optional_packages:
 source_md5sum:
-stowball_md5sum:
+stowball_md5sum: c8562c86afacaeba3aa39a76348a8e90
