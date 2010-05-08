@@ -18,7 +18,11 @@ dependencies:
   strigi:
   soprano:
   polkit: 
-  pcre: 
+  pcre:
+  libattica:
+  shared-mime-info:
+  giflib:
+  libpng:
 optional_packages:
 source_md5sum:
 stowball_md5sum:
