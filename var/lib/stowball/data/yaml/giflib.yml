@@ -5,8 +5,8 @@ version: &version 4.1.6
 abstract: *name
 release_date: *version
 source_url: http://downloads.sourceforge.net/*name/*name-*version.tar.bz2
-stowball:
-stowball_build_date:
+stowball: &name-&version.stow.tar.bz2
+stowball_build_date: 2010-05-06
 homepage: http://sourceforge.net/projects/giflib
 wikipedia: NULL
 glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/general/giflib.html
@@ -15,4 +15,4 @@ stow_script: stow-*name-*version
 dependencies:
 optional_packages:
 source_md5sum: 7125644155ae6ad33dbc9fc15a14735f
-stowball_md5sum:
+stowball_md5sum: 9f6fdb7bfd984f83287396eb33a807f2

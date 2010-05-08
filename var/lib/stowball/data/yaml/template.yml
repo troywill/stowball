@@ -1,17 +1,17 @@
 ---
 id: 
-name: 
-version: 
+name: &name
+version: &version
 abstract: 
-release_date: 
-source_url: 
-stowball:
-stowball_build_date:
+release_date: 2010-05-0
+source_url: *name-*version-
+stowball: *name-*version-*stow.tar.bz2
+stowball_build_date: 2010-05-0
 homepage: 
 wikipedia: 
 glfs_url: 
-script_dir: 
-stow_script: 
+script_dir: *name
+stow_script: *stow-*name-*version
 dependencies:
   emacs: 
 optional_packages:
