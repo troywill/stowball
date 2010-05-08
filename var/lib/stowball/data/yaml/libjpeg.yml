@@ -1,0 +1,18 @@
+---
+id: 35
+name: &name libjpeg
+version: &version
+abstract: *name
+release_date: 2009-08-05
+source_url: http://www.ijg.org/files/jpegsrc.v7.tar.gz
+stowball: *name-*version-*stow.tar.bz2
+stowball_build_date: 2010-05-07
+homepage: http://www.ijg.org
+wikipedia: http://en.wikipedia.org/wiki/Libjpeg
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/general/libjpeg.html
+script_dir: *name
+stow_script: *stow-*name-*version
+dependencies:
+optional_packages:
+source_md5sum:
+stowball_md5sum:

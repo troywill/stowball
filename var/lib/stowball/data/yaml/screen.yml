@@ -1,0 +1,19 @@
+---
+id: 32
+name: screen
+version: 4.0.3
+abstract: GNU Screen
+release_date: 2009-08-09
+source_url: ftp://ftp.gnu.org/gnu/screen/screen-4.0.3.tar.gz
+stowball:
+stowball_build_date:
+homepage: http://www.gnu.org/software/screen
+wikipedia: http://en.wikipedia.org/wiki/GNU_Screen
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/general/screen.html
+script_dir: screen
+stow_script: stow-screen-4.0.3
+dependencies:
+optional_packages:
+source_md5sum: 8506fd205028a96c741e4037de6e3c42
+stowball_md5sum:
+

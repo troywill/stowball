@@ -1,0 +1,18 @@
+---
+id: 31
+name: pcre
+version: 8.2
+abstract: Perl Compatible Regular Expression libraries
+release_date: 2009-08-09
+source_url: http://downloads.sourceforge.net/project/pcre/pcre/8.02/pcre-8.02.tar.bz2
+stowball: pcre-8.2.stow.tar.bz2
+stowball_build_date: 2010-05-07
+homepage: http://www.pcre.org
+wikipedia: http://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/general/pcre.html
+script_dir: pcre
+stow_script: stow-pcre-8.2
+dependencies:
+optional_packages:
+source_md5sum: 27948c1b5f5c1eabc23cba1ebe4c316f
+stowball_md5sum: 4cb7b3dac50857f18908cb51886fcb19
