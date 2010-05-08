@@ -15,8 +15,6 @@ PACKAGE_DIR=${PACKAGE}-${VERSION}
 
 do_configure () {
     ./configure --prefix=${PREFIX} \
-	--info-dir=${PREFIX}/share/info \
-	--man-dir=${PREFIX}/share/man \
 	2>&1 | tee log.stow.configure
 }
 

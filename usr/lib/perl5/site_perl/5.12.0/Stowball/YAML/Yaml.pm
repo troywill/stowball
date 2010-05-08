@@ -9,7 +9,9 @@ sub yaml_to_sql {
     my $id = $href->{id};
     my $name = $href->{name};
     my $version = $href->{version};
+    my $script_dir = $href->{script_dir};
     print "$id: $name v$version\n";
+    print "script dir: $script_dir\n";
     
 # Let's print out the dependencies                                                                    
     
