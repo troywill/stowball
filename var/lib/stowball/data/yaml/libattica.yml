@@ -1,0 +1,18 @@
+---
+id: 32
+name: libattica
+version: 0.1.3
+abstract: libattica
+release_date: 2010-04-06
+source_url: rsync.kde.org::kdeftp/stable/attica/attica-0.1.3.tar.bz2
+stowball:
+stowball_build_date:
+homepage: NULL
+wikipedia: NULL
+glfs_url: NULL
+script_dir: libattica
+stow_script: stow-libattica-0.1.3
+dependencies:
+optional_packages:
+source_md5sum: aeb0c14d1bf2afa7d9ce3b5a16390a03
+stowball_md5sum:
