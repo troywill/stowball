@@ -26,7 +26,7 @@ sub strip_source_url {
     my $YAML_FILE = shift;
     my $href = YAML::XS::LoadFile($YAML_FILE);
     my $source_url = $href->{source_url};
-    print "$source_url";
+    print "\nSOURCE: $source_url\n";
 }
 
 1;

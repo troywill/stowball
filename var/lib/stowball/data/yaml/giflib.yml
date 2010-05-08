@@ -1,17 +1,17 @@
 ---
 id: 34
-name: &name giflib
-version: &version 4.1.6
-abstract: *name
-release_date: *version
-source_url: http://downloads.sourceforge.net/*name/*name-*version.tar.bz2
-stowball: &name-&version.stow.tar.bz2
+name: giflib
+version: 4.1.6
+abstract: giflib
+release_date: 
+source_url: http://downloads.sourceforge.net/giflib/giflib-4.1.6.tar.bz2
+stowball: giflib-4.1.6.stow.tar.bz2
 stowball_build_date: 2010-05-06
 homepage: http://sourceforge.net/projects/giflib
 wikipedia: NULL
 glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/general/giflib.html
-script_dir: &name
-stow_script: stow-*name-*version
+script_dir: giflib\4.1.6
+stow_script: stow-giflib-4.1.6
 dependencies:
 optional_packages:
 source_md5sum: 7125644155ae6ad33dbc9fc15a14735f
