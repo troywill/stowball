@@ -1,0 +1,20 @@
+---
+id: 40
+name: kdebase
+version: 4.4.3
+abstract: 
+release_date: 2010-
+source_url: ftp://carroll.aset.psu.edu/pub/kde/stable/latest/src/kdebase-4.4.3.tar.bz2
+stowball: kdebase-4.4.3-stow.tar.bz2
+stowball_build_date: 2010-05-0
+homepage: 
+wikipedia: 
+glfs_url: 
+script_dir: kdebase
+stow_script: stow-kdebase-4.4.3
+dependencies:
+  kdelibs:
+  qimageblitz: 
+optional_packages:
+source_md5sum:
+stowball_md5sum:
