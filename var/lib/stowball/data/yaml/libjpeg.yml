@@ -4,7 +4,7 @@ name: libjpeg
 version: 8a
 abstract: libjpeg
 release_date: 20
-source_url: libjpeg http://www.ijg.org/files/jpegsrc.v8a.tar.gz
+source_url: http://www.ijg.org/files/jpegsrc.v8a.tar.gz
 stowball: libjpeg-8a-stow.tar.bz2
 stowball_build_date: 2010-02-28
 homepage: http://www.ijg.org

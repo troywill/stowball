@@ -4,7 +4,7 @@ name: clucene
 version: 0.9.21b
 abstract: C++ search engine (port of Lucene search engine written in Java)
 release_date: 2010-02-03
-source_url: http://sourceforge.net/projects/clucene/files/clucene-core-stable/0.9.21b/clucene-core-0.9.21b.tar.bz2/download
+source_url: http://downloads.sourceforge.net/project/clucene/clucene-core-stable/0.9.21b/clucene-core-0.9.21b.tar.bz2
 stowball:
 stowball_build_date:
 homepage: http://clucene.sourceforge.net

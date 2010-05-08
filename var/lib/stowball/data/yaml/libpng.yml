@@ -6,7 +6,7 @@ abstract: library for reading and writing PNGs
 release_date: 2010-05-0
 source_url: http://downloads.sourceforge.net/libpng/libpng-1.4.1.tar.bz2
 stowball: libpng-1.4.1-stow.tar.bz2
-stowball_build_date: 2010-05-0
+stowball_build_date: 2010-05-07
 homepage: http://libpng.org
 wikipedia: http://en.wikipedia.org/wiki/Libpng
 glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/general/libpng.html
