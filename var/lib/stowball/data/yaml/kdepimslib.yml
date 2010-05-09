@@ -1,0 +1,23 @@
+---
+id: 45
+name: kdepimlibs
+version: 4.4.3
+abstract: 
+release_date: 2010-
+source_url: kdepimlibs-4.4.3-
+stowball: kdepimlibs-4.4.3-stow.tar.bz2
+stowball_build_date: 2010-05-0
+homepage: 
+wikipedia: 
+glfs_url: 
+script_dir: kdepimlibs
+stow_script: stow-kdepimlibs-4.4.3
+dependencies:
+  boost:
+  gpgme:
+  akonadi: 
+  cyrus-sasl: 
+  libical: 
+optional_packages:
+source_md5sum:
+stowball_md5sum:

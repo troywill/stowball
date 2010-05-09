@@ -1,0 +1,19 @@
+---
+id: 
+name: oxygen-icons
+version: 4.4.3
+abstract: 
+release_date: 2010-
+source_url: http://carroll.aset.psu.edu/pub/kde/stable/4.4.3/src/oxygen-icons-4.4.3.tar.bz2
+stowball: oxygen-icons-4.4.3-stow.tar.bz2
+stowball_build_date: 2010-05-0
+homepage: 
+wikipedia: 
+glfs_url: 
+script_dir: oxygen-icons
+stow_script: stow-oxygen-icons-4.4.3
+dependencies:
+  emacs: 
+optional_packages:
+source_md5sum:
+stowball_md5sum:

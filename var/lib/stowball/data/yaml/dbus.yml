@@ -1,0 +1,18 @@
+---
+id: 38
+name: dbus
+version: 1.2.24
+abstract: 
+release_date: 2010-03-23
+source_url: http://dbus.freedesktop.org/releases/dbus/dbus-1.2.24.tar.gz
+stowball: dbus-1.2.24-stow.tar.bz2
+stowball_build_date: 2010-05-07
+homepage: http://www.freedesktop.org/wiki/Software/dbus
+wikipedia: http://en.wikipedia.org/wiki/D-Bus 
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/general/dbus.html
+script_dir: dbus
+stow_script: stow-dbus-1.2.24
+dependencies:
+optional_packages:
+source_md5sum:
+stowball_md5sum: 128136d632373b8977231c1fb5a11308

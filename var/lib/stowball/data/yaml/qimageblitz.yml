@@ -1,0 +1,19 @@
+---
+id: 41
+name: qimageblitz
+version: 0.0.4
+abstract: 
+release_date: 2010-
+source_url: http://downloads.sourceforge.net/project/qimageblitz/qimageblitz/QImageBlitz%200.0.4/qimageblitz-0.0.4.tar.bz2
+stowball: qimageblitz-0.0.4-stow.tar.bz2
+stowball_build_date: 2010-05-07
+homepage: http://websvn.kde.org/trunk/kdesupport/qimageblitz
+wikipedia: NULL
+glfs_url: NULL
+script_dir: qimageblitz
+stow_script: stow-qimageblitz-0.0.4
+dependencies:
+  emacs: 
+optional_packages:
+source_md5sum:
+stowball_md5sum:

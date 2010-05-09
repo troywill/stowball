@@ -1,0 +1,18 @@
+---
+id: 
+name: libassuan
+version: 2.0.0
+abstract: 
+release_date: 2010-
+source_url: ftp://ftp.gnupg.org/gcrypt/libassuan/libassuan-2.0.0.tar.bz2
+stowball: gpgme-2.0.0-stow.tar.bz2
+stowball_build_date: 2010-05-0
+homepage: http://www.gnupg.org/related_software/libassuan/index.en.html
+wikipedia: http://en.wikipedia.org/wiki/GNU_Privacy_Guard
+glfs_url: http://www.linuxfromscratch.org/blfs/view/cvs/general/libassuan.html
+script_dir: libassuan
+stow_script: stow-gpgme-2.0.0
+dependencies:
+optional_packages:
+source_md5sum:
+stowball_md5sum:
