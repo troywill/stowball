@@ -1,12 +1,12 @@
 ---
 id: 46
-
 name: boost
-version: *version
+version: 1.43.0
 abstract: Boost C++ Libraries
-release_date: http://sourceforge.net/projects/boost/files/boost/1.41.0/boost_1_41_0.tar.gz/download
+release_date: 
+source_url: http://downloads.sourceforge.net/project/boost/boost/1.43.0/boost_1_43_0.tar.bz2
 stowball: boost-*version-stow.tar.bz2
-stowball_build_date: 2010-05-0
+stowball_build_date: 2010-05-06
 homepage: http://boost.org
 wikipedia: http://en.wikipedia.org/wiki/Boost_C++_Libraries
 glfs_url: 
