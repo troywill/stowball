@@ -16,5 +16,12 @@ dependencies:
   kdelibs:
   qimageblitz: 
 optional_packages:
+  soprano:
+  # * Shared desktop ontologies  <http://oscaf.sourceforge.net>
+  #    Desktop ontologies
+  #    Ontologies necessary for the Nepomuk semantic desktop.
+  nepomuk:
+  pciutils:
+  raw1394: 
 source_md5sum:
 stowball_md5sum:

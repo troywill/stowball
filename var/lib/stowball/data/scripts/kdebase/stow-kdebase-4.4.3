@@ -1,0 +1,54 @@
+#!/bin/bash
+# autostow template: cmake DESTDIR type with stow target = /
+set -o errexit
+PACKAGE="kdebase"
+VERSION="4.4.3"
+PACKAGER="TDW <troydwill@gmail.com>"
+DATE="2010-05-07"
+PREFIX="/usr"
+TARGET="/"
+STOW_DIR="/stow"
+SUDO="sudo"
+
+PACKAGE_DIR=${PACKAGE}-${VERSION}
+
+do_configure () {
+    cmake . -DCMAKE_INSTALL_PREFIX:PATH=${PREFIX} 2>&1 | tee log.stow.configure
+}
+
+do_build () {
+    make 2>&1 | tee log.stow.make
+}
+
+do_install () {
+    ${SUDO} make DESTDIR=${STOW_DIR}/${PACKAGE_DIR} install 2>&1 | tee log.stow.install
+}
+
+do_check_conflicts () {
+    ${SUDO} stow --conflicts --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.conflicts
+}
+
+do_stow () {
+    ${SUDO} stow --verbose --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.stow
+}
+
+do_package () {
+    TARBALL="${PACKAGE_DIR}.stow.tar.bz2"
+    cd ${STOW_DIR}
+    ${SUDO} tar -jcf ${TARBALL} ${PACKAGE_DIR}
+    ${SUDO} mv --verbose ${TARBALL} /tmp
+    md5sum /tmp/${TARBALL}
+}
+
+do_configure
+do_build
+do_install
+do_stow
+do_package
+exit
+CMake uses different options than configure, but some have direct equivalents:
+   <srcdir>           : the source directory
+   --prefix=<dir>     : -DCMAKE_INSTALL_PREFIX:PATH=<dir>
+   --bindir=<dir>     : -DBIN_INSTALL_DIR:PATH=<dir>
+   --includedir=<dir> : -DINCLUDE_INSTALL_DIR:PATH=<dir>
+   --libdir=<dir>     : -DLIB_INSTALL_DIR:PATH=<dir>

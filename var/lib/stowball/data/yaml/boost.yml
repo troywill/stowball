@@ -1,0 +1,19 @@
+---
+id: 46
+
+name: boost
+version: *version
+abstract: Boost C++ Libraries
+release_date: http://sourceforge.net/projects/boost/files/boost/1.41.0/boost_1_41_0.tar.gz/download
+stowball: boost-*version-stow.tar.bz2
+stowball_build_date: 2010-05-0
+homepage: http://boost.org
+wikipedia: http://en.wikipedia.org/wiki/Boost_C++_Libraries
+glfs_url: 
+script_dir: boost
+stow_script: stow-boost-*version
+dependencies:
+  emacs: 
+optional_packages:
+source_md5sum:
+stowball_md5sum:
