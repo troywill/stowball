@@ -1,19 +1,18 @@
 ---
-id: 
+id: 53
 name: cyrus-sasl
-version: *version
+version: 2.1.23
 abstract: 
-release_date: 2010-
-source_url: cyrus-sasl-*version-
-stowball: cyrus-sasl-*version-stow.tar.bz2
+release_date: 2009-05-14
+source_url: ftp://ftp.andrew.cmu.edu/pub/cyrus-mail/cyrus-sasl-2.1.23.tar.gz
+stowball: cyrus-sasl-2.1.23-stow.tar.bz2
 stowball_build_date: 2010-05-0
-homepage: 
+homepage: http://cyrusimap.web.cmu.edu
 wikipedia: 
 glfs_url: 
 script_dir: cyrus-sasl
-stow_script: stow-cyrus-sasl-*version
+stow_script: stow-cyrus-sasl-2.1.23
 dependencies:
-  emacs: 
 optional_packages:
 source_md5sum:
 stowball_md5sum:
