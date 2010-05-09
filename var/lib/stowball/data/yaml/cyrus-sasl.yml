@@ -9,7 +9,7 @@ stowball: cyrus-sasl-2.1.23-stow.tar.bz2
 stowball_build_date: 2010-05-0
 homepage: http://cyrusimap.web.cmu.edu
 wikipedia: 
-glfs_url: 
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/postlfs/cyrus-sasl.html
 script_dir: cyrus-sasl
 stow_script: stow-cyrus-sasl-2.1.23
 dependencies:
