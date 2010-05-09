@@ -35,7 +35,6 @@
 40,"http://www.cmake.org/files/v2.8/cmake-2.8.0.tar.gz","cmake-2.8.0.tar.gz","cmake","2009-11-20"
 42,"ftp://ftp.gnutls.org/pub/gnutls/gnutls-2.8.5.tar.bz2","gnutls-2.8.5.tar.bz2","gnutls-2.8.5","2009-12-29"
 43,"http://anduin.linuxfromscratch.org/sources/BLFS/svn/l/libgcrypt-1.4.4.tar.bz2","libgcrypt-1.4.4.tar.bz2","libgcrypt-1.4.4","2009-12-29"
-44,"ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.7.tar.bz2","libgpg-error-1.7.tar.bz2","libgpg-error-1.7","2009-12-29"
 47,"http://www.ece.uvic.ca/~mdadams/jasper/software/jasper-1.900.1.zip","jasper-1.900.1.zip","jasper-1.9000.1","2009-12-30"
 48,"ftp://ftp.remotesensing.org/libtiff/tiff-3.9.2.tar.gz","tiff-3.9.2.tar.gz","libtiff-3.9.2","2009-12-29"
 56,"ftp://carroll.aset.psu.edu/pub/kde/stable/latest/src/kdebase-workspace-4.3.4.tar.bz2","kdebase-workspace-4.3.4.tar.bz2","kdebase-workspace-4.3.4","2009-12-12"
