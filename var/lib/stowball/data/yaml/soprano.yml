@@ -1,0 +1,18 @@
+---
+id: 51
+name: soprano
+version: 2.4.3
+abstract: C++/Qt4 framework for RDF data
+release_date: 2010-02-01
+source_url: http://downloads.sourceforge.net/project/soprano/Soprano/2.4.3/soprano-2.4.3.tar.bz2
+stowball: soprano-2.4.3-stow.tar.bz2
+stowball_build_date: 2010-05-09
+homepage: http://soprano.sourceforge.net
+wikipedia: http://en.wikipedia.org/wiki/Soprano_(KDE)
+glfs_url: NULL
+script_dir: soprano
+stow_script: stow-soprano-2.4.3
+dependencies:
+optional_packages:
+source_md5sum:
+stowball_md5sum:
