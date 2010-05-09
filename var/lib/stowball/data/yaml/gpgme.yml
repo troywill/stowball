@@ -13,7 +13,8 @@ glfs_url:
 script_dir: gpgme
 stow_script: stow-gpgme-1.3.0
 dependencies:
-  libgpg-error: 
+  libgpg-error:
+  libassuan:
 optional_packages:
 source_md5sum:
 stowball_md5sum:
