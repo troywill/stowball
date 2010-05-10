@@ -54,7 +54,7 @@ do_build () {
 }
 
 do_install () {
-    ${SUDO} make DESTDIR=${STOW_DIR}/${PACKAGE_DIR} install 2>&1 | tee log.stow.install
+    ${SUDO} make benchdir_root=/tmp/mysql-bench DESTDIR=${STOW_DIR}/${PACKAGE_DIR} install 2>&1 | tee log.stow.install
 }
 
 do_check_conflicts () {
