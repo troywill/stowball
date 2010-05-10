@@ -1,17 +1,18 @@
 ---
-id: 
+id: 55
 name: mysql
-version: *version
+version: 5.1.46
 abstract: 
-release_date: 2010-
-source_url: mysql-*version-
-stowball: mysql-*version-stow.tar.bz2
+release_date: 2010-04-06
+source_url: http://anduin.linuxfromscratch.org/sources/BLFS/svn/m/mysql-5.1.46.tar.gz
+source_url: http://mysql.mirror.kangaroot.net/Downloads/MySQL-5.1/mysql-5.1.46.tar.gz
+stowball: mysql-5.1.46-stow.tar.bz2
 stowball_build_date: 2010-05-0
 homepage: 
 wikipedia: 
 glfs_url: 
 script_dir: mysql
-stow_script: stow-mysql-*version
+stow_script: stow-mysql-5.1.46
 dependencies:
   emacs: 
 optional_packages:

@@ -1,0 +1,75 @@
+#!/bin/bash
+set -o errexit
+# autostow template 2010-05-09
+# GNU DESTDIR type
+# stow target = /, stow dir = /stow
+PACKAGE="mysql"
+VERSION="5.1.46"
+PACKAGER="TDW <troydwill@gmail.com>"
+HOMEPAGE_URL="http://www.mysql.com"
+SOURCE_URL=""
+DATE="2010-05-09"
+PREFIX="/usr"
+TARGET="/"
+STOW_DIR="/stow"
+SUDO="sudo"
+
+PACKAGE_DIR=${PACKAGE}-${VERSION}
+
+do_setup () {
+    groupadd -g 40 mysql &&
+    useradd -c "MySQL Server" -d /dev/null -g mysql -s /bin/false \
+        -u 40 mysql
+}
+
+do_configure () {
+    ./configure --prefix=${PREFIX} \
+	2>&1 | tee log.stow.configure
+
+    # --infodir=${PREFIX}/share/info
+    # --mandir=${PREFIX}/share/man
+	    
+}
+
+do_build () {
+    make 2>&1 | tee log.stow.make
+}
+
+do_install () {
+    ${SUDO} make DESTDIR=${STOW_DIR}/${PACKAGE_DIR} install 2>&1 | tee log.stow.install
+}
+
+do_clean_texinfo () {
+    ${SUDO} find ${STOW_DIR}/${PACKAGE_DIR} -name "dir" -okdir mv -v "{}" dir.stow.${PACKAGE_DIR} ";" 2>&1 | tee log.stow.texinfo
+}
+
+do_check_conflicts () {
+    ${SUDO} stow --conflicts --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.conflicts
+}
+
+do_stow () {
+    ${SUDO} stow --verbose --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.stow
+}
+
+do_update_info_dir () {
+    INFO_FILE="${PREFIX}/info/${PACKAGE}.info"
+    DIR_FILE="${PREFIX}/info/dir"
+    echo "install-info $INFO_FILE $DIR_FILE"
+}
+
+do_package () {
+    TARBALL="${PACKAGE_DIR}.stow.tar.bz2"
+    cd ${STOW_DIR}
+    ${SUDO} tar -jcf ${TARBALL} ${PACKAGE_DIR}
+    ${SUDO} mv --verbose ${TARBALL} /tmp
+    md5sum /tmp/${TARBALL}
+}
+
+do_configure
+exit
+do_build
+do_install
+do_clean_texinfo
+do_stow
+do_update_info_dir
+do_package
