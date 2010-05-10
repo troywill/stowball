@@ -1,0 +1,18 @@
+---
+id: 56
+name: ntp
+version: 4.2.4p7
+abstract: Network Time Protocol
+release_date: 2010-
+source_url: http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/ntp-4.2.4p7.tar.gz
+stowball: ntp-4.2.4p7-stow.tar.bz2
+stowball_build_date: 2010-05-0
+homepage: http://www.ntp.org
+wikipedia: http://en.wikipedia.org/wiki/Network_Time_Protocol
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/basicnet/ntp.html
+script_dir: ntp
+stow_script: stow-ntp-4.2.4p7
+dependencies:
+optional_packages:
+source_md5sum:
+stowball_md5sum:

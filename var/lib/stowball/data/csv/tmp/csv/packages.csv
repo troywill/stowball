@@ -1,4 +1,4 @@
-3,3,"mdk","GNU MIX Development Kit","1.2.5","2008-03-20","2009-10-25"
+o3,3,"mdk","GNU MIX Development Kit","1.2.5","2008-03-20","2009-10-25"
 4,4,"gcc","GNU Compiler Collection","4.4.2","2009-10-15","2009-10-25"
 5,5,"gmp","GNU Multiple Precision Arithmetic Library","4.3.1","2009-05-12","2009-10-25"
 6,6,"ncurses","Ncurses","5.7","2008-11-02","2009-09-28"
@@ -71,7 +71,6 @@
 92,92,"tcl","Tool Command Language","8.5.8","2009-11-16","2009-11-25"
 93,93,"expect","expect","5.43","2009-11-25","2009-11-25"
 94,94,"rxvt-unicode","rxvt-unicode","9.06","2009-11-25","2009-11-25"
-95,95,"ntp","Network Time Protocol","4.2.4p7","2009-05-18","2009-11-25"
 96,96,"lynx","Lynx is a text based web browser.","2.8.7rel.1","2009-07-05","2009-11-26"
 97,97,"Test-Output","CPAN module: Utilities to test STDOUT and STDERR messages.","0.16","2009-11-26","2009-11-26"
 98,98,"Sub-Exporter","CPAN module: a sophisticated exporter for custom-built routines","0.982","2009-01-16","2009-11-26"
