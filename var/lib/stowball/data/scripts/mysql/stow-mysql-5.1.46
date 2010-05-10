@@ -17,8 +17,8 @@ SUDO="sudo"
 PACKAGE_DIR=${PACKAGE}-${VERSION}
 
 # The following two lines from MySQL INSTALL file: (May 2010)
-export CFLAGS="-O3"
-export CXXFLAGS="-O3 -felide-constructors -fno-exceptions -fno-rtti"
+export CFLAGS="-march=native -O3"
+export CXXFLAGS="-march=native -O3 -felide-constructors -fno-exceptions -fno-rtti"
 
 do_setup () {
     groupadd -g 40 mysql &&
