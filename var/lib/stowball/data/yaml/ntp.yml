@@ -1,5 +1,6 @@
 ---
 id: 56
+# See https://support.ntp.org/bugs/show_bug.cgi?id=1219
 name: ntp
 version: 4.2.6p1
 abstract: Network Time Protocol

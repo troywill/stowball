@@ -1,3 +1,6 @@
+<2010-05-10>
+See https://support.ntp.org/bugs/show_bug.cgi?id=1219
+</2010-05-10>
 <2009-11-27>
 ntp_loopfilter.c:571: error: 'MOD_NANO' undeclared (first use in this function)
 ntp_loopfilter.c:571: error: (Each undeclared identifier is reported only once
