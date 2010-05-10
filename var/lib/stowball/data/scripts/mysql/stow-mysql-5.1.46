@@ -16,6 +16,10 @@ SUDO="sudo"
 
 PACKAGE_DIR=${PACKAGE}-${VERSION}
 
+# The following two lines from MySQL INSTALL file: (May 2010)
+export CFLAGS="-O3"
+export CXXFLAGS="-O3 -felide-constructors -fno-exceptions -fno-rtti"
+
 do_setup () {
     groupadd -g 40 mysql &&
     useradd -c "MySQL Server" -d /dev/null -g mysql -s /bin/false \
@@ -23,12 +27,26 @@ do_setup () {
 }
 
 do_configure () {
-    ./configure --prefix=${PREFIX} \
-	2>&1 | tee log.stow.configure
 
-    # --infodir=${PREFIX}/share/info
-    # --mandir=${PREFIX}/share/man
-	    
+    # Adapted from http://www.linuxfromscratch.org/blfs/view/svn/server/mysql.html
+    # and MySQL INSTALL file: (May 2010)
+    
+    ./configure --prefix=${PREFIX} \
+	--sysconfdir=/etc \
+        --libexecdir=/usr/sbin \
+        --localstatedir=/srv/mysql \
+	--enable-thread-safe-client \
+        --enable-assembler \
+        --enable-local-infile \
+        --with-unix-socket-path=/var/run/mysql/mysql.sock \
+        --without-debug \
+        --without-readline \
+        --with-plugins=innobase,myisam \
+	--with-extra-charsets=all \
+        --with-ssl \
+	--enable-assembler \
+	--with-mysqld-ldflags=-all-static \
+	2>&1 | tee log.stow.configure
 }
 
 do_build () {
@@ -39,22 +57,12 @@ do_install () {
     ${SUDO} make DESTDIR=${STOW_DIR}/${PACKAGE_DIR} install 2>&1 | tee log.stow.install
 }
 
-do_clean_texinfo () {
-    ${SUDO} find ${STOW_DIR}/${PACKAGE_DIR} -name "dir" -okdir mv -v "{}" dir.stow.${PACKAGE_DIR} ";" 2>&1 | tee log.stow.texinfo
-}
-
 do_check_conflicts () {
     ${SUDO} stow --conflicts --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.conflicts
 }
 
 do_stow () {
     ${SUDO} stow --verbose --target=${TARGET} --dir=${STOW_DIR} ${PACKAGE_DIR} 2>&1 | tee log.stow.stow
-}
-
-do_update_info_dir () {
-    INFO_FILE="${PREFIX}/info/${PACKAGE}.info"
-    DIR_FILE="${PREFIX}/info/dir"
-    echo "install-info $INFO_FILE $DIR_FILE"
 }
 
 do_package () {
@@ -66,10 +74,8 @@ do_package () {
 }
 
 do_configure
-exit
 do_build
+exit
 do_install
-do_clean_texinfo
 do_stow
-do_update_info_dir
 do_package
