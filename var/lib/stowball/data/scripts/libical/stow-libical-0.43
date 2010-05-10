@@ -3,8 +3,8 @@ set -o errexit
 # autostow template 2010-05-09
 # GNU DESTDIR type
 # stow target = /, stow dir = /stow
-PACKAGE="cyrus-sasl"
-VERSION="2.1.23"
+PACKAGE="libical"
+VERSION="0.43"
 PACKAGER="TDW <troydwill@gmail.com>"
 HOMEPAGE_URL=""
 SOURCE_URL=""
@@ -17,17 +17,7 @@ SUDO="sudo"
 PACKAGE_DIR=${PACKAGE}-${VERSION}
 
 do_configure () {
-    
-    # with help from http://www.linuxfromscratch.org/blfs/view/svn/postlfs/cyrus-sasl.html (TDW 2010-05-09)
-    
-    sed -i.bak 's/#elif WITH_DES/#elif defined(WITH_DES)/' \
-	plugins/digestmd5.c &&
     ./configure --prefix=${PREFIX} \
-        --sysconfdir=/etc \
-        --with-dbpath=/var/lib/sasl/sasldb2 \
-        --with-saslauthd=/var/run/saslauthd \
-	--infodir=${PREFIX}/share/info \
-	--mandir=${PREFIX}/share/man \
 	2>&1 | tee log.stow.configure
 }
 

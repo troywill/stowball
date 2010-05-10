@@ -1,0 +1,19 @@
+---
+id: 54
+name: libical
+version: 0.43
+abstract: 
+release_date: 2010-
+source_url: http://downloads.sourceforge.net/freeassociation/libical-0.43.tar.gz
+stowball: libical-0.43-stow.tar.bz2
+stowball_build_date: 2010-05-0
+homepage: 
+wikipedia: 
+glfs_url: 
+script_dir: libical
+stow_script: stow-libical-0.43
+dependencies:
+  emacs: 
+optional_packages:
+source_md5sum:
+stowball_md5sum:
