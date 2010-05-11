@@ -1,17 +1,17 @@
 ---
 id: 39
 name: qt
-version: 4.7.0-tp
+version: 4.7.0-beta1
 abstract: qt
-release_date: 2010-05-07
-source_url: http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.7.0.tar.gz
+release_date: 2010-05-04
+source_url: http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.7.0-beta1.tar.gz
 stowball: qt-4.7.0-tp-stow.tar.bz2
-stowball_build_date: 2010-05-07
+stowball_build_date: 2010-05-10
 homepage: http://qt.nokia.com
 wikipedia: http://en.wikipedia.org/wiki/Qt_(toolkit)
 glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/x/qt4.html
 script_dir: qt
-stow_script: stow-qt-4.7.0-tp
+stow_script: stow-qt-4.7.0-beta1
 dependencies:
 optional_packages:
 source_md5sum:
