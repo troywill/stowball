@@ -3,7 +3,7 @@ set -o errexit
 PACKAGE="phonon"
 VERSION="4.4.1"
 PACKAGER="TDW <troydwill@gmail.com>"
-DATE="2010-05-06"
+DATE="2010-05-11"
 PREFIX="/usr"
 TARGET="/"
 STOW_DIR="/stow"
@@ -37,10 +37,9 @@ do_package () {
 }
 
 do_configure
-#
+exit
 do_build
 do_install
 do_stow
 do_poststow
 do_package
-exit
