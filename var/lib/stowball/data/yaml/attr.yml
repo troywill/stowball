@@ -1,19 +1,19 @@
 ---
 id: 58
 name: attr
-version: *version
+version: 2.4.44
 abstract: Commands for Manipulating Filesystem Extended Attributes
 release_date: 2010-
 source_url: git clone git://git.savannah.nongnu.org/attr.git
-stowball: attr-*version-stow.tar.bz2
+source_url: ftp://oss.sgi.com/projects/xfs/cmd_tars-oct_09/attr-2.4.44.src.tar.gz
+stowball: attr-2.4.44-stow.tar.bz2
 stowball_build_date: 2010-05-0
 homepage: 
 wikipedia: 
 glfs_url: 
 script_dir: attr
-stow_script: stow-attr-*version
+stow_script: stow-attr-2.4.44
 dependencies:
-  emacs: 
 optional_packages:
-source_md5sum:
+source_md5sum: adeefe65c5ad1febe46da185c5bfd5d4
 stowball_md5sum:

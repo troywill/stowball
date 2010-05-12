@@ -50,13 +50,9 @@
 70,70,"essential-codecs","Mplayer essential codecs for x86 Linux","20071007","2007-10-07","2009-11-01"
 71,71,"vlc","vlc","1.0.3","2009-11-01","2009-11-01"
 72,72,"gdb","The GNU Project Debugger","7.0","2009-10-06","2009-11-01"
-73,73,"dbus-glib","D-Bus GLib Bindings","0.82","2009-10-06","2009-11-01"
-74,74,"polkit","Unprivileged processes Toolkit","0.95","2009-11-13","2009-12-27"
 75,75,"ConfigReader-Simple","CPAN module: ConfigReader-Simple","1.28","2009-06-09","2012-04-01"
 76,76,"mcron","Mellors cron","1.04","2009-11-09","2009-12-17"
 77,77,"eggdbus","D-Bus GObject Bindings","0.6","2009-11-13","2009-12-27"
-78,78,"docbook-xsl-1.75.2","DocBook XSL Stylesheets","1.75.2","2009-11-09","2009-11-09"
-79,79,"Linux-PAM","Linux-PAM","1.1.1","2009-12-16","2009-12-27",
 80,80,"gobject-introspection","gobject-introspection-0.6.7","0.6.7","2009-12-16","2009-12-27"
 81,81,"libffi","a portable foreign function interface library","3.0.8","2009-11-11","2009-11-11"
 82,82,"subversion","Subversion","1.6.6","2009-11-12","2009-11-12"

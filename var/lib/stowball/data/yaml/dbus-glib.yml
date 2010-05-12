@@ -1,22 +1,18 @@
 ---
 id: 38
-name: dbus
-version: 1.2.24
-abstract: 
+name: dbus-glib
+version: 0.82
+abstract: D-Bus GLib Bindings
 release_date: 2010-03-23
-source_url: http://dbus.freedesktop.org/releases/dbus/dbus-1.2.24.tar.gz
+source_url: 
 stowball: dbus-1.2.24-stow.tar.bz2
 stowball_build_date: 2010-05-07
-homepage: http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.82.tar.gz","http://en.wikipedia.org/wiki/D-Bus","http://www.linuxfromscratch.org/blfs/view/svn/general/dbus-bindings.html","G","2009-11-07"
-
-wikipedia: 73,"http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.82.tar.gz","http://en.wikipedia.org/wiki/D-Bus","http://www.linuxfromscratch.org/blfs/view/svn/general/dbus-bindings.html","G","2009-11-07"
-
-glfs_url: 73,"http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.82.tar.gz","http://en.wikipedia.org/wiki/D-Bus","http://www.linuxfromscratch.org/blfs/view/svn/general/dbus-bindings.html","G","2009-11-07"
-
-script_dir: dbus
-stow_script: stow-dbus-1.2.24
+homepage: 
+wikipedia: http://en.wikipedia.org/wiki/D-Bus
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/general/dbus-bindings.html
+script_dir: dbus-glib
+stow_script: stow-dbus-glib-0.82
 dependencies:
-  emacs: 
 optional_packages:
 source_md5sum:
 stowball_md5sum:
