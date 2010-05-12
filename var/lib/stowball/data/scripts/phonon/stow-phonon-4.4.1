@@ -36,10 +36,10 @@ do_package () {
     ${SUDO} tar -jcf ${PACKAGE_DIR}.stow.tar.bz2 ${PACKAGE_DIR}
 }
 
-do_configure
-exit
-do_build
+# do_configure
+# do_build
 do_install
 do_stow
 do_poststow
 do_package
+exit

@@ -13,6 +13,7 @@ sub yaml_to_sql {
     my $source_url = $href->{source_url};
     print "$id: $name v$version\n";
     print "script dir: $script_dir\n";
+    print "source_url: $source_url\n";
     
 # Let's print out the dependencies                                                                    
     

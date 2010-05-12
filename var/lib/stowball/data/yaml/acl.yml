@@ -1,0 +1,21 @@
+---
+id: acl
+name: acl
+version: 2.2.49
+abstract: 
+release_date: 
+source_url:
+repository: git://git.savannah.nongnu.org/acl.git
+stowball: libacl-2.2.49-stow.tar.bz2
+stowball_build_date: 2010-05-0
+homepage: http://oss.sgi.com/projects/xfs/
+homepage: ftp://oss.sgi.com/projects/xfs/cmd_tars
+wikipedia: 
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/postlfs/acl.html
+script_dir: libacl
+stow_script: stow-libacl-2.2.49
+dependencies:
+  emacs: 
+optional_packages:
+source_md5sum:
+stowball_md5sum:
