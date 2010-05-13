@@ -1,4 +1,5 @@
 DATA_DIR = '/home/troy/rcs/stowball/data/shilohSchema/2010_spring/csv'
+YAML_DIR = '/var/lib/stowball/data/yaml/'
 DATABASE = '/var/lib/stowball/2010_spring.db'
 LOCAL_DATABASE = '/var/lib/stowball/2010_spring_local.db'
 
@@ -13,3 +14,4 @@ RSYNC_MODULE = '71.104.15.74::sources'
 RSYNC_MODULE = '192.168.1.5::sources'
 RSYNC_STOWBALL_MODULE = 'troywill.com::stowball'
 RSYNC_STOWBALL_MODULE = '192.168.1.5'
+
