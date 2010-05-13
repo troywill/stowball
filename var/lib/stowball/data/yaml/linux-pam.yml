@@ -1,0 +1,18 @@
+---
+id: 61
+name: Linux-PAM
+version: 1.1.1
+abstract: Linux-PAM
+release_date: 2010-
+source_url: http://www.kernel.org/pub/linux/libs/pam/library/Linux-PAM-1.1.1.tar.bz2
+stowball: Linux-PAM-1.1.1-stow.tar.bz2
+stowball_build_date: 2010-05-0
+homepage: http://www.kernel.org/pub/linux/libs/pam
+wikipedia: http://en.wikipedia.org/wiki/Linux_PAM
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/postlfs/linux-pam.html
+script_dir: Linux-PAM
+stow_script: stow-Linux-PAM-1.1.1
+dependencies:
+optional_packages:
+source_md5sum:
+stowball_md5sum:
