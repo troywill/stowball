@@ -31,4 +31,13 @@ sub strip_source_url {
     print "\nSOURCE: $source_url\n";
 }
 
+sub yaml_index {
+    my $YAML_FILE = shift;
+    my $href = YAML::XS::LoadFile($YAML_FILE);
+    my $id = $href->{id};
+    my $name = $href->{name};
+    my $version = $href->{version};
+    print "id: $name\n";
+}
+
 1;
