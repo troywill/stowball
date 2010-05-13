@@ -44,7 +44,6 @@
 70,"http://en.wikipedia.org/wiki/Website","http://en.wikipedia.org/wiki/MPlayer","http://www.linuxfromscratch.org/blfs/view/svn/multimedia/mplayer.html","G","2009-10-22"
 75,"http://search.cpan.org/dist/ConfigReader-Simple/","n/a","n/a","n/a","2010-04-01"
 81,"http://sourceware.org/libffi/","http://en.wikipedia.org/wiki/Libffi","http://www.linuxfromscratch.org/blfs/view/svn/general/libffi.html","n/a","2009-11-11"
-82,"http://subversion.tigris.org/","http://en.wikipedia.org/wiki/Subversion_(software)","http://www.linuxfromscratch.org/blfs/view/svn/basicnet/subversion.html","n/a","2009-11-12"
 83,"http://www.openssl.org/","http://en.wikipedia.org/wiki/OpenSSL","http://www.linuxfromscratch.org/blfs/view/svn/postlfs/openssl.html","n/a","2009-11-18"
 84,"http://www.alsa-project.org/","http://en.wikipedia.org/wiki/Advanced_Linux_Sound_Architecture","http://www.linuxfromscratch.org/blfs/view/svn/multimedia/alsa-utils.html","n/a","2009-11-20"
 85,"http://bitbucket.org/rg3/youtube-dl/raw/2009.09.13/youtube-dl","n/a","n/a","2009-11-20"

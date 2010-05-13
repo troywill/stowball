@@ -55,7 +55,6 @@
 77,77,"eggdbus","D-Bus GObject Bindings","0.6","2009-11-13","2009-12-27"
 80,80,"gobject-introspection","gobject-introspection-0.6.7","0.6.7","2009-12-16","2009-12-27"
 81,81,"libffi","a portable foreign function interface library","3.0.8","2009-11-11","2009-11-11"
-82,82,"subversion","Subversion","1.6.6","2009-11-12","2009-11-12"
 83,83,"openssl","openssl","0.9.8l","2009-11-05","2009-11-18"
 84,84,"alsa-utils","Utilities aplay,arecord,amixer etc","1.0.22","2009-09-16","2009-12-16"
 85,85,"youtube-dl","command-line program for downloading videos from YouTube.com","2009.09.13","2009-09-13","2009-09-20"

@@ -1,0 +1,18 @@
+---
+id: 
+name: subversion
+version: 1.6.11
+abstract: 
+release_date: 2010-05-12
+source_url: http://subversion.tigris.org/downloads/subversion-1.6.11.tar.bz2
+stowball: subversion-1.6.11-stow.tar.bz2
+stowball_build_date: 2010-05-12
+homepage: http://subversion.apache.org
+wikipedia: http://en.wikipedia.org/wiki/Subversion_(software)
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/basicnet/subversion.html
+script_dir: subversion
+stow_script: stow-subversion-1.6.11
+dependencies:
+optional_packages:
+source_md5sum:
+stowball_md5sum:
