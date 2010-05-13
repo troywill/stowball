@@ -1,8 +1,8 @@
 ---
 id: 64
-name: apache
+name: httpd
 version: 2.2.15
-abstract: 
+abstract: apache
 release_date: 2010-0306
 source_url: http://www.reverse.net/pub/apache/httpd/httpd-2.2.15.tar.bz2
 stowball: apache-2.2.15-stow.tar.bz2
