@@ -3,7 +3,13 @@ use warnings;
 use strict;
 use Stowball::YAML::Yaml;
 
-my $file = shift;
-    
-&yaml_index( $file );
+my @yaml_files = <*.yml>;
+
+foreach my $yaml_file ( @yaml_files ) {
+    unless ( $yaml_file eq 'template.yml' ) {
+	print "------------ $yaml_file --------------\n";
+	&yaml_index( $yaml_file );
+    }
+}
+
 

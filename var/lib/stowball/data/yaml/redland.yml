@@ -1,17 +1,17 @@
 ---
 id: 52
 name: redland
-version: *version
+version: 0
 abstract: 
 release_date: 2010-
-source_url: redland-*version-
-stowball: redland-*version-stow.tar.bz2
+source_url: redland-0-
+stowball: redland-0-stow.tar.bz2
 stowball_build_date: 2010-05-0
 homepage: http://librdf.org
 wikipedia: 
 glfs_url: 
 script_dir: redland
-stow_script: stow-redland-*version
+stow_script: stow-redland-0
 dependencies:
   emacs: 
 optional_packages:

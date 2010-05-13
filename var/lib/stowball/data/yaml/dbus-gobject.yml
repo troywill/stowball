@@ -1,17 +1,17 @@
 ---
 id: 
-name: *name
-version: *version
+name: dbus-gobject
+version: 0
 abstract: 
 release_date: 2010-
-source_url: *name-*version-
-stowball: *name-*version-stow.tar.bz2
+source_url: dbus-gobject-0-
+stowball: dbus-gobject-0-stow.tar.bz2
 stowball_build_date: 2010-05-0
 homepage: 
 wikipedia: 
 glfs_url: 
-script_dir: *name
-stow_script: stow-*name-*version
+script_dir: dbus-gobject
+stow_script: stow-dbus-gobject-0
 dependencies:
   emacs: 
 optional_packages:

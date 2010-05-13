@@ -37,7 +37,7 @@ sub yaml_index {
     my $id = $href->{id};
     my $name = $href->{name};
     my $version = $href->{version};
-    print "id: $name\n";
+    print "id: $id => $name\n";
 }
 
 1;

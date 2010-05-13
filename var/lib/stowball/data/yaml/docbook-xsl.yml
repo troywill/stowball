@@ -1,17 +1,17 @@
 ---
 id: 
-name: *name
-version: *version
+name: docbook-xsl
+version: 0
 abstract: 
 release_date: 2010-
-source_url: *name-*version-
-stowball: *name-*version-stow.tar.bz2
+source_url: docbook-xsl-0-
+stowball: docbook-xsl-0-stow.tar.bz2
 stowball_build_date: 2010-05-0
 homepage: 
 wikipedia: 
 glfs_url: 
-script_dir: *name
-stow_script: stow-*name-*version
+script_dir: docbook-xsl
+stow_script: stow-docbook-xsl-0
 dependencies:
   emacs: 
 optional_packages:

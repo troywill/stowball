@@ -1,17 +1,17 @@
 ---
 id: 59
 name: polkit
-version: *version
+version: 0
 abstract: Unprivileged processes Toolkit
 release_date: 2010-
-source_url: polkit-*version-
-stowball: polkit-*version-stow.tar.bz2
+source_url: polkit-0-
+stowball: polkit-0-stow.tar.bz2
 stowball_build_date: 2010-05-0
 homepage: 
 wikipedia: 
 glfs_url: 
 script_dir: polkit
-stow_script: stow-polkit-*version
+stow_script: stow-polkit-0
 dependencies:
   emacs: 
 optional_packages:
