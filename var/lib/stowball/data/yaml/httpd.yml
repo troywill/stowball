@@ -14,7 +14,6 @@ arch_url: http://www.archlinux.org/packages/extra/i686/apache
 script_dir: apache
 stow_script: stow-apache-2.2.15
 dependencies:
-  emacs: 
 optional_packages:
 source_md5sum: 016cec97337eccead2aad6a7c27f2e14
 stowball_md5sum:

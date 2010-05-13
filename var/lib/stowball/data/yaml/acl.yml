@@ -15,7 +15,6 @@ glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/postlfs/acl.html
 script_dir: libacl
 stow_script: stow-libacl-2.2.49
 dependencies:
-  emacs: 
 optional_packages:
 source_md5sum:
 stowball_md5sum:
