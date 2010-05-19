@@ -8,11 +8,11 @@ use warnings;
 sub setup_environment {
     my $action1 = 'install -v -m700 -d /var/lib/sshd';
     my $action2 = 'chown -v root:sys /var/lib/sshd';
-    my $action3 = 'groupadd -g 50 sshd';
-    my $action4 = 'useradd --comment "sshd PrivSep" --home /var/lib/sshd --gid sshd --shell /bin/false --uid 50 sshd';
+    my $action3 = 'groupadd -g 51 sshd';
+    my $action4 = 'useradd --comment "sshd PrivSep" --home /var/lib/sshd --gid sshd --shell /bin/false --uid 51 sshd';
 
-    system $action1 || die;
-    system $action2 || die;
+#    system $action1 || die;
+#    system $action2 || die;
     system $action3 || die;
     system $action4 || die;
 
