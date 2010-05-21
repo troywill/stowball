@@ -1,0 +1,20 @@
+---
+id: 
+name: gstreamer
+version: 0.10.29
+abstract: 
+release_date: 2010-04-28
+source_url: http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.29.tar.bz2
+stowball: gstreamer-0.10.29-stow.tar.bz2
+stowball_build_date: 2010-05-0
+homepage: http://gstreamer.freedesktop.org/
+wikipedia: http://en.wikipedia.org/wiki/GStreamer
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/multimedia/gstreamer.html
+script_dir: gstreamer
+stow_script: stow-gstreamer-0.10.29
+dependencies:
+  glib:
+  libxml2:
+optional_packages:
+source_md5sum:
+stowball_md5sum:
