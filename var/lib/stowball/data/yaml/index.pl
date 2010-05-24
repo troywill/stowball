@@ -11,5 +11,3 @@ foreach my $yaml_file ( @yaml_files ) {
 	&yaml_index( $yaml_file );
     }
 }
-
-
