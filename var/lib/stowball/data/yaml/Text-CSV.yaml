@@ -1,0 +1,17 @@
+id: 66
+name: Text-CSV
+version: 1.17
+abstract: Text::CSV comma-separated values manipulator (using XS or PurePerl)
+release_date: 2010-03-16
+source_url: http://search.cpan.org/CPAN/authors/id/M/MA/MAKAMAKA/Text-CSV-1.17.tar.gz
+stowball: Text-CSV-1.17-stow.tar.bz2
+stowball_build_date: 2010-05-26
+homepage: http://search.cpan.org/dist/Text-CSV
+wikipedia: 
+glfs_url: 
+script_dir: Text-CSV
+stow_script: stow-Text-CSV-1.17
+dependencies:
+optional_packages:
+source_md5sum:
+stowball_md5sum:
