@@ -7,6 +7,7 @@ DATE="2010-05-26"
 HOMEPAGE_URL=""
 SOURCE_URL=""
 PREFIX="/usr"
+LIB="/usr/lib/perl5/vendor_perl"
 TARGET="/"
 STOW_DIR="/stow"
 SUDO="sudo"
@@ -19,7 +20,9 @@ continue_prompt () {
 }
 
 do_configure () {
-    perl Makefile.PL PREFIX=${PREFIX} 2>&1 | tee log.stow.configure.${PACKAGE}-${VERSION}
+    perl Makefile.PL PREFIX=${PREFIX} \
+	LIB=${LIB} \
+	2>&1 | tee log.stow.configure.${PACKAGE}-${VERSION}
 }
 
 do_build () {
@@ -47,7 +50,6 @@ do_package () {
 }
 
 do_configure && continue_prompt
-#
 do_build && continue_prompt
 do_test && continue_prompt
 do_install && continue_prompt

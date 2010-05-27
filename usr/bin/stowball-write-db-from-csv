@@ -13,6 +13,8 @@ use ConfigReader::Simple;
 #### End Section: Useful webpages
 
 my $config = ConfigReader::Simple->new('/home/troy/rcs/stowball/stowball.cfg');
+$config = ConfigReader::Simple->new('/etc/stowball.cfg');
+
 my $stow_dir     = $config->get('stow_dir');
 my $su_command   = $config->get('su_command');
 my $TAR_COMMAND  = $config->get('TAR_COMMAND');
