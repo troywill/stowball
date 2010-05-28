@@ -21,9 +21,6 @@ do_configure () {
     ./configure --prefix=${PREFIX} \
 	2>&1 | tee log.stow.configure
 
-    # --infodir=${PREFIX}/share/info
-    # --mandir=${PREFIX}/share/man
-	    
 }
 
 do_build () {
@@ -52,9 +49,7 @@ do_package () {
 
 # do_configure
 # do_build
-do_install
-do_clean_texinfo
+# do_install
 do_stow
-do_update_info_dir
 do_package
 exit

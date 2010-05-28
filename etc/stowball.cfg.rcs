@@ -1,4 +1,4 @@
-DATA_DIR = '/home/troy/rcs/stowball/data/shilohSchema/2010_spring/csv'
+DATA_DIR = '/var/lib/stowball/data/shilohSchema/2010_spring/csv'
 YAML_DIR = '/var/lib/stowball/data/yaml/'
 DATABASE = '/var/lib/stowball/2010_spring.db'
 LOCAL_DATABASE = '/var/lib/stowball/2010_spring_local.db'

@@ -1,0 +1,18 @@
+---
+id: 2
+name: perl
+version: 5.12.1
+abstract: 
+release_date: 2010-05-16
+source_url: http://www.cpan.org/src/5.0/perl-5.12.1.tar.bz2
+stowball: perl-5.12.1-stow.tar.bz2
+stowball_build_date: 2010-05-30
+homepage: 
+wikipedia: 
+glfs_url: 
+script_dir: perl
+stow_script: stow-perl-5.12.1
+dependencies:
+optional_packages:
+source_md5sum:
+stowball_md5sum:
