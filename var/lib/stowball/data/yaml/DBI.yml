@@ -1,19 +1,18 @@
 ---
-id: 64,64,"DBI","perl DBI","1.609","2009-06-08","2010-03-27"
+id: 1
 name: DBI
-version: *version
+version: 1.611
 abstract: 
-release_date: 2010-
-source_url: http://cpan.perl.org/CPAN/authors/id/T/TI/TIMB/DBI-1.609.tar.gz
-stowball: DBI-*version-stow.tar.bz2
-stowball_build_date: 2010-05-0
-homepage: 64,"http://dbi.perl.org/","http://en.wikipedia.org/wiki/Perl_DBI","n/a","n/a","2009-10-24"
-wikipedia: 
+release_date: 2010-04-29
+source_url: http://cpan.perl.org/CPAN/authors/id/T/TI/TIMB/DBI-1.611.tar.gz
+stowball: DBI-1.611-stow.tar.bz2
+stowball_build_date: 2010-05-27
+homepage: http://dbi.perl.org/
+wikipedia: http://en.wikipedia.org/wiki/Perl_DBI
 glfs_url: 
 script_dir: DBI
-stow_script: stow-DBI-*version
+stow_script: stow-DBI-1.6.11
 dependencies:
-  emacs: 
 optional_packages:
 source_md5sum:
 stowball_md5sum:
