@@ -1,0 +1,18 @@
+---
+id: 
+name: libxml2
+version: 2.7.7
+abstract: 
+release_date: 2010-03-15
+source_url: ftp://xmlsoft.org/libxml2/libxml2-2.7.7.tar.gz
+stowball: libxml2-2.7.7-stow.tar.bz2
+stowball_build_date: 2010-05-30
+homepage: http://xmlsoft.org/
+wikipedia: http://en.wikipedia.org/wiki/Libxml2 
+glfs_url: 
+script_dir: libxml2
+stow_script: stow-libxml2-2.7.7
+dependencies:
+optional_packages:
+source_md5sum:
+stowball_md5sum:
