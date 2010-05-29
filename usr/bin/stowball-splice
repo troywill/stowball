@@ -2,5 +2,10 @@
 use warnings;
 use strict;
 my $SUDO='/usr/bin/sudo';
-my $filelist = `find . -depth -print0`;
-print $filelist;
+my $filelist = `find . -depth`;
+open( my $out, '>', '/tmp/filelist');
+print $out $filelist;
+chdir "/";
+my $command = "$SUDO tar --create --verbose --file /tmp/foo.tar --files-from /tmp/filelist --no-recursion";
+print "=> $command\n";
+system $command;
