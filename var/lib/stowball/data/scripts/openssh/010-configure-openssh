@@ -2,7 +2,7 @@
 # TDW <troydwill@gmail.com> 2009-12-16
 use strict;
 use warnings;
-my $SUDO = '/usr/sbin/sudo';
+my $SUDO = '/usr/bin/sudo';
 
 &setup_environment();
 

@@ -1,9 +1,24 @@
-#!/bin/bash
-set -o errexit
-# TDW <troydwill@gmail.com> 2009-12-16
+#!/usr/bin/env perl
+# TDW <troydwill@gmail.com> 2010-05-30
+use strict;
+use warnings;
+my $SUDO = '/usr/bin/sudo';
+
 # Could not load host key: /etc/ssh/ssh_host_rsa_key
 # Could not load host key: /etc/ssh/ssh_host_dsa_key
 # Disabling protocol version 2. Could not load host key
 # sshd: no hostkeys available -- exiting.
-ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
-ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
+
+my $command = "$SUDO ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key";
+&do_command ( $command );
+
+$command = "$SUDO ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key";
+&do_command ( $command );
+
+sub do_command {
+    my $command = shift;
+    print "=> $command\n";
+    sleep 1;
+    system $command || die;
+
+}
