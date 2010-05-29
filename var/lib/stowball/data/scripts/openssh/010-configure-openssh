@@ -2,18 +2,26 @@
 # TDW <troydwill@gmail.com> 2009-12-16
 use strict;
 use warnings;
+my $SUDO = '/usr/sbin/sudo';
 
 &setup_environment();
 
 sub setup_environment {
-    my $action1 = 'install -v -m700 -d /var/lib/sshd';
-    my $action2 = 'chown -v root:sys /var/lib/sshd';
-    my $action3 = '/usr/sbin/groupadd -g 51 sshd';
-    my $action4 = '/usr/sbin/useradd --comment "sshd PrivSep" --home /var/lib/sshd --gid sshd --shell /bin/false --uid 51 sshd';
+    my $action1 = "$SUDO install -v -m700 -d /var/lib/sshd";
+    my $action2 = "$SUDO chown -v root:sys /var/lib/sshd";
+    my $action3 = "$SUDO /usr/sbin/groupadd -g 51 sshd";
+    my $action4 = "$SUDO /usr/sbin/useradd --comment 'sshd PrivSep' --home /var/lib/sshd --gid sshd --shell /bin/false --uid 51 sshd";
 
-    system $action1 || die;
-    system $action2 || die;
-    system $action3 || die;
-    system $action4 || die;
+    &do_action( $action1 );
+    &do_action( $action2 );
+    &do_action( $action3 );
+    &do_action( $action4 );
+}
+
+sub do_action {
+    my $action = shift;
+    print "=> $action\n";
+    sleep 1;
+    system $action || die;
 
 }
