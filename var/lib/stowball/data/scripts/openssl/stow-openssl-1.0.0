@@ -1,0 +1,29 @@
+#!/bin/bash
+# 2009-05-31 TDW <troydwill@gmail.com>
+set -o errexit
+VERSION='1.0.0'
+STOW_DIR='/stow'
+PREFIX='/usr'
+SUDO='sudo'
+
+do_configure () {
+    ./config --prefix=${PREFIX} --openssldir=/etc/ssl shared zlib-dynamic
+}
+
+do_build () {
+    make
+}
+
+do_install () {
+    ${SUDO} make INSTALL_PREFIX=/${STOW_DIR}/openssl-${VERSION} install
+}
+
+do_package () {
+    cd /${STOW_DIR}
+    ${SUDO} tar -cjvf /tmp/openssl-${VERSION}.stow.tar.bz2 openssl-${VERSION}
+}
+
+do_configure
+do_build
+do_install
+do_package
