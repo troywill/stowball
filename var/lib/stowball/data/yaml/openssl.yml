@@ -3,17 +3,17 @@ id:
 name: openssl
 version: 1.0.0
 abstract: 
-release_date: 2010-
-source_url: openssl-1.0.0-
+release_date: 2010-03-29
+source_url: https://www.openssl.org/source/openssl-1.0.0.tar.gz
 stowball: openssl-1.0.0-stow.tar.bz2
-stowball_build_date: 2010-05-0
-homepage: 
-wikipedia: 
+stowball_build_date: 2010-05-31
+homepage: http://www.openssl.org
+wikipedia: http://en.wikipedia.org/wiki/OpenSSL
 glfs_url: 
 script_dir: openssl
 stow_script: stow-openssl-1.0.0
 dependencies:
-  emacs: 
+  perl
 optional_packages:
 source_md5sum:
 stowball_md5sum:
