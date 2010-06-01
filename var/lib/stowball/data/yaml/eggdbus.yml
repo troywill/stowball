@@ -1,0 +1,19 @@
+---
+id: 60
+name: eggdbus
+version: 0
+abstract: 
+release_date: 2010-
+source_url: eggdbus-0-
+stowball: eggdbus-0-stow.tar.bz2
+stowball_build_date: 2010-05-0
+homepage: 
+wikipedia: 
+glfs_url: 
+script_dir: eggdbus
+stow_script: stow-eggdbus-0
+dependencies:
+  emacs: 
+optional_packages:
+source_md5sum:
+stowball_md5sum:
