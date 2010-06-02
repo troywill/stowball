@@ -14,13 +14,12 @@ my $user = &input_user;
 
 sub input_user {
     my $login = $ENV{'LOGNAME'};
-    print %ENV;
     return $login;
 }
 
 sub add_permission {
     my $login = &input_user;
     my $shell_command = "$SUDO_COMMAND usermod --append --groups audio $login";
-    print "Will execute this command: ==> $shell_command <==";
+    print "Will execute the following command:\n => $shell_command";
     system( $shell_command );
 }
