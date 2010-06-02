@@ -11,8 +11,7 @@ my $SUDO_COMMAND = 'sudo';
 
 my $user = &input_user;
 &add_permission( $user );
-
-
+print "You will have to log in and log out for the change to take effect!\n"
 
 #### Subroutines ####
 
