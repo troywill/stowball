@@ -12,6 +12,10 @@ my $SUDO_COMMAND = 'sudo';
 my $user = &input_user;
 &add_permission( $user );
 
+
+
+#### Subroutines ####
+
 sub input_user {
     my $login = $ENV{'LOGNAME'};
     return $login;
@@ -20,6 +24,6 @@ sub input_user {
 sub add_permission {
     my $login = &input_user;
     my $shell_command = "$SUDO_COMMAND usermod --append --groups audio $login";
-    print "Will execute the following command:\n => $shell_command";
+    print "Will execute the following command:\n => $shell_command\n";
     system( $shell_command );
 }
