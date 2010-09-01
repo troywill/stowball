@@ -1,0 +1,19 @@
+---
+id: 
+name: libxkbfile-1.0.6.tar.bz2
+version: 1.0.6
+abstract: 
+release_date: 2009-10-06
+source_url: http://www.x.org/releases/individual/lib/libxkbfile-1.0.6.tar.bz2
+stowball: 
+stowball_build_date: 
+homepage: 
+wikipedia: 
+lfs_url: 
+script_dir: 
+stow_script: 
+dependencies:
+  emacs: 
+optional_packages:
+source_md5sum:
+stowball_md5sum:

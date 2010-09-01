@@ -37,7 +37,7 @@ $dir  = dirname($outdir);
 open( my $out, '>', 'stow_script.sh' );
 
 print $out "#!/bin/bash\n";
-print $out "./configure --prefix=/usr && make && sudo make DESTDIR=/stow/$base install && sudo stow -v $base\n";
+print $out "./configure --prefix=/usr 2>errors && make && sudo make DESTDIR=/stow/$base install && sudo stow -v $base\n";
 
 close $out;
 

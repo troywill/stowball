@@ -23,7 +23,7 @@ dependencies:
   scrnsaverproto:
   resourceproto:
   xineramaproto:
-  xkbfile:
+  libxkbfile: xkbfile
   xfont:
 optional_packages:
 source_md5sum:

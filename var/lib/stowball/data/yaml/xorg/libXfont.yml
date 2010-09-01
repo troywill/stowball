@@ -1,0 +1,23 @@
+---
+id: 
+name: libXfont
+version: 1.4.2
+abstract: 
+release_date: 2010-07-23
+source_url: http://www.x.org/releases/individual/lib/libXfont-1.4.2.tar.bz2
+stowball: 
+stowball_build_date: 
+homepage: 
+wikipedia: 
+lfs_url: 
+script_dir: 
+stow_script: 
+dependencies:
+  freetype:
+  xproto:
+  xtrans:
+  fontsproto:
+  libfontenc: fontenc
+optional_packages:
+source_md5sum:
+stowball_md5sum:
