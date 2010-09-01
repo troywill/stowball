@@ -1,0 +1,18 @@
+---
+id: 
+name: recordproto
+version: 1.14
+abstract:
+release_date: 2009-10-02
+source_url: http://www.x.org/releases/individual/proto/recordproto-1.14.tar.bz2
+stowball: 
+stowball_build_date: 2010-05-0
+homepage: 
+wikipedia: 
+lfs_url: 
+script_dir: 
+stow_script: 
+dependencies:
+optional_packages:
+source_md5sum:
+stowball_md5sum:
