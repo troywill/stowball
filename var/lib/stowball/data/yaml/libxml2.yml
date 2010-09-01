@@ -9,7 +9,7 @@ stowball: libxml2-2.7.7-stow.tar.bz2
 stowball_build_date: 2010-05-30
 homepage: http://xmlsoft.org/
 wikipedia: http://en.wikipedia.org/wiki/Libxml2 
-glfs_url: 
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/general/libxml2.html
 script_dir: libxml2
 stow_script: stow-libxml2-2.7.7
 dependencies:

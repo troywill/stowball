@@ -1,0 +1,19 @@
+---
+id: 
+name: *name
+version: *version
+abstract: 
+release_date: 2010-
+source_url: *name-*version-
+stowball: *name-*version-stow.tar.bz2
+stowball_build_date: 2010-05-0
+homepage: 
+wikipedia: 
+lfs_url: 
+script_dir: *name
+stow_script: stow-*name-*version
+dependencies:
+  emacs: 
+optional_packages:
+source_md5sum:
+stowball_md5sum:

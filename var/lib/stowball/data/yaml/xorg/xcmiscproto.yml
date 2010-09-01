@@ -1,0 +1,19 @@
+---
+id: 1
+name: xcmiscproto
+version: 1.2.0
+abstract: 
+release_date: 2010-
+source_url: http://www.x.org/releases/individual/proto/xcmiscproto-1.2.0.tar.bz2
+stowball: xcmiscproto-1.2.0-stow.tar.bz2
+stowball_build_date: 2010-00-00
+homepage: 
+wikipedia: 
+lfs_url: 
+script_dir: 
+stow_script: stow-xcmiscproto-1.2.0
+dependencies:
+  emacs: 
+optional_packages:
+source_md5sum:
+stowball_md5sum:

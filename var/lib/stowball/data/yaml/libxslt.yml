@@ -1,0 +1,19 @@
+---
+id: 
+name: libxslt
+version: 1.1.26
+abstract: 
+release_date: 2009-09-23
+source_url: ftp://xmlsoft.org/libxslt/libxslt-1.1.26.tar.gz
+stowball: libxslt-1.1.26.tar.bz2
+stowball_build_date: 2010-08-28
+homepage: http://xmlsoft.org/XSLT
+wikipedia: http://en.wikipedia.org/wiki/Libxslt
+glfs_url: http://www.linuxfromscratch.org/blfs/view/svn/general/libxslt.html
+script_dir: libxslt
+stow_script: stow-libxslt-1.1.26
+dependencies:
+  libxml
+optional_packages:
+source_md5sum:
+stowball_md5sum:
