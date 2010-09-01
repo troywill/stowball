@@ -1,0 +1,18 @@
+---
+id: 
+name: randrproto
+version: 1.3.1
+abstract: 
+release_date: 2010-
+source_url: http://www.x.org/releases/individual/proto/randrproto-1.3.1.tar.bz2
+stowball: stow-randrproto-1.3.1.tar.bz2
+stowball_build_date: 2010-00-00
+homepage: 
+wikipedia: 
+lfs_url: 
+script_dir: 
+stow_script: stow-randrproto-1.3.1
+dependencies:
+optional_packages:
+source_md5sum:
+stowball_md5sum:
