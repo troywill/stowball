@@ -1,0 +1,18 @@
+---
+id: 
+name: bind
+version: 9.8.0-P1
+abstract: 
+release_date: 2011-05-26
+source_url: http://ftp.isc.org/isc/bind9/9.8.0-P1/bind-9.8.0-P1.tar.gz
+stowball: bind-9.8.0-P1-stow.tar.bz2
+stowball_build_date: 2011-05-26
+homepage: http://www.isc.org/software/bind/
+wikipedia: http://en.wikipedia.org/wiki/BIND
+glfs_url: 
+script_dir: bind
+stow_script: stow-bind-9.8.0-P1
+dependencies:
+optional_packages:
+source_md5sum:
+stowball_md5sum:
