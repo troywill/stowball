@@ -40,9 +40,9 @@ do_package () {
     ${SUDO} tar -jcf ${PACKAGE_DIR}.stow.tar.bz2 ${STOW_DIR}${PACKAGE_DIR}
 }
 
-# do_configure
+do_configure
 do_build
-# do_install
-# do_stow
-# do_poststow
-# do_package
+do_install
+do_stow
+do_poststow
+do_package
