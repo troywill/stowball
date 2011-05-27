@@ -3,11 +3,11 @@
 set -o errexit
 PACKAGE="bind"
 VERSION="9.8.0-P1"
-#PACKAGER="JS <Jane_Smith@fsf.org>"
+PACKAGER="TDW <troydwill@gmail.com>"
 DATE="2010-05-30"
 PREFIX="/usr/local"
-TARGET="/usr/local"
-STOW_DIR="/usr/local/stow"
+TARGET="/"
+STOW_DIR="/stow"
 SUDO="sudo"
 
 PACKAGE_DIR=${PACKAGE}-${VERSION}
