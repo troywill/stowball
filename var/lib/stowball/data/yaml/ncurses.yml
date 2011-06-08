@@ -1,0 +1,19 @@
+---
+id: 
+name: ncurses
+version: 5.9
+abstract: 
+release_date: 2011-04-04
+source_url: http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz
+stowball: *name-*version-stow.tar.bz2
+stowball_build_date: 2010-05-0
+homepage: 
+wikipedia: 
+glfs_url: 
+script_dir: *name
+stow_script: stow-*name-*version
+dependencies:
+  emacs: 
+optional_packages:
+source_md5sum:
+stowball_md5sum:
