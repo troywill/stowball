@@ -7,7 +7,7 @@ use ConfigReader::Simple;
 
 # November 2009, <troydwill@gmail.com>
 
-my $config = ConfigReader::Simple->new('stowball.cfg');
+my $config = ConfigReader::Simple->new('/etc/stowball.cfg');
 die "Could not read config! $ConfigReader::Simple::ERROR\n"
   unless ref $config;
 
