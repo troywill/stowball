@@ -1,15 +1,15 @@
 #!/bin/bash
 set -o errexit
-# autostow template 2010-05-09
+set -o nounset
+# autostow template 2012-02-01
 # GNU DESTDIR type
 # stow target = /, stow dir = /stow
 PACKAGE="httpd"
-VERSION="2.2.15"
-# PACKAGER="JS <Jane_Smith@fsf.org>"
+VERSION="2.2.12"
 PACKAGER="TDW <troydwill@gmail.com>"
 HOMEPAGE_URL=""
-SOURCE_URL=""
-DATE="2010-05-09"
+SOURCE_URL="http://apache.mirrors.pair.com//httpd/httpd-2.2.22.tar.bz2"
+DATE="2012-02-01"
 PREFIX="/usr"
 TARGET="/"
 STOW_DIR="/stow"
@@ -56,8 +56,9 @@ do_package () {
     md5sum /tmp/${TARBALL}
 }
 
-# do_configure
-# do_build
+do_configure
+do_build
+exit
 # do_install
 do_stow
 do_package
